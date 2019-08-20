@@ -1,0 +1,1 @@
+because python dirver not support call plsql_procedure , so only can run run_procedure.sql to verify it
