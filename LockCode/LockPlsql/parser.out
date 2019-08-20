@@ -1,0 +1,1712 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    ELSE
+    IF
+    THEN
+    WHILE
+
+Grammar
+
+Rule 0     S' -> Spec
+Rule 1     Spec -> Configuration Cases
+Rule 2     Configuration -> Config LBrace String RBrace
+Rule 3     Cases -> Cases Case
+Rule 4     Cases -> Case
+Rule 5     Case -> TestCase CaseName CaseStart Statements CaseEnd
+Rule 6     CaseName -> ID
+Rule 7     CaseStart -> LBrace
+Rule 8     Statements -> Statements Statement
+Rule 9     Statements -> Statement
+Rule 10    Statement -> StatementBody Semicolon
+Rule 11    StatementBody -> ScopedStatement
+Rule 12    ScopedStatement -> Colon ScopedStatementBody
+Rule 13    ScopedStatementBody -> Query
+Rule 14    Query -> String
+Rule 15    String -> NormalString
+Rule 16    String -> RawString
+Rule 17    ScopedStatementBody -> ResultSetQuery
+Rule 18    ResultSetQuery -> ResultSet LParenthesis Query RParenthesis
+Rule 19    ScopedStatement -> Async Colon ScopedStatementBody
+Rule 20    ScopedStatement -> Term Colon ScopedStatementBody
+Rule 21    Term -> ID
+Rule 22    ScopedStatement -> Async Term Colon ScopedStatementBody
+Rule 23    StatementBody -> Declaration
+Rule 24    Declaration -> Terminal TermList
+Rule 25    TermList -> TermList Term
+Rule 26    TermList -> Term
+Rule 27    StatementBody -> Assignment
+Rule 28    Assignment -> Variable EqualSign Expression
+Rule 29    Variable -> ID
+Rule 30    Variable -> Variable Point ID
+Rule 31    Expression -> String
+Rule 32    Expression -> Number
+Rule 33    Expression -> ScopedStatement
+Rule 34    Expression -> Variable
+Rule 35    Expression -> TupleExpression
+Rule 36    TupleExpression -> Tuple LParenthesis String RParenthesis
+Rule 37    StatementBody -> Assertion
+Rule 38    Assertion -> ExpectEqual LParenthesis Expression Comma Expression RParenthesis
+Rule 39    Assertion -> ExpectNotEqual LParenthesis Expression Comma Expression RParenthesis
+Rule 40    Assertion -> ExpectStrEqual LParenthesis Expression Comma Expression RParenthesis
+Rule 41    Assertion -> ExpectStrNotEqual LParenthesis Expression Comma Expression RParenthesis
+Rule 42    Assertion -> ExpectSubStr LParenthesis Expression Comma Expression RParenthesis
+Rule 43    Assertion -> ExpectNoSubStr LParenthesis Expression Comma Expression RParenthesis
+Rule 44    Assertion -> ExpectIn LParenthesis Expression Comma Expression RParenthesis
+Rule 45    Assertion -> ExpectNotIn LParenthesis Expression Comma Expression RParenthesis
+Rule 46    StatementBody -> Shell LParenthesis String RParenthesis
+Rule 47    CaseEnd -> RBrace
+
+Terminals, with rules where they appear
+
+Async                : 19 22
+Colon                : 12 19 20 22
+Comma                : 38 39 40 41 42 43 44 45
+Config               : 2
+ELSE                 : 
+EqualSign            : 28
+ExpectEqual          : 38
+ExpectIn             : 44
+ExpectNoSubStr       : 43
+ExpectNotEqual       : 39
+ExpectNotIn          : 45
+ExpectStrEqual       : 40
+ExpectStrNotEqual    : 41
+ExpectSubStr         : 42
+ID                   : 6 21 29 30
+IF                   : 
+LBrace               : 2 7
+LParenthesis         : 18 36 38 39 40 41 42 43 44 45 46
+NormalString         : 15
+Number               : 32
+Point                : 30
+RBrace               : 2 47
+RParenthesis         : 18 36 38 39 40 41 42 43 44 45 46
+RawString            : 16
+ResultSet            : 18
+Semicolon            : 10
+Shell                : 46
+THEN                 : 
+Terminal             : 24
+TestCase             : 5
+Tuple                : 36
+WHILE                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+Assertion            : 37
+Assignment           : 27
+Case                 : 3 4
+CaseEnd              : 5
+CaseName             : 5
+CaseStart            : 5
+Cases                : 1 3
+Configuration        : 1
+Declaration          : 23
+Expression           : 28 38 38 39 39 40 40 41 41 42 42 43 43 44 44 45 45
+Query                : 13 18
+ResultSetQuery       : 17
+ScopedStatement      : 11 33
+ScopedStatementBody  : 12 19 20 22
+Spec                 : 0
+Statement            : 8 9
+StatementBody        : 10
+Statements           : 5 8
+String               : 2 14 31 36 46
+Term                 : 20 22 25 26
+TermList             : 24 25
+TupleExpression      : 35
+Variable             : 28 30 34
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . Spec
+    (1) Spec -> . Configuration Cases
+    (2) Configuration -> . Config LBrace String RBrace
+
+    Config          shift and go to state 3
+
+    Spec                           shift and go to state 1
+    Configuration                  shift and go to state 2
+
+state 1
+
+    (0) S' -> Spec .
+
+
+
+state 2
+
+    (1) Spec -> Configuration . Cases
+    (3) Cases -> . Cases Case
+    (4) Cases -> . Case
+    (5) Case -> . TestCase CaseName CaseStart Statements CaseEnd
+
+    TestCase        shift and go to state 6
+
+    Cases                          shift and go to state 4
+    Case                           shift and go to state 5
+
+state 3
+
+    (2) Configuration -> Config . LBrace String RBrace
+
+    LBrace          shift and go to state 7
+
+
+state 4
+
+    (1) Spec -> Configuration Cases .
+    (3) Cases -> Cases . Case
+    (5) Case -> . TestCase CaseName CaseStart Statements CaseEnd
+
+    $end            reduce using rule 1 (Spec -> Configuration Cases .)
+    TestCase        shift and go to state 6
+
+    Case                           shift and go to state 8
+
+state 5
+
+    (4) Cases -> Case .
+
+    TestCase        reduce using rule 4 (Cases -> Case .)
+    $end            reduce using rule 4 (Cases -> Case .)
+
+
+state 6
+
+    (5) Case -> TestCase . CaseName CaseStart Statements CaseEnd
+    (6) CaseName -> . ID
+
+    ID              shift and go to state 10
+
+    CaseName                       shift and go to state 9
+
+state 7
+
+    (2) Configuration -> Config LBrace . String RBrace
+    (15) String -> . NormalString
+    (16) String -> . RawString
+
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+
+    String                         shift and go to state 11
+
+state 8
+
+    (3) Cases -> Cases Case .
+
+    TestCase        reduce using rule 3 (Cases -> Cases Case .)
+    $end            reduce using rule 3 (Cases -> Cases Case .)
+
+
+state 9
+
+    (5) Case -> TestCase CaseName . CaseStart Statements CaseEnd
+    (7) CaseStart -> . LBrace
+
+    LBrace          shift and go to state 15
+
+    CaseStart                      shift and go to state 14
+
+state 10
+
+    (6) CaseName -> ID .
+
+    LBrace          reduce using rule 6 (CaseName -> ID .)
+
+
+state 11
+
+    (2) Configuration -> Config LBrace String . RBrace
+
+    RBrace          shift and go to state 16
+
+
+state 12
+
+    (15) String -> NormalString .
+
+    RBrace          reduce using rule 15 (String -> NormalString .)
+    Semicolon       reduce using rule 15 (String -> NormalString .)
+    Comma           reduce using rule 15 (String -> NormalString .)
+    RParenthesis    reduce using rule 15 (String -> NormalString .)
+
+
+state 13
+
+    (16) String -> RawString .
+
+    RBrace          reduce using rule 16 (String -> RawString .)
+    Semicolon       reduce using rule 16 (String -> RawString .)
+    Comma           reduce using rule 16 (String -> RawString .)
+    RParenthesis    reduce using rule 16 (String -> RawString .)
+
+
+state 14
+
+    (5) Case -> TestCase CaseName CaseStart . Statements CaseEnd
+    (8) Statements -> . Statements Statement
+    (9) Statements -> . Statement
+    (10) Statement -> . StatementBody Semicolon
+    (11) StatementBody -> . ScopedStatement
+    (23) StatementBody -> . Declaration
+    (27) StatementBody -> . Assignment
+    (37) StatementBody -> . Assertion
+    (46) StatementBody -> . Shell LParenthesis String RParenthesis
+    (12) ScopedStatement -> . Colon ScopedStatementBody
+    (19) ScopedStatement -> . Async Colon ScopedStatementBody
+    (20) ScopedStatement -> . Term Colon ScopedStatementBody
+    (22) ScopedStatement -> . Async Term Colon ScopedStatementBody
+    (24) Declaration -> . Terminal TermList
+    (28) Assignment -> . Variable EqualSign Expression
+    (38) Assertion -> . ExpectEqual LParenthesis Expression Comma Expression RParenthesis
+    (39) Assertion -> . ExpectNotEqual LParenthesis Expression Comma Expression RParenthesis
+    (40) Assertion -> . ExpectStrEqual LParenthesis Expression Comma Expression RParenthesis
+    (41) Assertion -> . ExpectStrNotEqual LParenthesis Expression Comma Expression RParenthesis
+    (42) Assertion -> . ExpectSubStr LParenthesis Expression Comma Expression RParenthesis
+    (43) Assertion -> . ExpectNoSubStr LParenthesis Expression Comma Expression RParenthesis
+    (44) Assertion -> . ExpectIn LParenthesis Expression Comma Expression RParenthesis
+    (45) Assertion -> . ExpectNotIn LParenthesis Expression Comma Expression RParenthesis
+    (21) Term -> . ID
+    (29) Variable -> . ID
+    (30) Variable -> . Variable Point ID
+
+    Shell           shift and go to state 24
+    Colon           shift and go to state 25
+    Async           shift and go to state 26
+    Terminal        shift and go to state 28
+    ExpectEqual     shift and go to state 30
+    ExpectNotEqual  shift and go to state 31
+    ExpectStrEqual  shift and go to state 32
+    ExpectStrNotEqual shift and go to state 33
+    ExpectSubStr    shift and go to state 34
+    ExpectNoSubStr  shift and go to state 35
+    ExpectIn        shift and go to state 36
+    ExpectNotIn     shift and go to state 37
+    ID              shift and go to state 38
+
+    Statements                     shift and go to state 17
+    Statement                      shift and go to state 18
+    StatementBody                  shift and go to state 19
+    ScopedStatement                shift and go to state 20
+    Declaration                    shift and go to state 21
+    Assignment                     shift and go to state 22
+    Assertion                      shift and go to state 23
+    Term                           shift and go to state 27
+    Variable                       shift and go to state 29
+
+state 15
+
+    (7) CaseStart -> LBrace .
+
+    Shell           reduce using rule 7 (CaseStart -> LBrace .)
+    Colon           reduce using rule 7 (CaseStart -> LBrace .)
+    Async           reduce using rule 7 (CaseStart -> LBrace .)
+    Terminal        reduce using rule 7 (CaseStart -> LBrace .)
+    ExpectEqual     reduce using rule 7 (CaseStart -> LBrace .)
+    ExpectNotEqual  reduce using rule 7 (CaseStart -> LBrace .)
+    ExpectStrEqual  reduce using rule 7 (CaseStart -> LBrace .)
+    ExpectStrNotEqual reduce using rule 7 (CaseStart -> LBrace .)
+    ExpectSubStr    reduce using rule 7 (CaseStart -> LBrace .)
+    ExpectNoSubStr  reduce using rule 7 (CaseStart -> LBrace .)
+    ExpectIn        reduce using rule 7 (CaseStart -> LBrace .)
+    ExpectNotIn     reduce using rule 7 (CaseStart -> LBrace .)
+    ID              reduce using rule 7 (CaseStart -> LBrace .)
+
+
+state 16
+
+    (2) Configuration -> Config LBrace String RBrace .
+
+    TestCase        reduce using rule 2 (Configuration -> Config LBrace String RBrace .)
+
+
+state 17
+
+    (5) Case -> TestCase CaseName CaseStart Statements . CaseEnd
+    (8) Statements -> Statements . Statement
+    (47) CaseEnd -> . RBrace
+    (10) Statement -> . StatementBody Semicolon
+    (11) StatementBody -> . ScopedStatement
+    (23) StatementBody -> . Declaration
+    (27) StatementBody -> . Assignment
+    (37) StatementBody -> . Assertion
+    (46) StatementBody -> . Shell LParenthesis String RParenthesis
+    (12) ScopedStatement -> . Colon ScopedStatementBody
+    (19) ScopedStatement -> . Async Colon ScopedStatementBody
+    (20) ScopedStatement -> . Term Colon ScopedStatementBody
+    (22) ScopedStatement -> . Async Term Colon ScopedStatementBody
+    (24) Declaration -> . Terminal TermList
+    (28) Assignment -> . Variable EqualSign Expression
+    (38) Assertion -> . ExpectEqual LParenthesis Expression Comma Expression RParenthesis
+    (39) Assertion -> . ExpectNotEqual LParenthesis Expression Comma Expression RParenthesis
+    (40) Assertion -> . ExpectStrEqual LParenthesis Expression Comma Expression RParenthesis
+    (41) Assertion -> . ExpectStrNotEqual LParenthesis Expression Comma Expression RParenthesis
+    (42) Assertion -> . ExpectSubStr LParenthesis Expression Comma Expression RParenthesis
+    (43) Assertion -> . ExpectNoSubStr LParenthesis Expression Comma Expression RParenthesis
+    (44) Assertion -> . ExpectIn LParenthesis Expression Comma Expression RParenthesis
+    (45) Assertion -> . ExpectNotIn LParenthesis Expression Comma Expression RParenthesis
+    (21) Term -> . ID
+    (29) Variable -> . ID
+    (30) Variable -> . Variable Point ID
+
+    RBrace          shift and go to state 41
+    Shell           shift and go to state 24
+    Colon           shift and go to state 25
+    Async           shift and go to state 26
+    Terminal        shift and go to state 28
+    ExpectEqual     shift and go to state 30
+    ExpectNotEqual  shift and go to state 31
+    ExpectStrEqual  shift and go to state 32
+    ExpectStrNotEqual shift and go to state 33
+    ExpectSubStr    shift and go to state 34
+    ExpectNoSubStr  shift and go to state 35
+    ExpectIn        shift and go to state 36
+    ExpectNotIn     shift and go to state 37
+    ID              shift and go to state 38
+
+    CaseEnd                        shift and go to state 39
+    Statement                      shift and go to state 40
+    StatementBody                  shift and go to state 19
+    ScopedStatement                shift and go to state 20
+    Declaration                    shift and go to state 21
+    Assignment                     shift and go to state 22
+    Assertion                      shift and go to state 23
+    Term                           shift and go to state 27
+    Variable                       shift and go to state 29
+
+state 18
+
+    (9) Statements -> Statement .
+
+    RBrace          reduce using rule 9 (Statements -> Statement .)
+    Shell           reduce using rule 9 (Statements -> Statement .)
+    Colon           reduce using rule 9 (Statements -> Statement .)
+    Async           reduce using rule 9 (Statements -> Statement .)
+    Terminal        reduce using rule 9 (Statements -> Statement .)
+    ExpectEqual     reduce using rule 9 (Statements -> Statement .)
+    ExpectNotEqual  reduce using rule 9 (Statements -> Statement .)
+    ExpectStrEqual  reduce using rule 9 (Statements -> Statement .)
+    ExpectStrNotEqual reduce using rule 9 (Statements -> Statement .)
+    ExpectSubStr    reduce using rule 9 (Statements -> Statement .)
+    ExpectNoSubStr  reduce using rule 9 (Statements -> Statement .)
+    ExpectIn        reduce using rule 9 (Statements -> Statement .)
+    ExpectNotIn     reduce using rule 9 (Statements -> Statement .)
+    ID              reduce using rule 9 (Statements -> Statement .)
+
+
+state 19
+
+    (10) Statement -> StatementBody . Semicolon
+
+    Semicolon       shift and go to state 42
+
+
+state 20
+
+    (11) StatementBody -> ScopedStatement .
+
+    Semicolon       reduce using rule 11 (StatementBody -> ScopedStatement .)
+
+
+state 21
+
+    (23) StatementBody -> Declaration .
+
+    Semicolon       reduce using rule 23 (StatementBody -> Declaration .)
+
+
+state 22
+
+    (27) StatementBody -> Assignment .
+
+    Semicolon       reduce using rule 27 (StatementBody -> Assignment .)
+
+
+state 23
+
+    (37) StatementBody -> Assertion .
+
+    Semicolon       reduce using rule 37 (StatementBody -> Assertion .)
+
+
+state 24
+
+    (46) StatementBody -> Shell . LParenthesis String RParenthesis
+
+    LParenthesis    shift and go to state 43
+
+
+state 25
+
+    (12) ScopedStatement -> Colon . ScopedStatementBody
+    (13) ScopedStatementBody -> . Query
+    (17) ScopedStatementBody -> . ResultSetQuery
+    (14) Query -> . String
+    (18) ResultSetQuery -> . ResultSet LParenthesis Query RParenthesis
+    (15) String -> . NormalString
+    (16) String -> . RawString
+
+    ResultSet       shift and go to state 48
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+
+    ScopedStatementBody            shift and go to state 44
+    Query                          shift and go to state 45
+    ResultSetQuery                 shift and go to state 46
+    String                         shift and go to state 47
+
+state 26
+
+    (19) ScopedStatement -> Async . Colon ScopedStatementBody
+    (22) ScopedStatement -> Async . Term Colon ScopedStatementBody
+    (21) Term -> . ID
+
+    Colon           shift and go to state 49
+    ID              shift and go to state 51
+
+    Term                           shift and go to state 50
+
+state 27
+
+    (20) ScopedStatement -> Term . Colon ScopedStatementBody
+
+    Colon           shift and go to state 52
+
+
+state 28
+
+    (24) Declaration -> Terminal . TermList
+    (25) TermList -> . TermList Term
+    (26) TermList -> . Term
+    (21) Term -> . ID
+
+    ID              shift and go to state 51
+
+    TermList                       shift and go to state 53
+    Term                           shift and go to state 54
+
+state 29
+
+    (28) Assignment -> Variable . EqualSign Expression
+    (30) Variable -> Variable . Point ID
+
+    EqualSign       shift and go to state 55
+    Point           shift and go to state 56
+
+
+state 30
+
+    (38) Assertion -> ExpectEqual . LParenthesis Expression Comma Expression RParenthesis
+
+    LParenthesis    shift and go to state 57
+
+
+state 31
+
+    (39) Assertion -> ExpectNotEqual . LParenthesis Expression Comma Expression RParenthesis
+
+    LParenthesis    shift and go to state 58
+
+
+state 32
+
+    (40) Assertion -> ExpectStrEqual . LParenthesis Expression Comma Expression RParenthesis
+
+    LParenthesis    shift and go to state 59
+
+
+state 33
+
+    (41) Assertion -> ExpectStrNotEqual . LParenthesis Expression Comma Expression RParenthesis
+
+    LParenthesis    shift and go to state 60
+
+
+state 34
+
+    (42) Assertion -> ExpectSubStr . LParenthesis Expression Comma Expression RParenthesis
+
+    LParenthesis    shift and go to state 61
+
+
+state 35
+
+    (43) Assertion -> ExpectNoSubStr . LParenthesis Expression Comma Expression RParenthesis
+
+    LParenthesis    shift and go to state 62
+
+
+state 36
+
+    (44) Assertion -> ExpectIn . LParenthesis Expression Comma Expression RParenthesis
+
+    LParenthesis    shift and go to state 63
+
+
+state 37
+
+    (45) Assertion -> ExpectNotIn . LParenthesis Expression Comma Expression RParenthesis
+
+    LParenthesis    shift and go to state 64
+
+
+state 38
+
+    (21) Term -> ID .
+    (29) Variable -> ID .
+
+    Colon           reduce using rule 21 (Term -> ID .)
+    EqualSign       reduce using rule 29 (Variable -> ID .)
+    Point           reduce using rule 29 (Variable -> ID .)
+
+
+state 39
+
+    (5) Case -> TestCase CaseName CaseStart Statements CaseEnd .
+
+    TestCase        reduce using rule 5 (Case -> TestCase CaseName CaseStart Statements CaseEnd .)
+    $end            reduce using rule 5 (Case -> TestCase CaseName CaseStart Statements CaseEnd .)
+
+
+state 40
+
+    (8) Statements -> Statements Statement .
+
+    RBrace          reduce using rule 8 (Statements -> Statements Statement .)
+    Shell           reduce using rule 8 (Statements -> Statements Statement .)
+    Colon           reduce using rule 8 (Statements -> Statements Statement .)
+    Async           reduce using rule 8 (Statements -> Statements Statement .)
+    Terminal        reduce using rule 8 (Statements -> Statements Statement .)
+    ExpectEqual     reduce using rule 8 (Statements -> Statements Statement .)
+    ExpectNotEqual  reduce using rule 8 (Statements -> Statements Statement .)
+    ExpectStrEqual  reduce using rule 8 (Statements -> Statements Statement .)
+    ExpectStrNotEqual reduce using rule 8 (Statements -> Statements Statement .)
+    ExpectSubStr    reduce using rule 8 (Statements -> Statements Statement .)
+    ExpectNoSubStr  reduce using rule 8 (Statements -> Statements Statement .)
+    ExpectIn        reduce using rule 8 (Statements -> Statements Statement .)
+    ExpectNotIn     reduce using rule 8 (Statements -> Statements Statement .)
+    ID              reduce using rule 8 (Statements -> Statements Statement .)
+
+
+state 41
+
+    (47) CaseEnd -> RBrace .
+
+    TestCase        reduce using rule 47 (CaseEnd -> RBrace .)
+    $end            reduce using rule 47 (CaseEnd -> RBrace .)
+
+
+state 42
+
+    (10) Statement -> StatementBody Semicolon .
+
+    RBrace          reduce using rule 10 (Statement -> StatementBody Semicolon .)
+    Shell           reduce using rule 10 (Statement -> StatementBody Semicolon .)
+    Colon           reduce using rule 10 (Statement -> StatementBody Semicolon .)
+    Async           reduce using rule 10 (Statement -> StatementBody Semicolon .)
+    Terminal        reduce using rule 10 (Statement -> StatementBody Semicolon .)
+    ExpectEqual     reduce using rule 10 (Statement -> StatementBody Semicolon .)
+    ExpectNotEqual  reduce using rule 10 (Statement -> StatementBody Semicolon .)
+    ExpectStrEqual  reduce using rule 10 (Statement -> StatementBody Semicolon .)
+    ExpectStrNotEqual reduce using rule 10 (Statement -> StatementBody Semicolon .)
+    ExpectSubStr    reduce using rule 10 (Statement -> StatementBody Semicolon .)
+    ExpectNoSubStr  reduce using rule 10 (Statement -> StatementBody Semicolon .)
+    ExpectIn        reduce using rule 10 (Statement -> StatementBody Semicolon .)
+    ExpectNotIn     reduce using rule 10 (Statement -> StatementBody Semicolon .)
+    ID              reduce using rule 10 (Statement -> StatementBody Semicolon .)
+
+
+state 43
+
+    (46) StatementBody -> Shell LParenthesis . String RParenthesis
+    (15) String -> . NormalString
+    (16) String -> . RawString
+
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+
+    String                         shift and go to state 65
+
+state 44
+
+    (12) ScopedStatement -> Colon ScopedStatementBody .
+
+    Semicolon       reduce using rule 12 (ScopedStatement -> Colon ScopedStatementBody .)
+    Comma           reduce using rule 12 (ScopedStatement -> Colon ScopedStatementBody .)
+    RParenthesis    reduce using rule 12 (ScopedStatement -> Colon ScopedStatementBody .)
+
+
+state 45
+
+    (13) ScopedStatementBody -> Query .
+
+    Semicolon       reduce using rule 13 (ScopedStatementBody -> Query .)
+    Comma           reduce using rule 13 (ScopedStatementBody -> Query .)
+    RParenthesis    reduce using rule 13 (ScopedStatementBody -> Query .)
+
+
+state 46
+
+    (17) ScopedStatementBody -> ResultSetQuery .
+
+    Semicolon       reduce using rule 17 (ScopedStatementBody -> ResultSetQuery .)
+    Comma           reduce using rule 17 (ScopedStatementBody -> ResultSetQuery .)
+    RParenthesis    reduce using rule 17 (ScopedStatementBody -> ResultSetQuery .)
+
+
+state 47
+
+    (14) Query -> String .
+
+    Semicolon       reduce using rule 14 (Query -> String .)
+    Comma           reduce using rule 14 (Query -> String .)
+    RParenthesis    reduce using rule 14 (Query -> String .)
+
+
+state 48
+
+    (18) ResultSetQuery -> ResultSet . LParenthesis Query RParenthesis
+
+    LParenthesis    shift and go to state 66
+
+
+state 49
+
+    (19) ScopedStatement -> Async Colon . ScopedStatementBody
+    (13) ScopedStatementBody -> . Query
+    (17) ScopedStatementBody -> . ResultSetQuery
+    (14) Query -> . String
+    (18) ResultSetQuery -> . ResultSet LParenthesis Query RParenthesis
+    (15) String -> . NormalString
+    (16) String -> . RawString
+
+    ResultSet       shift and go to state 48
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+
+    ScopedStatementBody            shift and go to state 67
+    Query                          shift and go to state 45
+    ResultSetQuery                 shift and go to state 46
+    String                         shift and go to state 47
+
+state 50
+
+    (22) ScopedStatement -> Async Term . Colon ScopedStatementBody
+
+    Colon           shift and go to state 68
+
+
+state 51
+
+    (21) Term -> ID .
+
+    Colon           reduce using rule 21 (Term -> ID .)
+    ID              reduce using rule 21 (Term -> ID .)
+    Semicolon       reduce using rule 21 (Term -> ID .)
+
+
+state 52
+
+    (20) ScopedStatement -> Term Colon . ScopedStatementBody
+    (13) ScopedStatementBody -> . Query
+    (17) ScopedStatementBody -> . ResultSetQuery
+    (14) Query -> . String
+    (18) ResultSetQuery -> . ResultSet LParenthesis Query RParenthesis
+    (15) String -> . NormalString
+    (16) String -> . RawString
+
+    ResultSet       shift and go to state 48
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+
+    ScopedStatementBody            shift and go to state 69
+    Query                          shift and go to state 45
+    ResultSetQuery                 shift and go to state 46
+    String                         shift and go to state 47
+
+state 53
+
+    (24) Declaration -> Terminal TermList .
+    (25) TermList -> TermList . Term
+    (21) Term -> . ID
+
+    Semicolon       reduce using rule 24 (Declaration -> Terminal TermList .)
+    ID              shift and go to state 51
+
+    Term                           shift and go to state 70
+
+state 54
+
+    (26) TermList -> Term .
+
+    ID              reduce using rule 26 (TermList -> Term .)
+    Semicolon       reduce using rule 26 (TermList -> Term .)
+
+
+state 55
+
+    (28) Assignment -> Variable EqualSign . Expression
+    (31) Expression -> . String
+    (32) Expression -> . Number
+    (33) Expression -> . ScopedStatement
+    (34) Expression -> . Variable
+    (35) Expression -> . TupleExpression
+    (15) String -> . NormalString
+    (16) String -> . RawString
+    (12) ScopedStatement -> . Colon ScopedStatementBody
+    (19) ScopedStatement -> . Async Colon ScopedStatementBody
+    (20) ScopedStatement -> . Term Colon ScopedStatementBody
+    (22) ScopedStatement -> . Async Term Colon ScopedStatementBody
+    (29) Variable -> . ID
+    (30) Variable -> . Variable Point ID
+    (36) TupleExpression -> . Tuple LParenthesis String RParenthesis
+    (21) Term -> . ID
+
+    Number          shift and go to state 74
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+    Colon           shift and go to state 25
+    Async           shift and go to state 26
+    ID              shift and go to state 77
+    Tuple           shift and go to state 78
+
+    Variable                       shift and go to state 71
+    Expression                     shift and go to state 72
+    String                         shift and go to state 73
+    ScopedStatement                shift and go to state 75
+    TupleExpression                shift and go to state 76
+    Term                           shift and go to state 27
+
+state 56
+
+    (30) Variable -> Variable Point . ID
+
+    ID              shift and go to state 79
+
+
+state 57
+
+    (38) Assertion -> ExpectEqual LParenthesis . Expression Comma Expression RParenthesis
+    (31) Expression -> . String
+    (32) Expression -> . Number
+    (33) Expression -> . ScopedStatement
+    (34) Expression -> . Variable
+    (35) Expression -> . TupleExpression
+    (15) String -> . NormalString
+    (16) String -> . RawString
+    (12) ScopedStatement -> . Colon ScopedStatementBody
+    (19) ScopedStatement -> . Async Colon ScopedStatementBody
+    (20) ScopedStatement -> . Term Colon ScopedStatementBody
+    (22) ScopedStatement -> . Async Term Colon ScopedStatementBody
+    (29) Variable -> . ID
+    (30) Variable -> . Variable Point ID
+    (36) TupleExpression -> . Tuple LParenthesis String RParenthesis
+    (21) Term -> . ID
+
+    Number          shift and go to state 74
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+    Colon           shift and go to state 25
+    Async           shift and go to state 26
+    ID              shift and go to state 77
+    Tuple           shift and go to state 78
+
+    Expression                     shift and go to state 80
+    String                         shift and go to state 73
+    ScopedStatement                shift and go to state 75
+    Variable                       shift and go to state 71
+    TupleExpression                shift and go to state 76
+    Term                           shift and go to state 27
+
+state 58
+
+    (39) Assertion -> ExpectNotEqual LParenthesis . Expression Comma Expression RParenthesis
+    (31) Expression -> . String
+    (32) Expression -> . Number
+    (33) Expression -> . ScopedStatement
+    (34) Expression -> . Variable
+    (35) Expression -> . TupleExpression
+    (15) String -> . NormalString
+    (16) String -> . RawString
+    (12) ScopedStatement -> . Colon ScopedStatementBody
+    (19) ScopedStatement -> . Async Colon ScopedStatementBody
+    (20) ScopedStatement -> . Term Colon ScopedStatementBody
+    (22) ScopedStatement -> . Async Term Colon ScopedStatementBody
+    (29) Variable -> . ID
+    (30) Variable -> . Variable Point ID
+    (36) TupleExpression -> . Tuple LParenthesis String RParenthesis
+    (21) Term -> . ID
+
+    Number          shift and go to state 74
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+    Colon           shift and go to state 25
+    Async           shift and go to state 26
+    ID              shift and go to state 77
+    Tuple           shift and go to state 78
+
+    Expression                     shift and go to state 81
+    String                         shift and go to state 73
+    ScopedStatement                shift and go to state 75
+    Variable                       shift and go to state 71
+    TupleExpression                shift and go to state 76
+    Term                           shift and go to state 27
+
+state 59
+
+    (40) Assertion -> ExpectStrEqual LParenthesis . Expression Comma Expression RParenthesis
+    (31) Expression -> . String
+    (32) Expression -> . Number
+    (33) Expression -> . ScopedStatement
+    (34) Expression -> . Variable
+    (35) Expression -> . TupleExpression
+    (15) String -> . NormalString
+    (16) String -> . RawString
+    (12) ScopedStatement -> . Colon ScopedStatementBody
+    (19) ScopedStatement -> . Async Colon ScopedStatementBody
+    (20) ScopedStatement -> . Term Colon ScopedStatementBody
+    (22) ScopedStatement -> . Async Term Colon ScopedStatementBody
+    (29) Variable -> . ID
+    (30) Variable -> . Variable Point ID
+    (36) TupleExpression -> . Tuple LParenthesis String RParenthesis
+    (21) Term -> . ID
+
+    Number          shift and go to state 74
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+    Colon           shift and go to state 25
+    Async           shift and go to state 26
+    ID              shift and go to state 77
+    Tuple           shift and go to state 78
+
+    Expression                     shift and go to state 82
+    String                         shift and go to state 73
+    ScopedStatement                shift and go to state 75
+    Variable                       shift and go to state 71
+    TupleExpression                shift and go to state 76
+    Term                           shift and go to state 27
+
+state 60
+
+    (41) Assertion -> ExpectStrNotEqual LParenthesis . Expression Comma Expression RParenthesis
+    (31) Expression -> . String
+    (32) Expression -> . Number
+    (33) Expression -> . ScopedStatement
+    (34) Expression -> . Variable
+    (35) Expression -> . TupleExpression
+    (15) String -> . NormalString
+    (16) String -> . RawString
+    (12) ScopedStatement -> . Colon ScopedStatementBody
+    (19) ScopedStatement -> . Async Colon ScopedStatementBody
+    (20) ScopedStatement -> . Term Colon ScopedStatementBody
+    (22) ScopedStatement -> . Async Term Colon ScopedStatementBody
+    (29) Variable -> . ID
+    (30) Variable -> . Variable Point ID
+    (36) TupleExpression -> . Tuple LParenthesis String RParenthesis
+    (21) Term -> . ID
+
+    Number          shift and go to state 74
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+    Colon           shift and go to state 25
+    Async           shift and go to state 26
+    ID              shift and go to state 77
+    Tuple           shift and go to state 78
+
+    Expression                     shift and go to state 83
+    String                         shift and go to state 73
+    ScopedStatement                shift and go to state 75
+    Variable                       shift and go to state 71
+    TupleExpression                shift and go to state 76
+    Term                           shift and go to state 27
+
+state 61
+
+    (42) Assertion -> ExpectSubStr LParenthesis . Expression Comma Expression RParenthesis
+    (31) Expression -> . String
+    (32) Expression -> . Number
+    (33) Expression -> . ScopedStatement
+    (34) Expression -> . Variable
+    (35) Expression -> . TupleExpression
+    (15) String -> . NormalString
+    (16) String -> . RawString
+    (12) ScopedStatement -> . Colon ScopedStatementBody
+    (19) ScopedStatement -> . Async Colon ScopedStatementBody
+    (20) ScopedStatement -> . Term Colon ScopedStatementBody
+    (22) ScopedStatement -> . Async Term Colon ScopedStatementBody
+    (29) Variable -> . ID
+    (30) Variable -> . Variable Point ID
+    (36) TupleExpression -> . Tuple LParenthesis String RParenthesis
+    (21) Term -> . ID
+
+    Number          shift and go to state 74
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+    Colon           shift and go to state 25
+    Async           shift and go to state 26
+    ID              shift and go to state 77
+    Tuple           shift and go to state 78
+
+    Expression                     shift and go to state 84
+    String                         shift and go to state 73
+    ScopedStatement                shift and go to state 75
+    Variable                       shift and go to state 71
+    TupleExpression                shift and go to state 76
+    Term                           shift and go to state 27
+
+state 62
+
+    (43) Assertion -> ExpectNoSubStr LParenthesis . Expression Comma Expression RParenthesis
+    (31) Expression -> . String
+    (32) Expression -> . Number
+    (33) Expression -> . ScopedStatement
+    (34) Expression -> . Variable
+    (35) Expression -> . TupleExpression
+    (15) String -> . NormalString
+    (16) String -> . RawString
+    (12) ScopedStatement -> . Colon ScopedStatementBody
+    (19) ScopedStatement -> . Async Colon ScopedStatementBody
+    (20) ScopedStatement -> . Term Colon ScopedStatementBody
+    (22) ScopedStatement -> . Async Term Colon ScopedStatementBody
+    (29) Variable -> . ID
+    (30) Variable -> . Variable Point ID
+    (36) TupleExpression -> . Tuple LParenthesis String RParenthesis
+    (21) Term -> . ID
+
+    Number          shift and go to state 74
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+    Colon           shift and go to state 25
+    Async           shift and go to state 26
+    ID              shift and go to state 77
+    Tuple           shift and go to state 78
+
+    Expression                     shift and go to state 85
+    String                         shift and go to state 73
+    ScopedStatement                shift and go to state 75
+    Variable                       shift and go to state 71
+    TupleExpression                shift and go to state 76
+    Term                           shift and go to state 27
+
+state 63
+
+    (44) Assertion -> ExpectIn LParenthesis . Expression Comma Expression RParenthesis
+    (31) Expression -> . String
+    (32) Expression -> . Number
+    (33) Expression -> . ScopedStatement
+    (34) Expression -> . Variable
+    (35) Expression -> . TupleExpression
+    (15) String -> . NormalString
+    (16) String -> . RawString
+    (12) ScopedStatement -> . Colon ScopedStatementBody
+    (19) ScopedStatement -> . Async Colon ScopedStatementBody
+    (20) ScopedStatement -> . Term Colon ScopedStatementBody
+    (22) ScopedStatement -> . Async Term Colon ScopedStatementBody
+    (29) Variable -> . ID
+    (30) Variable -> . Variable Point ID
+    (36) TupleExpression -> . Tuple LParenthesis String RParenthesis
+    (21) Term -> . ID
+
+    Number          shift and go to state 74
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+    Colon           shift and go to state 25
+    Async           shift and go to state 26
+    ID              shift and go to state 77
+    Tuple           shift and go to state 78
+
+    Expression                     shift and go to state 86
+    String                         shift and go to state 73
+    ScopedStatement                shift and go to state 75
+    Variable                       shift and go to state 71
+    TupleExpression                shift and go to state 76
+    Term                           shift and go to state 27
+
+state 64
+
+    (45) Assertion -> ExpectNotIn LParenthesis . Expression Comma Expression RParenthesis
+    (31) Expression -> . String
+    (32) Expression -> . Number
+    (33) Expression -> . ScopedStatement
+    (34) Expression -> . Variable
+    (35) Expression -> . TupleExpression
+    (15) String -> . NormalString
+    (16) String -> . RawString
+    (12) ScopedStatement -> . Colon ScopedStatementBody
+    (19) ScopedStatement -> . Async Colon ScopedStatementBody
+    (20) ScopedStatement -> . Term Colon ScopedStatementBody
+    (22) ScopedStatement -> . Async Term Colon ScopedStatementBody
+    (29) Variable -> . ID
+    (30) Variable -> . Variable Point ID
+    (36) TupleExpression -> . Tuple LParenthesis String RParenthesis
+    (21) Term -> . ID
+
+    Number          shift and go to state 74
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+    Colon           shift and go to state 25
+    Async           shift and go to state 26
+    ID              shift and go to state 77
+    Tuple           shift and go to state 78
+
+    Expression                     shift and go to state 87
+    String                         shift and go to state 73
+    ScopedStatement                shift and go to state 75
+    Variable                       shift and go to state 71
+    TupleExpression                shift and go to state 76
+    Term                           shift and go to state 27
+
+state 65
+
+    (46) StatementBody -> Shell LParenthesis String . RParenthesis
+
+    RParenthesis    shift and go to state 88
+
+
+state 66
+
+    (18) ResultSetQuery -> ResultSet LParenthesis . Query RParenthesis
+    (14) Query -> . String
+    (15) String -> . NormalString
+    (16) String -> . RawString
+
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+
+    Query                          shift and go to state 89
+    String                         shift and go to state 47
+
+state 67
+
+    (19) ScopedStatement -> Async Colon ScopedStatementBody .
+
+    Semicolon       reduce using rule 19 (ScopedStatement -> Async Colon ScopedStatementBody .)
+    Comma           reduce using rule 19 (ScopedStatement -> Async Colon ScopedStatementBody .)
+    RParenthesis    reduce using rule 19 (ScopedStatement -> Async Colon ScopedStatementBody .)
+
+
+state 68
+
+    (22) ScopedStatement -> Async Term Colon . ScopedStatementBody
+    (13) ScopedStatementBody -> . Query
+    (17) ScopedStatementBody -> . ResultSetQuery
+    (14) Query -> . String
+    (18) ResultSetQuery -> . ResultSet LParenthesis Query RParenthesis
+    (15) String -> . NormalString
+    (16) String -> . RawString
+
+    ResultSet       shift and go to state 48
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+
+    ScopedStatementBody            shift and go to state 90
+    Query                          shift and go to state 45
+    ResultSetQuery                 shift and go to state 46
+    String                         shift and go to state 47
+
+state 69
+
+    (20) ScopedStatement -> Term Colon ScopedStatementBody .
+
+    Semicolon       reduce using rule 20 (ScopedStatement -> Term Colon ScopedStatementBody .)
+    Comma           reduce using rule 20 (ScopedStatement -> Term Colon ScopedStatementBody .)
+    RParenthesis    reduce using rule 20 (ScopedStatement -> Term Colon ScopedStatementBody .)
+
+
+state 70
+
+    (25) TermList -> TermList Term .
+
+    ID              reduce using rule 25 (TermList -> TermList Term .)
+    Semicolon       reduce using rule 25 (TermList -> TermList Term .)
+
+
+state 71
+
+    (34) Expression -> Variable .
+    (30) Variable -> Variable . Point ID
+
+    Semicolon       reduce using rule 34 (Expression -> Variable .)
+    Comma           reduce using rule 34 (Expression -> Variable .)
+    RParenthesis    reduce using rule 34 (Expression -> Variable .)
+    Point           shift and go to state 56
+
+
+state 72
+
+    (28) Assignment -> Variable EqualSign Expression .
+
+    Semicolon       reduce using rule 28 (Assignment -> Variable EqualSign Expression .)
+
+
+state 73
+
+    (31) Expression -> String .
+
+    Semicolon       reduce using rule 31 (Expression -> String .)
+    Comma           reduce using rule 31 (Expression -> String .)
+    RParenthesis    reduce using rule 31 (Expression -> String .)
+
+
+state 74
+
+    (32) Expression -> Number .
+
+    Semicolon       reduce using rule 32 (Expression -> Number .)
+    Comma           reduce using rule 32 (Expression -> Number .)
+    RParenthesis    reduce using rule 32 (Expression -> Number .)
+
+
+state 75
+
+    (33) Expression -> ScopedStatement .
+
+    Semicolon       reduce using rule 33 (Expression -> ScopedStatement .)
+    Comma           reduce using rule 33 (Expression -> ScopedStatement .)
+    RParenthesis    reduce using rule 33 (Expression -> ScopedStatement .)
+
+
+state 76
+
+    (35) Expression -> TupleExpression .
+
+    Semicolon       reduce using rule 35 (Expression -> TupleExpression .)
+    Comma           reduce using rule 35 (Expression -> TupleExpression .)
+    RParenthesis    reduce using rule 35 (Expression -> TupleExpression .)
+
+
+state 77
+
+    (29) Variable -> ID .
+    (21) Term -> ID .
+
+    Point           reduce using rule 29 (Variable -> ID .)
+    Semicolon       reduce using rule 29 (Variable -> ID .)
+    Comma           reduce using rule 29 (Variable -> ID .)
+    RParenthesis    reduce using rule 29 (Variable -> ID .)
+    Colon           reduce using rule 21 (Term -> ID .)
+
+
+state 78
+
+    (36) TupleExpression -> Tuple . LParenthesis String RParenthesis
+
+    LParenthesis    shift and go to state 91
+
+
+state 79
+
+    (30) Variable -> Variable Point ID .
+
+    EqualSign       reduce using rule 30 (Variable -> Variable Point ID .)
+    Point           reduce using rule 30 (Variable -> Variable Point ID .)
+    Semicolon       reduce using rule 30 (Variable -> Variable Point ID .)
+    Comma           reduce using rule 30 (Variable -> Variable Point ID .)
+    RParenthesis    reduce using rule 30 (Variable -> Variable Point ID .)
+
+
+state 80
+
+    (38) Assertion -> ExpectEqual LParenthesis Expression . Comma Expression RParenthesis
+
+    Comma           shift and go to state 92
+
+
+state 81
+
+    (39) Assertion -> ExpectNotEqual LParenthesis Expression . Comma Expression RParenthesis
+
+    Comma           shift and go to state 93
+
+
+state 82
+
+    (40) Assertion -> ExpectStrEqual LParenthesis Expression . Comma Expression RParenthesis
+
+    Comma           shift and go to state 94
+
+
+state 83
+
+    (41) Assertion -> ExpectStrNotEqual LParenthesis Expression . Comma Expression RParenthesis
+
+    Comma           shift and go to state 95
+
+
+state 84
+
+    (42) Assertion -> ExpectSubStr LParenthesis Expression . Comma Expression RParenthesis
+
+    Comma           shift and go to state 96
+
+
+state 85
+
+    (43) Assertion -> ExpectNoSubStr LParenthesis Expression . Comma Expression RParenthesis
+
+    Comma           shift and go to state 97
+
+
+state 86
+
+    (44) Assertion -> ExpectIn LParenthesis Expression . Comma Expression RParenthesis
+
+    Comma           shift and go to state 98
+
+
+state 87
+
+    (45) Assertion -> ExpectNotIn LParenthesis Expression . Comma Expression RParenthesis
+
+    Comma           shift and go to state 99
+
+
+state 88
+
+    (46) StatementBody -> Shell LParenthesis String RParenthesis .
+
+    Semicolon       reduce using rule 46 (StatementBody -> Shell LParenthesis String RParenthesis .)
+
+
+state 89
+
+    (18) ResultSetQuery -> ResultSet LParenthesis Query . RParenthesis
+
+    RParenthesis    shift and go to state 100
+
+
+state 90
+
+    (22) ScopedStatement -> Async Term Colon ScopedStatementBody .
+
+    Semicolon       reduce using rule 22 (ScopedStatement -> Async Term Colon ScopedStatementBody .)
+    Comma           reduce using rule 22 (ScopedStatement -> Async Term Colon ScopedStatementBody .)
+    RParenthesis    reduce using rule 22 (ScopedStatement -> Async Term Colon ScopedStatementBody .)
+
+
+state 91
+
+    (36) TupleExpression -> Tuple LParenthesis . String RParenthesis
+    (15) String -> . NormalString
+    (16) String -> . RawString
+
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+
+    String                         shift and go to state 101
+
+state 92
+
+    (38) Assertion -> ExpectEqual LParenthesis Expression Comma . Expression RParenthesis
+    (31) Expression -> . String
+    (32) Expression -> . Number
+    (33) Expression -> . ScopedStatement
+    (34) Expression -> . Variable
+    (35) Expression -> . TupleExpression
+    (15) String -> . NormalString
+    (16) String -> . RawString
+    (12) ScopedStatement -> . Colon ScopedStatementBody
+    (19) ScopedStatement -> . Async Colon ScopedStatementBody
+    (20) ScopedStatement -> . Term Colon ScopedStatementBody
+    (22) ScopedStatement -> . Async Term Colon ScopedStatementBody
+    (29) Variable -> . ID
+    (30) Variable -> . Variable Point ID
+    (36) TupleExpression -> . Tuple LParenthesis String RParenthesis
+    (21) Term -> . ID
+
+    Number          shift and go to state 74
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+    Colon           shift and go to state 25
+    Async           shift and go to state 26
+    ID              shift and go to state 77
+    Tuple           shift and go to state 78
+
+    Expression                     shift and go to state 102
+    String                         shift and go to state 73
+    ScopedStatement                shift and go to state 75
+    Variable                       shift and go to state 71
+    TupleExpression                shift and go to state 76
+    Term                           shift and go to state 27
+
+state 93
+
+    (39) Assertion -> ExpectNotEqual LParenthesis Expression Comma . Expression RParenthesis
+    (31) Expression -> . String
+    (32) Expression -> . Number
+    (33) Expression -> . ScopedStatement
+    (34) Expression -> . Variable
+    (35) Expression -> . TupleExpression
+    (15) String -> . NormalString
+    (16) String -> . RawString
+    (12) ScopedStatement -> . Colon ScopedStatementBody
+    (19) ScopedStatement -> . Async Colon ScopedStatementBody
+    (20) ScopedStatement -> . Term Colon ScopedStatementBody
+    (22) ScopedStatement -> . Async Term Colon ScopedStatementBody
+    (29) Variable -> . ID
+    (30) Variable -> . Variable Point ID
+    (36) TupleExpression -> . Tuple LParenthesis String RParenthesis
+    (21) Term -> . ID
+
+    Number          shift and go to state 74
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+    Colon           shift and go to state 25
+    Async           shift and go to state 26
+    ID              shift and go to state 77
+    Tuple           shift and go to state 78
+
+    Expression                     shift and go to state 103
+    String                         shift and go to state 73
+    ScopedStatement                shift and go to state 75
+    Variable                       shift and go to state 71
+    TupleExpression                shift and go to state 76
+    Term                           shift and go to state 27
+
+state 94
+
+    (40) Assertion -> ExpectStrEqual LParenthesis Expression Comma . Expression RParenthesis
+    (31) Expression -> . String
+    (32) Expression -> . Number
+    (33) Expression -> . ScopedStatement
+    (34) Expression -> . Variable
+    (35) Expression -> . TupleExpression
+    (15) String -> . NormalString
+    (16) String -> . RawString
+    (12) ScopedStatement -> . Colon ScopedStatementBody
+    (19) ScopedStatement -> . Async Colon ScopedStatementBody
+    (20) ScopedStatement -> . Term Colon ScopedStatementBody
+    (22) ScopedStatement -> . Async Term Colon ScopedStatementBody
+    (29) Variable -> . ID
+    (30) Variable -> . Variable Point ID
+    (36) TupleExpression -> . Tuple LParenthesis String RParenthesis
+    (21) Term -> . ID
+
+    Number          shift and go to state 74
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+    Colon           shift and go to state 25
+    Async           shift and go to state 26
+    ID              shift and go to state 77
+    Tuple           shift and go to state 78
+
+    Expression                     shift and go to state 104
+    String                         shift and go to state 73
+    ScopedStatement                shift and go to state 75
+    Variable                       shift and go to state 71
+    TupleExpression                shift and go to state 76
+    Term                           shift and go to state 27
+
+state 95
+
+    (41) Assertion -> ExpectStrNotEqual LParenthesis Expression Comma . Expression RParenthesis
+    (31) Expression -> . String
+    (32) Expression -> . Number
+    (33) Expression -> . ScopedStatement
+    (34) Expression -> . Variable
+    (35) Expression -> . TupleExpression
+    (15) String -> . NormalString
+    (16) String -> . RawString
+    (12) ScopedStatement -> . Colon ScopedStatementBody
+    (19) ScopedStatement -> . Async Colon ScopedStatementBody
+    (20) ScopedStatement -> . Term Colon ScopedStatementBody
+    (22) ScopedStatement -> . Async Term Colon ScopedStatementBody
+    (29) Variable -> . ID
+    (30) Variable -> . Variable Point ID
+    (36) TupleExpression -> . Tuple LParenthesis String RParenthesis
+    (21) Term -> . ID
+
+    Number          shift and go to state 74
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+    Colon           shift and go to state 25
+    Async           shift and go to state 26
+    ID              shift and go to state 77
+    Tuple           shift and go to state 78
+
+    Expression                     shift and go to state 105
+    String                         shift and go to state 73
+    ScopedStatement                shift and go to state 75
+    Variable                       shift and go to state 71
+    TupleExpression                shift and go to state 76
+    Term                           shift and go to state 27
+
+state 96
+
+    (42) Assertion -> ExpectSubStr LParenthesis Expression Comma . Expression RParenthesis
+    (31) Expression -> . String
+    (32) Expression -> . Number
+    (33) Expression -> . ScopedStatement
+    (34) Expression -> . Variable
+    (35) Expression -> . TupleExpression
+    (15) String -> . NormalString
+    (16) String -> . RawString
+    (12) ScopedStatement -> . Colon ScopedStatementBody
+    (19) ScopedStatement -> . Async Colon ScopedStatementBody
+    (20) ScopedStatement -> . Term Colon ScopedStatementBody
+    (22) ScopedStatement -> . Async Term Colon ScopedStatementBody
+    (29) Variable -> . ID
+    (30) Variable -> . Variable Point ID
+    (36) TupleExpression -> . Tuple LParenthesis String RParenthesis
+    (21) Term -> . ID
+
+    Number          shift and go to state 74
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+    Colon           shift and go to state 25
+    Async           shift and go to state 26
+    ID              shift and go to state 77
+    Tuple           shift and go to state 78
+
+    Expression                     shift and go to state 106
+    String                         shift and go to state 73
+    ScopedStatement                shift and go to state 75
+    Variable                       shift and go to state 71
+    TupleExpression                shift and go to state 76
+    Term                           shift and go to state 27
+
+state 97
+
+    (43) Assertion -> ExpectNoSubStr LParenthesis Expression Comma . Expression RParenthesis
+    (31) Expression -> . String
+    (32) Expression -> . Number
+    (33) Expression -> . ScopedStatement
+    (34) Expression -> . Variable
+    (35) Expression -> . TupleExpression
+    (15) String -> . NormalString
+    (16) String -> . RawString
+    (12) ScopedStatement -> . Colon ScopedStatementBody
+    (19) ScopedStatement -> . Async Colon ScopedStatementBody
+    (20) ScopedStatement -> . Term Colon ScopedStatementBody
+    (22) ScopedStatement -> . Async Term Colon ScopedStatementBody
+    (29) Variable -> . ID
+    (30) Variable -> . Variable Point ID
+    (36) TupleExpression -> . Tuple LParenthesis String RParenthesis
+    (21) Term -> . ID
+
+    Number          shift and go to state 74
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+    Colon           shift and go to state 25
+    Async           shift and go to state 26
+    ID              shift and go to state 77
+    Tuple           shift and go to state 78
+
+    Expression                     shift and go to state 107
+    String                         shift and go to state 73
+    ScopedStatement                shift and go to state 75
+    Variable                       shift and go to state 71
+    TupleExpression                shift and go to state 76
+    Term                           shift and go to state 27
+
+state 98
+
+    (44) Assertion -> ExpectIn LParenthesis Expression Comma . Expression RParenthesis
+    (31) Expression -> . String
+    (32) Expression -> . Number
+    (33) Expression -> . ScopedStatement
+    (34) Expression -> . Variable
+    (35) Expression -> . TupleExpression
+    (15) String -> . NormalString
+    (16) String -> . RawString
+    (12) ScopedStatement -> . Colon ScopedStatementBody
+    (19) ScopedStatement -> . Async Colon ScopedStatementBody
+    (20) ScopedStatement -> . Term Colon ScopedStatementBody
+    (22) ScopedStatement -> . Async Term Colon ScopedStatementBody
+    (29) Variable -> . ID
+    (30) Variable -> . Variable Point ID
+    (36) TupleExpression -> . Tuple LParenthesis String RParenthesis
+    (21) Term -> . ID
+
+    Number          shift and go to state 74
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+    Colon           shift and go to state 25
+    Async           shift and go to state 26
+    ID              shift and go to state 77
+    Tuple           shift and go to state 78
+
+    Expression                     shift and go to state 108
+    String                         shift and go to state 73
+    ScopedStatement                shift and go to state 75
+    Variable                       shift and go to state 71
+    TupleExpression                shift and go to state 76
+    Term                           shift and go to state 27
+
+state 99
+
+    (45) Assertion -> ExpectNotIn LParenthesis Expression Comma . Expression RParenthesis
+    (31) Expression -> . String
+    (32) Expression -> . Number
+    (33) Expression -> . ScopedStatement
+    (34) Expression -> . Variable
+    (35) Expression -> . TupleExpression
+    (15) String -> . NormalString
+    (16) String -> . RawString
+    (12) ScopedStatement -> . Colon ScopedStatementBody
+    (19) ScopedStatement -> . Async Colon ScopedStatementBody
+    (20) ScopedStatement -> . Term Colon ScopedStatementBody
+    (22) ScopedStatement -> . Async Term Colon ScopedStatementBody
+    (29) Variable -> . ID
+    (30) Variable -> . Variable Point ID
+    (36) TupleExpression -> . Tuple LParenthesis String RParenthesis
+    (21) Term -> . ID
+
+    Number          shift and go to state 74
+    NormalString    shift and go to state 12
+    RawString       shift and go to state 13
+    Colon           shift and go to state 25
+    Async           shift and go to state 26
+    ID              shift and go to state 77
+    Tuple           shift and go to state 78
+
+    Expression                     shift and go to state 109
+    String                         shift and go to state 73
+    ScopedStatement                shift and go to state 75
+    Variable                       shift and go to state 71
+    TupleExpression                shift and go to state 76
+    Term                           shift and go to state 27
+
+state 100
+
+    (18) ResultSetQuery -> ResultSet LParenthesis Query RParenthesis .
+
+    Semicolon       reduce using rule 18 (ResultSetQuery -> ResultSet LParenthesis Query RParenthesis .)
+    Comma           reduce using rule 18 (ResultSetQuery -> ResultSet LParenthesis Query RParenthesis .)
+    RParenthesis    reduce using rule 18 (ResultSetQuery -> ResultSet LParenthesis Query RParenthesis .)
+
+
+state 101
+
+    (36) TupleExpression -> Tuple LParenthesis String . RParenthesis
+
+    RParenthesis    shift and go to state 110
+
+
+state 102
+
+    (38) Assertion -> ExpectEqual LParenthesis Expression Comma Expression . RParenthesis
+
+    RParenthesis    shift and go to state 111
+
+
+state 103
+
+    (39) Assertion -> ExpectNotEqual LParenthesis Expression Comma Expression . RParenthesis
+
+    RParenthesis    shift and go to state 112
+
+
+state 104
+
+    (40) Assertion -> ExpectStrEqual LParenthesis Expression Comma Expression . RParenthesis
+
+    RParenthesis    shift and go to state 113
+
+
+state 105
+
+    (41) Assertion -> ExpectStrNotEqual LParenthesis Expression Comma Expression . RParenthesis
+
+    RParenthesis    shift and go to state 114
+
+
+state 106
+
+    (42) Assertion -> ExpectSubStr LParenthesis Expression Comma Expression . RParenthesis
+
+    RParenthesis    shift and go to state 115
+
+
+state 107
+
+    (43) Assertion -> ExpectNoSubStr LParenthesis Expression Comma Expression . RParenthesis
+
+    RParenthesis    shift and go to state 116
+
+
+state 108
+
+    (44) Assertion -> ExpectIn LParenthesis Expression Comma Expression . RParenthesis
+
+    RParenthesis    shift and go to state 117
+
+
+state 109
+
+    (45) Assertion -> ExpectNotIn LParenthesis Expression Comma Expression . RParenthesis
+
+    RParenthesis    shift and go to state 118
+
+
+state 110
+
+    (36) TupleExpression -> Tuple LParenthesis String RParenthesis .
+
+    Semicolon       reduce using rule 36 (TupleExpression -> Tuple LParenthesis String RParenthesis .)
+    Comma           reduce using rule 36 (TupleExpression -> Tuple LParenthesis String RParenthesis .)
+    RParenthesis    reduce using rule 36 (TupleExpression -> Tuple LParenthesis String RParenthesis .)
+
+
+state 111
+
+    (38) Assertion -> ExpectEqual LParenthesis Expression Comma Expression RParenthesis .
+
+    Semicolon       reduce using rule 38 (Assertion -> ExpectEqual LParenthesis Expression Comma Expression RParenthesis .)
+
+
+state 112
+
+    (39) Assertion -> ExpectNotEqual LParenthesis Expression Comma Expression RParenthesis .
+
+    Semicolon       reduce using rule 39 (Assertion -> ExpectNotEqual LParenthesis Expression Comma Expression RParenthesis .)
+
+
+state 113
+
+    (40) Assertion -> ExpectStrEqual LParenthesis Expression Comma Expression RParenthesis .
+
+    Semicolon       reduce using rule 40 (Assertion -> ExpectStrEqual LParenthesis Expression Comma Expression RParenthesis .)
+
+
+state 114
+
+    (41) Assertion -> ExpectStrNotEqual LParenthesis Expression Comma Expression RParenthesis .
+
+    Semicolon       reduce using rule 41 (Assertion -> ExpectStrNotEqual LParenthesis Expression Comma Expression RParenthesis .)
+
+
+state 115
+
+    (42) Assertion -> ExpectSubStr LParenthesis Expression Comma Expression RParenthesis .
+
+    Semicolon       reduce using rule 42 (Assertion -> ExpectSubStr LParenthesis Expression Comma Expression RParenthesis .)
+
+
+state 116
+
+    (43) Assertion -> ExpectNoSubStr LParenthesis Expression Comma Expression RParenthesis .
+
+    Semicolon       reduce using rule 43 (Assertion -> ExpectNoSubStr LParenthesis Expression Comma Expression RParenthesis .)
+
+
+state 117
+
+    (44) Assertion -> ExpectIn LParenthesis Expression Comma Expression RParenthesis .
+
+    Semicolon       reduce using rule 44 (Assertion -> ExpectIn LParenthesis Expression Comma Expression RParenthesis .)
+
+
+state 118
+
+    (45) Assertion -> ExpectNotIn LParenthesis Expression Comma Expression RParenthesis .
+
+    Semicolon       reduce using rule 45 (Assertion -> ExpectNotIn LParenthesis Expression Comma Expression RParenthesis .)
+

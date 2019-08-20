@@ -1,0 +1,3661 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> test_spec
+Rule 1     test_spec -> config_spec case_spec
+Rule 2     config_spec -> db_config_spec runtime_config_spec
+Rule 3     db_config_spec -> DB_CONFIG LBRACE STRING RBRACE
+Rule 4     runtime_config_spec -> RUNTIME_CONFIG LBRACE STRING RBRACE
+Rule 5     case_spec -> case_stmt
+Rule 6     case_spec -> case_spec case_stmt
+Rule 7     case_stmt -> TEST_CASE case_name case_start case_body case_end
+Rule 8     case_name -> ID
+Rule 9     case_start -> LBRACE
+Rule 10    case_end -> RBRACE
+Rule 11    case_body -> dynamic_param_stmt init_stmt do_stmt undo_stmt final_check_stmt
+Rule 12    case_body -> init_stmt do_stmt undo_stmt final_check_stmt
+Rule 13    dynamic_param_stmt -> DYNAMIC_PARAM d_start dynamic_var_declarations d_end
+Rule 14    d_start -> LBRACE
+Rule 15    d_end -> RBRACE
+Rule 16    dynamic_var_declarations -> dynamic_var_declarations dynamic_var_declaration
+Rule 17    dynamic_var_declarations -> dynamic_var_declaration
+Rule 18    dynamic_var_declaration -> ID EQUAL rule
+Rule 19    rule -> random_int
+Rule 20    rule -> random_double
+Rule 21    rule -> current_date
+Rule 22    rule -> current_timestamp
+Rule 23    rule -> random_string
+Rule 24    rule -> sequence
+Rule 25    random_int -> RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+Rule 26    random_double -> RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+Rule 27    current_date -> CURRENT_DATE LPAREN NUMBER RPAREN
+Rule 28    current_timestamp -> CURRENT_TIMESTAMP LPAREN NUMBER RPAREN
+Rule 29    random_string -> RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN
+Rule 30    sequence -> SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN
+Rule 31    python_expr -> PYTHON_EXP LPAREN STRING RPAREN
+Rule 32    shared_var -> SHARED_LIST
+Rule 33    init_stmt -> INIT init_start init_body init_end
+Rule 34    init_start -> LBRACE
+Rule 35    init_end -> RBRACE
+Rule 36    init_body -> executable_stmts
+Rule 37    do_stmt -> DO do_start do_body do_end
+Rule 38    do_start -> LBRACE
+Rule 39    do_end -> RBRACE
+Rule 40    do_body -> executable_stmts
+Rule 41    undo_stmt -> UNDO undo_start undo_body undo_end
+Rule 42    undo_start -> LBRACE
+Rule 43    undo_end -> RBRACE
+Rule 44    undo_body -> executable_stmts
+Rule 45    final_check_stmt -> FINAL_CHECK final_check_start final_body final_check_end
+Rule 46    final_check_start -> LBRACE
+Rule 47    final_body -> executable_stmts
+Rule 48    final_check_end -> RBRACE
+Rule 49    executable_stmts -> executable_stmt
+Rule 50    executable_stmts -> executable_stmts executable_stmt
+Rule 51    executable_stmt -> expression SEMICOLON
+Rule 52    executable_stmt -> assignment SEMICOLON
+Rule 53    executable_stmt -> assertion SEMICOLON
+Rule 54    executable_stmt -> for_stmt
+Rule 55    executable_stmt -> for_each_stmt
+Rule 56    executable_stmt -> embed_python_stmt SEMICOLON
+Rule 57    assertion -> EXPECT_EQUAL LPAREN expression COMMA expression RPAREN
+Rule 58    assignment -> ID EQUAL expression
+Rule 59    assignment -> ID EQUAL shared_var
+Rule 60    expression -> query_stmt
+Rule 61    expression -> result_set_query_stmt
+Rule 62    expression -> query_into_stmt
+Rule 63    expression -> query_with_stmt
+Rule 64    expression -> query_with_into_stmt
+Rule 65    expression -> var_name
+Rule 66    expression -> set
+Rule 67    expression -> rule
+Rule 68    expression -> python_expr
+Rule 69    expression -> NUMBER
+Rule 70    set -> SET LPAREN STRING RPAREN
+Rule 71    query_stmt -> COLON STRING
+Rule 72    result_set_query_stmt -> COLON RESULT_SET LPAREN STRING RPAREN
+Rule 73    query_into_stmt -> COLON STRING INTO var_list
+Rule 74    var_name -> ID
+Rule 75    var_name -> ID LBRACKET NUMBER RBRACKET
+Rule 76    var_name -> ID LBRACKET ID RBRACKET
+Rule 77    var_list -> var_name
+Rule 78    var_list -> var_list COMMA var_name
+Rule 79    query_with_stmt -> COLON STRING WITH var_list
+Rule 80    query_with_into_stmt -> COLON STRING WITH var_list INTO var_list
+Rule 81    for_stmt -> for_start1 executable_stmts for_end
+Rule 82    for_stmt -> for_start2 executable_stmts for_end
+Rule 83    for_start1 -> FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE
+Rule 84    for_start2 -> FOR ID IN RANGE LPAREN ID RPAREN LBRACE
+Rule 85    for_end -> RBRACE
+Rule 86    for_each_stmt -> for_each_start executable_stmts for_each_end
+Rule 87    for_each_start -> FOR EACH var_list LBRACE
+Rule 88    for_each_end -> RBRACE
+Rule 89    embed_python_stmt -> EMBED_PYTHON LPAREN STRING RPAREN
+
+Terminals, with rules where they appear
+
+COLON                : 71 72 73 79 80
+COMMA                : 25 25 26 26 26 29 30 57 78 83
+CURRENT_DATE         : 27
+CURRENT_TIMESTAMP    : 28
+DB_CONFIG            : 3
+DO                   : 37
+DYNAMIC_PARAM        : 13
+EACH                 : 87
+EMBED_PYTHON         : 89
+EQUAL                : 18 58 59
+EXPECT_EQUAL         : 57
+FINAL_CHECK          : 45
+FOR                  : 83 84 87
+ID                   : 8 18 58 59 74 75 76 76 83 84 84
+IN                   : 83 84
+INIT                 : 33
+INTO                 : 73 80
+LBRACE               : 3 4 9 14 34 38 42 46 83 84 87
+LBRACKET             : 75 76
+LPAREN               : 25 26 27 28 29 30 31 57 70 72 83 84 89
+NUMBER               : 25 25 25 26 26 26 26 27 28 29 29 30 30 69 75 83 83
+PYTHON_EXP           : 31
+RAND_DOUBLE          : 26
+RAND_INT             : 25
+RAND_STRING          : 29
+RANGE                : 83 84
+RBRACE               : 3 4 10 15 35 39 43 48 85 88
+RBRACKET             : 75 76
+RESULT_SET           : 72
+RPAREN               : 25 26 27 28 29 30 31 57 70 72 83 84 89
+RUNTIME_CONFIG       : 4
+SEMICOLON            : 51 52 53 56
+SEQUENCE             : 30
+SET                  : 70
+SHARED_LIST          : 32
+STRING               : 3 4 31 70 71 72 73 79 80 89
+TEST_CASE            : 7
+UNDO                 : 41
+WITH                 : 79 80
+error                : 
+
+Nonterminals, with rules where they appear
+
+assertion            : 53
+assignment           : 52
+case_body            : 7
+case_end             : 7
+case_name            : 7
+case_spec            : 1 6
+case_start           : 7
+case_stmt            : 5 6
+config_spec          : 1
+current_date         : 21
+current_timestamp    : 22
+d_end                : 13
+d_start              : 13
+db_config_spec       : 2
+do_body              : 37
+do_end               : 37
+do_start             : 37
+do_stmt              : 11 12
+dynamic_param_stmt   : 11
+dynamic_var_declaration : 16 17
+dynamic_var_declarations : 13 16
+embed_python_stmt    : 56
+executable_stmt      : 49 50
+executable_stmts     : 36 40 44 47 50 81 82 86
+expression           : 51 57 57 58
+final_body           : 45
+final_check_end      : 45
+final_check_start    : 45
+final_check_stmt     : 11 12
+for_each_end         : 86
+for_each_start       : 86
+for_each_stmt        : 55
+for_end              : 81 82
+for_start1           : 81
+for_start2           : 82
+for_stmt             : 54
+init_body            : 33
+init_end             : 33
+init_start           : 33
+init_stmt            : 11 12
+python_expr          : 68
+query_into_stmt      : 62
+query_stmt           : 60
+query_with_into_stmt : 64
+query_with_stmt      : 63
+random_double        : 20
+random_int           : 19
+random_string        : 23
+result_set_query_stmt : 61
+rule                 : 18 67
+runtime_config_spec  : 2
+sequence             : 24
+set                  : 66
+shared_var           : 59
+test_spec            : 0
+undo_body            : 41
+undo_end             : 41
+undo_start           : 41
+undo_stmt            : 11 12
+var_list             : 73 78 79 80 80 87
+var_name             : 65 77 78
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . test_spec
+    (1) test_spec -> . config_spec case_spec
+    (2) config_spec -> . db_config_spec runtime_config_spec
+    (3) db_config_spec -> . DB_CONFIG LBRACE STRING RBRACE
+
+    DB_CONFIG       shift and go to state 4
+
+    test_spec                      shift and go to state 1
+    config_spec                    shift and go to state 2
+    db_config_spec                 shift and go to state 3
+
+state 1
+
+    (0) S' -> test_spec .
+
+
+
+state 2
+
+    (1) test_spec -> config_spec . case_spec
+    (5) case_spec -> . case_stmt
+    (6) case_spec -> . case_spec case_stmt
+    (7) case_stmt -> . TEST_CASE case_name case_start case_body case_end
+
+    TEST_CASE       shift and go to state 7
+
+    case_spec                      shift and go to state 5
+    case_stmt                      shift and go to state 6
+
+state 3
+
+    (2) config_spec -> db_config_spec . runtime_config_spec
+    (4) runtime_config_spec -> . RUNTIME_CONFIG LBRACE STRING RBRACE
+
+    RUNTIME_CONFIG  shift and go to state 9
+
+    runtime_config_spec            shift and go to state 8
+
+state 4
+
+    (3) db_config_spec -> DB_CONFIG . LBRACE STRING RBRACE
+
+    LBRACE          shift and go to state 10
+
+
+state 5
+
+    (1) test_spec -> config_spec case_spec .
+    (6) case_spec -> case_spec . case_stmt
+    (7) case_stmt -> . TEST_CASE case_name case_start case_body case_end
+
+    $end            reduce using rule 1 (test_spec -> config_spec case_spec .)
+    TEST_CASE       shift and go to state 7
+
+    case_stmt                      shift and go to state 11
+
+state 6
+
+    (5) case_spec -> case_stmt .
+
+    TEST_CASE       reduce using rule 5 (case_spec -> case_stmt .)
+    $end            reduce using rule 5 (case_spec -> case_stmt .)
+
+
+state 7
+
+    (7) case_stmt -> TEST_CASE . case_name case_start case_body case_end
+    (8) case_name -> . ID
+
+    ID              shift and go to state 13
+
+    case_name                      shift and go to state 12
+
+state 8
+
+    (2) config_spec -> db_config_spec runtime_config_spec .
+
+    TEST_CASE       reduce using rule 2 (config_spec -> db_config_spec runtime_config_spec .)
+
+
+state 9
+
+    (4) runtime_config_spec -> RUNTIME_CONFIG . LBRACE STRING RBRACE
+
+    LBRACE          shift and go to state 14
+
+
+state 10
+
+    (3) db_config_spec -> DB_CONFIG LBRACE . STRING RBRACE
+
+    STRING          shift and go to state 15
+
+
+state 11
+
+    (6) case_spec -> case_spec case_stmt .
+
+    TEST_CASE       reduce using rule 6 (case_spec -> case_spec case_stmt .)
+    $end            reduce using rule 6 (case_spec -> case_spec case_stmt .)
+
+
+state 12
+
+    (7) case_stmt -> TEST_CASE case_name . case_start case_body case_end
+    (9) case_start -> . LBRACE
+
+    LBRACE          shift and go to state 17
+
+    case_start                     shift and go to state 16
+
+state 13
+
+    (8) case_name -> ID .
+
+    LBRACE          reduce using rule 8 (case_name -> ID .)
+
+
+state 14
+
+    (4) runtime_config_spec -> RUNTIME_CONFIG LBRACE . STRING RBRACE
+
+    STRING          shift and go to state 18
+
+
+state 15
+
+    (3) db_config_spec -> DB_CONFIG LBRACE STRING . RBRACE
+
+    RBRACE          shift and go to state 19
+
+
+state 16
+
+    (7) case_stmt -> TEST_CASE case_name case_start . case_body case_end
+    (11) case_body -> . dynamic_param_stmt init_stmt do_stmt undo_stmt final_check_stmt
+    (12) case_body -> . init_stmt do_stmt undo_stmt final_check_stmt
+    (13) dynamic_param_stmt -> . DYNAMIC_PARAM d_start dynamic_var_declarations d_end
+    (33) init_stmt -> . INIT init_start init_body init_end
+
+    DYNAMIC_PARAM   shift and go to state 23
+    INIT            shift and go to state 24
+
+    case_body                      shift and go to state 20
+    dynamic_param_stmt             shift and go to state 21
+    init_stmt                      shift and go to state 22
+
+state 17
+
+    (9) case_start -> LBRACE .
+
+    DYNAMIC_PARAM   reduce using rule 9 (case_start -> LBRACE .)
+    INIT            reduce using rule 9 (case_start -> LBRACE .)
+
+
+state 18
+
+    (4) runtime_config_spec -> RUNTIME_CONFIG LBRACE STRING . RBRACE
+
+    RBRACE          shift and go to state 25
+
+
+state 19
+
+    (3) db_config_spec -> DB_CONFIG LBRACE STRING RBRACE .
+
+    RUNTIME_CONFIG  reduce using rule 3 (db_config_spec -> DB_CONFIG LBRACE STRING RBRACE .)
+
+
+state 20
+
+    (7) case_stmt -> TEST_CASE case_name case_start case_body . case_end
+    (10) case_end -> . RBRACE
+
+    RBRACE          shift and go to state 27
+
+    case_end                       shift and go to state 26
+
+state 21
+
+    (11) case_body -> dynamic_param_stmt . init_stmt do_stmt undo_stmt final_check_stmt
+    (33) init_stmt -> . INIT init_start init_body init_end
+
+    INIT            shift and go to state 24
+
+    init_stmt                      shift and go to state 28
+
+state 22
+
+    (12) case_body -> init_stmt . do_stmt undo_stmt final_check_stmt
+    (37) do_stmt -> . DO do_start do_body do_end
+
+    DO              shift and go to state 30
+
+    do_stmt                        shift and go to state 29
+
+state 23
+
+    (13) dynamic_param_stmt -> DYNAMIC_PARAM . d_start dynamic_var_declarations d_end
+    (14) d_start -> . LBRACE
+
+    LBRACE          shift and go to state 32
+
+    d_start                        shift and go to state 31
+
+state 24
+
+    (33) init_stmt -> INIT . init_start init_body init_end
+    (34) init_start -> . LBRACE
+
+    LBRACE          shift and go to state 34
+
+    init_start                     shift and go to state 33
+
+state 25
+
+    (4) runtime_config_spec -> RUNTIME_CONFIG LBRACE STRING RBRACE .
+
+    TEST_CASE       reduce using rule 4 (runtime_config_spec -> RUNTIME_CONFIG LBRACE STRING RBRACE .)
+
+
+state 26
+
+    (7) case_stmt -> TEST_CASE case_name case_start case_body case_end .
+
+    TEST_CASE       reduce using rule 7 (case_stmt -> TEST_CASE case_name case_start case_body case_end .)
+    $end            reduce using rule 7 (case_stmt -> TEST_CASE case_name case_start case_body case_end .)
+
+
+state 27
+
+    (10) case_end -> RBRACE .
+
+    TEST_CASE       reduce using rule 10 (case_end -> RBRACE .)
+    $end            reduce using rule 10 (case_end -> RBRACE .)
+
+
+state 28
+
+    (11) case_body -> dynamic_param_stmt init_stmt . do_stmt undo_stmt final_check_stmt
+    (37) do_stmt -> . DO do_start do_body do_end
+
+    DO              shift and go to state 30
+
+    do_stmt                        shift and go to state 35
+
+state 29
+
+    (12) case_body -> init_stmt do_stmt . undo_stmt final_check_stmt
+    (41) undo_stmt -> . UNDO undo_start undo_body undo_end
+
+    UNDO            shift and go to state 37
+
+    undo_stmt                      shift and go to state 36
+
+state 30
+
+    (37) do_stmt -> DO . do_start do_body do_end
+    (38) do_start -> . LBRACE
+
+    LBRACE          shift and go to state 39
+
+    do_start                       shift and go to state 38
+
+state 31
+
+    (13) dynamic_param_stmt -> DYNAMIC_PARAM d_start . dynamic_var_declarations d_end
+    (16) dynamic_var_declarations -> . dynamic_var_declarations dynamic_var_declaration
+    (17) dynamic_var_declarations -> . dynamic_var_declaration
+    (18) dynamic_var_declaration -> . ID EQUAL rule
+
+    ID              shift and go to state 42
+
+    dynamic_var_declarations       shift and go to state 40
+    dynamic_var_declaration        shift and go to state 41
+
+state 32
+
+    (14) d_start -> LBRACE .
+
+    ID              reduce using rule 14 (d_start -> LBRACE .)
+
+
+state 33
+
+    (33) init_stmt -> INIT init_start . init_body init_end
+    (36) init_body -> . executable_stmts
+    (49) executable_stmts -> . executable_stmt
+    (50) executable_stmts -> . executable_stmts executable_stmt
+    (51) executable_stmt -> . expression SEMICOLON
+    (52) executable_stmt -> . assignment SEMICOLON
+    (53) executable_stmt -> . assertion SEMICOLON
+    (54) executable_stmt -> . for_stmt
+    (55) executable_stmt -> . for_each_stmt
+    (56) executable_stmt -> . embed_python_stmt SEMICOLON
+    (60) expression -> . query_stmt
+    (61) expression -> . result_set_query_stmt
+    (62) expression -> . query_into_stmt
+    (63) expression -> . query_with_stmt
+    (64) expression -> . query_with_into_stmt
+    (65) expression -> . var_name
+    (66) expression -> . set
+    (67) expression -> . rule
+    (68) expression -> . python_expr
+    (69) expression -> . NUMBER
+    (58) assignment -> . ID EQUAL expression
+    (59) assignment -> . ID EQUAL shared_var
+    (57) assertion -> . EXPECT_EQUAL LPAREN expression COMMA expression RPAREN
+    (81) for_stmt -> . for_start1 executable_stmts for_end
+    (82) for_stmt -> . for_start2 executable_stmts for_end
+    (86) for_each_stmt -> . for_each_start executable_stmts for_each_end
+    (89) embed_python_stmt -> . EMBED_PYTHON LPAREN STRING RPAREN
+    (71) query_stmt -> . COLON STRING
+    (72) result_set_query_stmt -> . COLON RESULT_SET LPAREN STRING RPAREN
+    (73) query_into_stmt -> . COLON STRING INTO var_list
+    (79) query_with_stmt -> . COLON STRING WITH var_list
+    (80) query_with_into_stmt -> . COLON STRING WITH var_list INTO var_list
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+    (70) set -> . SET LPAREN STRING RPAREN
+    (19) rule -> . random_int
+    (20) rule -> . random_double
+    (21) rule -> . current_date
+    (22) rule -> . current_timestamp
+    (23) rule -> . random_string
+    (24) rule -> . sequence
+    (31) python_expr -> . PYTHON_EXP LPAREN STRING RPAREN
+    (83) for_start1 -> . FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE
+    (84) for_start2 -> . FOR ID IN RANGE LPAREN ID RPAREN LBRACE
+    (87) for_each_start -> . FOR EACH var_list LBRACE
+    (25) random_int -> . RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (26) random_double -> . RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (27) current_date -> . CURRENT_DATE LPAREN NUMBER RPAREN
+    (28) current_timestamp -> . CURRENT_TIMESTAMP LPAREN NUMBER RPAREN
+    (29) random_string -> . RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN
+    (30) sequence -> . SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 61
+    ID              shift and go to state 62
+    EXPECT_EQUAL    shift and go to state 63
+    EMBED_PYTHON    shift and go to state 67
+    COLON           shift and go to state 68
+    SET             shift and go to state 69
+    PYTHON_EXP      shift and go to state 76
+    FOR             shift and go to state 77
+    RAND_INT        shift and go to state 78
+    RAND_DOUBLE     shift and go to state 79
+    CURRENT_DATE    shift and go to state 80
+    CURRENT_TIMESTAMP shift and go to state 81
+    RAND_STRING     shift and go to state 82
+    SEQUENCE        shift and go to state 83
+
+    init_body                      shift and go to state 43
+    executable_stmts               shift and go to state 44
+    executable_stmt                shift and go to state 45
+    expression                     shift and go to state 46
+    assignment                     shift and go to state 47
+    assertion                      shift and go to state 48
+    for_stmt                       shift and go to state 49
+    for_each_stmt                  shift and go to state 50
+    embed_python_stmt              shift and go to state 51
+    query_stmt                     shift and go to state 52
+    result_set_query_stmt          shift and go to state 53
+    query_into_stmt                shift and go to state 54
+    query_with_stmt                shift and go to state 55
+    query_with_into_stmt           shift and go to state 56
+    var_name                       shift and go to state 57
+    set                            shift and go to state 58
+    rule                           shift and go to state 59
+    python_expr                    shift and go to state 60
+    for_start1                     shift and go to state 64
+    for_start2                     shift and go to state 65
+    for_each_start                 shift and go to state 66
+    random_int                     shift and go to state 70
+    random_double                  shift and go to state 71
+    current_date                   shift and go to state 72
+    current_timestamp              shift and go to state 73
+    random_string                  shift and go to state 74
+    sequence                       shift and go to state 75
+
+state 34
+
+    (34) init_start -> LBRACE .
+
+    NUMBER          reduce using rule 34 (init_start -> LBRACE .)
+    ID              reduce using rule 34 (init_start -> LBRACE .)
+    EXPECT_EQUAL    reduce using rule 34 (init_start -> LBRACE .)
+    EMBED_PYTHON    reduce using rule 34 (init_start -> LBRACE .)
+    COLON           reduce using rule 34 (init_start -> LBRACE .)
+    SET             reduce using rule 34 (init_start -> LBRACE .)
+    PYTHON_EXP      reduce using rule 34 (init_start -> LBRACE .)
+    FOR             reduce using rule 34 (init_start -> LBRACE .)
+    RAND_INT        reduce using rule 34 (init_start -> LBRACE .)
+    RAND_DOUBLE     reduce using rule 34 (init_start -> LBRACE .)
+    CURRENT_DATE    reduce using rule 34 (init_start -> LBRACE .)
+    CURRENT_TIMESTAMP reduce using rule 34 (init_start -> LBRACE .)
+    RAND_STRING     reduce using rule 34 (init_start -> LBRACE .)
+    SEQUENCE        reduce using rule 34 (init_start -> LBRACE .)
+
+
+state 35
+
+    (11) case_body -> dynamic_param_stmt init_stmt do_stmt . undo_stmt final_check_stmt
+    (41) undo_stmt -> . UNDO undo_start undo_body undo_end
+
+    UNDO            shift and go to state 37
+
+    undo_stmt                      shift and go to state 84
+
+state 36
+
+    (12) case_body -> init_stmt do_stmt undo_stmt . final_check_stmt
+    (45) final_check_stmt -> . FINAL_CHECK final_check_start final_body final_check_end
+
+    FINAL_CHECK     shift and go to state 86
+
+    final_check_stmt               shift and go to state 85
+
+state 37
+
+    (41) undo_stmt -> UNDO . undo_start undo_body undo_end
+    (42) undo_start -> . LBRACE
+
+    LBRACE          shift and go to state 88
+
+    undo_start                     shift and go to state 87
+
+state 38
+
+    (37) do_stmt -> DO do_start . do_body do_end
+    (40) do_body -> . executable_stmts
+    (49) executable_stmts -> . executable_stmt
+    (50) executable_stmts -> . executable_stmts executable_stmt
+    (51) executable_stmt -> . expression SEMICOLON
+    (52) executable_stmt -> . assignment SEMICOLON
+    (53) executable_stmt -> . assertion SEMICOLON
+    (54) executable_stmt -> . for_stmt
+    (55) executable_stmt -> . for_each_stmt
+    (56) executable_stmt -> . embed_python_stmt SEMICOLON
+    (60) expression -> . query_stmt
+    (61) expression -> . result_set_query_stmt
+    (62) expression -> . query_into_stmt
+    (63) expression -> . query_with_stmt
+    (64) expression -> . query_with_into_stmt
+    (65) expression -> . var_name
+    (66) expression -> . set
+    (67) expression -> . rule
+    (68) expression -> . python_expr
+    (69) expression -> . NUMBER
+    (58) assignment -> . ID EQUAL expression
+    (59) assignment -> . ID EQUAL shared_var
+    (57) assertion -> . EXPECT_EQUAL LPAREN expression COMMA expression RPAREN
+    (81) for_stmt -> . for_start1 executable_stmts for_end
+    (82) for_stmt -> . for_start2 executable_stmts for_end
+    (86) for_each_stmt -> . for_each_start executable_stmts for_each_end
+    (89) embed_python_stmt -> . EMBED_PYTHON LPAREN STRING RPAREN
+    (71) query_stmt -> . COLON STRING
+    (72) result_set_query_stmt -> . COLON RESULT_SET LPAREN STRING RPAREN
+    (73) query_into_stmt -> . COLON STRING INTO var_list
+    (79) query_with_stmt -> . COLON STRING WITH var_list
+    (80) query_with_into_stmt -> . COLON STRING WITH var_list INTO var_list
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+    (70) set -> . SET LPAREN STRING RPAREN
+    (19) rule -> . random_int
+    (20) rule -> . random_double
+    (21) rule -> . current_date
+    (22) rule -> . current_timestamp
+    (23) rule -> . random_string
+    (24) rule -> . sequence
+    (31) python_expr -> . PYTHON_EXP LPAREN STRING RPAREN
+    (83) for_start1 -> . FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE
+    (84) for_start2 -> . FOR ID IN RANGE LPAREN ID RPAREN LBRACE
+    (87) for_each_start -> . FOR EACH var_list LBRACE
+    (25) random_int -> . RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (26) random_double -> . RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (27) current_date -> . CURRENT_DATE LPAREN NUMBER RPAREN
+    (28) current_timestamp -> . CURRENT_TIMESTAMP LPAREN NUMBER RPAREN
+    (29) random_string -> . RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN
+    (30) sequence -> . SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 61
+    ID              shift and go to state 62
+    EXPECT_EQUAL    shift and go to state 63
+    EMBED_PYTHON    shift and go to state 67
+    COLON           shift and go to state 68
+    SET             shift and go to state 69
+    PYTHON_EXP      shift and go to state 76
+    FOR             shift and go to state 77
+    RAND_INT        shift and go to state 78
+    RAND_DOUBLE     shift and go to state 79
+    CURRENT_DATE    shift and go to state 80
+    CURRENT_TIMESTAMP shift and go to state 81
+    RAND_STRING     shift and go to state 82
+    SEQUENCE        shift and go to state 83
+
+    do_body                        shift and go to state 89
+    executable_stmts               shift and go to state 90
+    executable_stmt                shift and go to state 45
+    expression                     shift and go to state 46
+    assignment                     shift and go to state 47
+    assertion                      shift and go to state 48
+    for_stmt                       shift and go to state 49
+    for_each_stmt                  shift and go to state 50
+    embed_python_stmt              shift and go to state 51
+    query_stmt                     shift and go to state 52
+    result_set_query_stmt          shift and go to state 53
+    query_into_stmt                shift and go to state 54
+    query_with_stmt                shift and go to state 55
+    query_with_into_stmt           shift and go to state 56
+    var_name                       shift and go to state 57
+    set                            shift and go to state 58
+    rule                           shift and go to state 59
+    python_expr                    shift and go to state 60
+    for_start1                     shift and go to state 64
+    for_start2                     shift and go to state 65
+    for_each_start                 shift and go to state 66
+    random_int                     shift and go to state 70
+    random_double                  shift and go to state 71
+    current_date                   shift and go to state 72
+    current_timestamp              shift and go to state 73
+    random_string                  shift and go to state 74
+    sequence                       shift and go to state 75
+
+state 39
+
+    (38) do_start -> LBRACE .
+
+    NUMBER          reduce using rule 38 (do_start -> LBRACE .)
+    ID              reduce using rule 38 (do_start -> LBRACE .)
+    EXPECT_EQUAL    reduce using rule 38 (do_start -> LBRACE .)
+    EMBED_PYTHON    reduce using rule 38 (do_start -> LBRACE .)
+    COLON           reduce using rule 38 (do_start -> LBRACE .)
+    SET             reduce using rule 38 (do_start -> LBRACE .)
+    PYTHON_EXP      reduce using rule 38 (do_start -> LBRACE .)
+    FOR             reduce using rule 38 (do_start -> LBRACE .)
+    RAND_INT        reduce using rule 38 (do_start -> LBRACE .)
+    RAND_DOUBLE     reduce using rule 38 (do_start -> LBRACE .)
+    CURRENT_DATE    reduce using rule 38 (do_start -> LBRACE .)
+    CURRENT_TIMESTAMP reduce using rule 38 (do_start -> LBRACE .)
+    RAND_STRING     reduce using rule 38 (do_start -> LBRACE .)
+    SEQUENCE        reduce using rule 38 (do_start -> LBRACE .)
+
+
+state 40
+
+    (13) dynamic_param_stmt -> DYNAMIC_PARAM d_start dynamic_var_declarations . d_end
+    (16) dynamic_var_declarations -> dynamic_var_declarations . dynamic_var_declaration
+    (15) d_end -> . RBRACE
+    (18) dynamic_var_declaration -> . ID EQUAL rule
+
+    RBRACE          shift and go to state 93
+    ID              shift and go to state 42
+
+    d_end                          shift and go to state 91
+    dynamic_var_declaration        shift and go to state 92
+
+state 41
+
+    (17) dynamic_var_declarations -> dynamic_var_declaration .
+
+    RBRACE          reduce using rule 17 (dynamic_var_declarations -> dynamic_var_declaration .)
+    ID              reduce using rule 17 (dynamic_var_declarations -> dynamic_var_declaration .)
+
+
+state 42
+
+    (18) dynamic_var_declaration -> ID . EQUAL rule
+
+    EQUAL           shift and go to state 94
+
+
+state 43
+
+    (33) init_stmt -> INIT init_start init_body . init_end
+    (35) init_end -> . RBRACE
+
+    RBRACE          shift and go to state 96
+
+    init_end                       shift and go to state 95
+
+state 44
+
+    (36) init_body -> executable_stmts .
+    (50) executable_stmts -> executable_stmts . executable_stmt
+    (51) executable_stmt -> . expression SEMICOLON
+    (52) executable_stmt -> . assignment SEMICOLON
+    (53) executable_stmt -> . assertion SEMICOLON
+    (54) executable_stmt -> . for_stmt
+    (55) executable_stmt -> . for_each_stmt
+    (56) executable_stmt -> . embed_python_stmt SEMICOLON
+    (60) expression -> . query_stmt
+    (61) expression -> . result_set_query_stmt
+    (62) expression -> . query_into_stmt
+    (63) expression -> . query_with_stmt
+    (64) expression -> . query_with_into_stmt
+    (65) expression -> . var_name
+    (66) expression -> . set
+    (67) expression -> . rule
+    (68) expression -> . python_expr
+    (69) expression -> . NUMBER
+    (58) assignment -> . ID EQUAL expression
+    (59) assignment -> . ID EQUAL shared_var
+    (57) assertion -> . EXPECT_EQUAL LPAREN expression COMMA expression RPAREN
+    (81) for_stmt -> . for_start1 executable_stmts for_end
+    (82) for_stmt -> . for_start2 executable_stmts for_end
+    (86) for_each_stmt -> . for_each_start executable_stmts for_each_end
+    (89) embed_python_stmt -> . EMBED_PYTHON LPAREN STRING RPAREN
+    (71) query_stmt -> . COLON STRING
+    (72) result_set_query_stmt -> . COLON RESULT_SET LPAREN STRING RPAREN
+    (73) query_into_stmt -> . COLON STRING INTO var_list
+    (79) query_with_stmt -> . COLON STRING WITH var_list
+    (80) query_with_into_stmt -> . COLON STRING WITH var_list INTO var_list
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+    (70) set -> . SET LPAREN STRING RPAREN
+    (19) rule -> . random_int
+    (20) rule -> . random_double
+    (21) rule -> . current_date
+    (22) rule -> . current_timestamp
+    (23) rule -> . random_string
+    (24) rule -> . sequence
+    (31) python_expr -> . PYTHON_EXP LPAREN STRING RPAREN
+    (83) for_start1 -> . FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE
+    (84) for_start2 -> . FOR ID IN RANGE LPAREN ID RPAREN LBRACE
+    (87) for_each_start -> . FOR EACH var_list LBRACE
+    (25) random_int -> . RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (26) random_double -> . RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (27) current_date -> . CURRENT_DATE LPAREN NUMBER RPAREN
+    (28) current_timestamp -> . CURRENT_TIMESTAMP LPAREN NUMBER RPAREN
+    (29) random_string -> . RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN
+    (30) sequence -> . SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN
+
+    RBRACE          reduce using rule 36 (init_body -> executable_stmts .)
+    NUMBER          shift and go to state 61
+    ID              shift and go to state 62
+    EXPECT_EQUAL    shift and go to state 63
+    EMBED_PYTHON    shift and go to state 67
+    COLON           shift and go to state 68
+    SET             shift and go to state 69
+    PYTHON_EXP      shift and go to state 76
+    FOR             shift and go to state 77
+    RAND_INT        shift and go to state 78
+    RAND_DOUBLE     shift and go to state 79
+    CURRENT_DATE    shift and go to state 80
+    CURRENT_TIMESTAMP shift and go to state 81
+    RAND_STRING     shift and go to state 82
+    SEQUENCE        shift and go to state 83
+
+    executable_stmt                shift and go to state 97
+    expression                     shift and go to state 46
+    assignment                     shift and go to state 47
+    assertion                      shift and go to state 48
+    for_stmt                       shift and go to state 49
+    for_each_stmt                  shift and go to state 50
+    embed_python_stmt              shift and go to state 51
+    query_stmt                     shift and go to state 52
+    result_set_query_stmt          shift and go to state 53
+    query_into_stmt                shift and go to state 54
+    query_with_stmt                shift and go to state 55
+    query_with_into_stmt           shift and go to state 56
+    var_name                       shift and go to state 57
+    set                            shift and go to state 58
+    rule                           shift and go to state 59
+    python_expr                    shift and go to state 60
+    for_start1                     shift and go to state 64
+    for_start2                     shift and go to state 65
+    for_each_start                 shift and go to state 66
+    random_int                     shift and go to state 70
+    random_double                  shift and go to state 71
+    current_date                   shift and go to state 72
+    current_timestamp              shift and go to state 73
+    random_string                  shift and go to state 74
+    sequence                       shift and go to state 75
+
+state 45
+
+    (49) executable_stmts -> executable_stmt .
+
+    NUMBER          reduce using rule 49 (executable_stmts -> executable_stmt .)
+    ID              reduce using rule 49 (executable_stmts -> executable_stmt .)
+    EXPECT_EQUAL    reduce using rule 49 (executable_stmts -> executable_stmt .)
+    EMBED_PYTHON    reduce using rule 49 (executable_stmts -> executable_stmt .)
+    COLON           reduce using rule 49 (executable_stmts -> executable_stmt .)
+    SET             reduce using rule 49 (executable_stmts -> executable_stmt .)
+    PYTHON_EXP      reduce using rule 49 (executable_stmts -> executable_stmt .)
+    FOR             reduce using rule 49 (executable_stmts -> executable_stmt .)
+    RAND_INT        reduce using rule 49 (executable_stmts -> executable_stmt .)
+    RAND_DOUBLE     reduce using rule 49 (executable_stmts -> executable_stmt .)
+    CURRENT_DATE    reduce using rule 49 (executable_stmts -> executable_stmt .)
+    CURRENT_TIMESTAMP reduce using rule 49 (executable_stmts -> executable_stmt .)
+    RAND_STRING     reduce using rule 49 (executable_stmts -> executable_stmt .)
+    SEQUENCE        reduce using rule 49 (executable_stmts -> executable_stmt .)
+    RBRACE          reduce using rule 49 (executable_stmts -> executable_stmt .)
+
+
+state 46
+
+    (51) executable_stmt -> expression . SEMICOLON
+
+    SEMICOLON       shift and go to state 98
+
+
+state 47
+
+    (52) executable_stmt -> assignment . SEMICOLON
+
+    SEMICOLON       shift and go to state 99
+
+
+state 48
+
+    (53) executable_stmt -> assertion . SEMICOLON
+
+    SEMICOLON       shift and go to state 100
+
+
+state 49
+
+    (54) executable_stmt -> for_stmt .
+
+    NUMBER          reduce using rule 54 (executable_stmt -> for_stmt .)
+    ID              reduce using rule 54 (executable_stmt -> for_stmt .)
+    EXPECT_EQUAL    reduce using rule 54 (executable_stmt -> for_stmt .)
+    EMBED_PYTHON    reduce using rule 54 (executable_stmt -> for_stmt .)
+    COLON           reduce using rule 54 (executable_stmt -> for_stmt .)
+    SET             reduce using rule 54 (executable_stmt -> for_stmt .)
+    PYTHON_EXP      reduce using rule 54 (executable_stmt -> for_stmt .)
+    FOR             reduce using rule 54 (executable_stmt -> for_stmt .)
+    RAND_INT        reduce using rule 54 (executable_stmt -> for_stmt .)
+    RAND_DOUBLE     reduce using rule 54 (executable_stmt -> for_stmt .)
+    CURRENT_DATE    reduce using rule 54 (executable_stmt -> for_stmt .)
+    CURRENT_TIMESTAMP reduce using rule 54 (executable_stmt -> for_stmt .)
+    RAND_STRING     reduce using rule 54 (executable_stmt -> for_stmt .)
+    SEQUENCE        reduce using rule 54 (executable_stmt -> for_stmt .)
+    RBRACE          reduce using rule 54 (executable_stmt -> for_stmt .)
+
+
+state 50
+
+    (55) executable_stmt -> for_each_stmt .
+
+    NUMBER          reduce using rule 55 (executable_stmt -> for_each_stmt .)
+    ID              reduce using rule 55 (executable_stmt -> for_each_stmt .)
+    EXPECT_EQUAL    reduce using rule 55 (executable_stmt -> for_each_stmt .)
+    EMBED_PYTHON    reduce using rule 55 (executable_stmt -> for_each_stmt .)
+    COLON           reduce using rule 55 (executable_stmt -> for_each_stmt .)
+    SET             reduce using rule 55 (executable_stmt -> for_each_stmt .)
+    PYTHON_EXP      reduce using rule 55 (executable_stmt -> for_each_stmt .)
+    FOR             reduce using rule 55 (executable_stmt -> for_each_stmt .)
+    RAND_INT        reduce using rule 55 (executable_stmt -> for_each_stmt .)
+    RAND_DOUBLE     reduce using rule 55 (executable_stmt -> for_each_stmt .)
+    CURRENT_DATE    reduce using rule 55 (executable_stmt -> for_each_stmt .)
+    CURRENT_TIMESTAMP reduce using rule 55 (executable_stmt -> for_each_stmt .)
+    RAND_STRING     reduce using rule 55 (executable_stmt -> for_each_stmt .)
+    SEQUENCE        reduce using rule 55 (executable_stmt -> for_each_stmt .)
+    RBRACE          reduce using rule 55 (executable_stmt -> for_each_stmt .)
+
+
+state 51
+
+    (56) executable_stmt -> embed_python_stmt . SEMICOLON
+
+    SEMICOLON       shift and go to state 101
+
+
+state 52
+
+    (60) expression -> query_stmt .
+
+    SEMICOLON       reduce using rule 60 (expression -> query_stmt .)
+    COMMA           reduce using rule 60 (expression -> query_stmt .)
+    RPAREN          reduce using rule 60 (expression -> query_stmt .)
+
+
+state 53
+
+    (61) expression -> result_set_query_stmt .
+
+    SEMICOLON       reduce using rule 61 (expression -> result_set_query_stmt .)
+    COMMA           reduce using rule 61 (expression -> result_set_query_stmt .)
+    RPAREN          reduce using rule 61 (expression -> result_set_query_stmt .)
+
+
+state 54
+
+    (62) expression -> query_into_stmt .
+
+    SEMICOLON       reduce using rule 62 (expression -> query_into_stmt .)
+    COMMA           reduce using rule 62 (expression -> query_into_stmt .)
+    RPAREN          reduce using rule 62 (expression -> query_into_stmt .)
+
+
+state 55
+
+    (63) expression -> query_with_stmt .
+
+    SEMICOLON       reduce using rule 63 (expression -> query_with_stmt .)
+    COMMA           reduce using rule 63 (expression -> query_with_stmt .)
+    RPAREN          reduce using rule 63 (expression -> query_with_stmt .)
+
+
+state 56
+
+    (64) expression -> query_with_into_stmt .
+
+    SEMICOLON       reduce using rule 64 (expression -> query_with_into_stmt .)
+    COMMA           reduce using rule 64 (expression -> query_with_into_stmt .)
+    RPAREN          reduce using rule 64 (expression -> query_with_into_stmt .)
+
+
+state 57
+
+    (65) expression -> var_name .
+
+    SEMICOLON       reduce using rule 65 (expression -> var_name .)
+    COMMA           reduce using rule 65 (expression -> var_name .)
+    RPAREN          reduce using rule 65 (expression -> var_name .)
+
+
+state 58
+
+    (66) expression -> set .
+
+    SEMICOLON       reduce using rule 66 (expression -> set .)
+    COMMA           reduce using rule 66 (expression -> set .)
+    RPAREN          reduce using rule 66 (expression -> set .)
+
+
+state 59
+
+    (67) expression -> rule .
+
+    SEMICOLON       reduce using rule 67 (expression -> rule .)
+    COMMA           reduce using rule 67 (expression -> rule .)
+    RPAREN          reduce using rule 67 (expression -> rule .)
+
+
+state 60
+
+    (68) expression -> python_expr .
+
+    SEMICOLON       reduce using rule 68 (expression -> python_expr .)
+    COMMA           reduce using rule 68 (expression -> python_expr .)
+    RPAREN          reduce using rule 68 (expression -> python_expr .)
+
+
+state 61
+
+    (69) expression -> NUMBER .
+
+    SEMICOLON       reduce using rule 69 (expression -> NUMBER .)
+    COMMA           reduce using rule 69 (expression -> NUMBER .)
+    RPAREN          reduce using rule 69 (expression -> NUMBER .)
+
+
+state 62
+
+    (58) assignment -> ID . EQUAL expression
+    (59) assignment -> ID . EQUAL shared_var
+    (74) var_name -> ID .
+    (75) var_name -> ID . LBRACKET NUMBER RBRACKET
+    (76) var_name -> ID . LBRACKET ID RBRACKET
+
+    EQUAL           shift and go to state 102
+    SEMICOLON       reduce using rule 74 (var_name -> ID .)
+    LBRACKET        shift and go to state 103
+
+
+state 63
+
+    (57) assertion -> EXPECT_EQUAL . LPAREN expression COMMA expression RPAREN
+
+    LPAREN          shift and go to state 104
+
+
+state 64
+
+    (81) for_stmt -> for_start1 . executable_stmts for_end
+    (49) executable_stmts -> . executable_stmt
+    (50) executable_stmts -> . executable_stmts executable_stmt
+    (51) executable_stmt -> . expression SEMICOLON
+    (52) executable_stmt -> . assignment SEMICOLON
+    (53) executable_stmt -> . assertion SEMICOLON
+    (54) executable_stmt -> . for_stmt
+    (55) executable_stmt -> . for_each_stmt
+    (56) executable_stmt -> . embed_python_stmt SEMICOLON
+    (60) expression -> . query_stmt
+    (61) expression -> . result_set_query_stmt
+    (62) expression -> . query_into_stmt
+    (63) expression -> . query_with_stmt
+    (64) expression -> . query_with_into_stmt
+    (65) expression -> . var_name
+    (66) expression -> . set
+    (67) expression -> . rule
+    (68) expression -> . python_expr
+    (69) expression -> . NUMBER
+    (58) assignment -> . ID EQUAL expression
+    (59) assignment -> . ID EQUAL shared_var
+    (57) assertion -> . EXPECT_EQUAL LPAREN expression COMMA expression RPAREN
+    (81) for_stmt -> . for_start1 executable_stmts for_end
+    (82) for_stmt -> . for_start2 executable_stmts for_end
+    (86) for_each_stmt -> . for_each_start executable_stmts for_each_end
+    (89) embed_python_stmt -> . EMBED_PYTHON LPAREN STRING RPAREN
+    (71) query_stmt -> . COLON STRING
+    (72) result_set_query_stmt -> . COLON RESULT_SET LPAREN STRING RPAREN
+    (73) query_into_stmt -> . COLON STRING INTO var_list
+    (79) query_with_stmt -> . COLON STRING WITH var_list
+    (80) query_with_into_stmt -> . COLON STRING WITH var_list INTO var_list
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+    (70) set -> . SET LPAREN STRING RPAREN
+    (19) rule -> . random_int
+    (20) rule -> . random_double
+    (21) rule -> . current_date
+    (22) rule -> . current_timestamp
+    (23) rule -> . random_string
+    (24) rule -> . sequence
+    (31) python_expr -> . PYTHON_EXP LPAREN STRING RPAREN
+    (83) for_start1 -> . FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE
+    (84) for_start2 -> . FOR ID IN RANGE LPAREN ID RPAREN LBRACE
+    (87) for_each_start -> . FOR EACH var_list LBRACE
+    (25) random_int -> . RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (26) random_double -> . RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (27) current_date -> . CURRENT_DATE LPAREN NUMBER RPAREN
+    (28) current_timestamp -> . CURRENT_TIMESTAMP LPAREN NUMBER RPAREN
+    (29) random_string -> . RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN
+    (30) sequence -> . SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 61
+    ID              shift and go to state 62
+    EXPECT_EQUAL    shift and go to state 63
+    EMBED_PYTHON    shift and go to state 67
+    COLON           shift and go to state 68
+    SET             shift and go to state 69
+    PYTHON_EXP      shift and go to state 76
+    FOR             shift and go to state 77
+    RAND_INT        shift and go to state 78
+    RAND_DOUBLE     shift and go to state 79
+    CURRENT_DATE    shift and go to state 80
+    CURRENT_TIMESTAMP shift and go to state 81
+    RAND_STRING     shift and go to state 82
+    SEQUENCE        shift and go to state 83
+
+    for_start1                     shift and go to state 64
+    executable_stmts               shift and go to state 105
+    executable_stmt                shift and go to state 45
+    expression                     shift and go to state 46
+    assignment                     shift and go to state 47
+    assertion                      shift and go to state 48
+    for_stmt                       shift and go to state 49
+    for_each_stmt                  shift and go to state 50
+    embed_python_stmt              shift and go to state 51
+    query_stmt                     shift and go to state 52
+    result_set_query_stmt          shift and go to state 53
+    query_into_stmt                shift and go to state 54
+    query_with_stmt                shift and go to state 55
+    query_with_into_stmt           shift and go to state 56
+    var_name                       shift and go to state 57
+    set                            shift and go to state 58
+    rule                           shift and go to state 59
+    python_expr                    shift and go to state 60
+    for_start2                     shift and go to state 65
+    for_each_start                 shift and go to state 66
+    random_int                     shift and go to state 70
+    random_double                  shift and go to state 71
+    current_date                   shift and go to state 72
+    current_timestamp              shift and go to state 73
+    random_string                  shift and go to state 74
+    sequence                       shift and go to state 75
+
+state 65
+
+    (82) for_stmt -> for_start2 . executable_stmts for_end
+    (49) executable_stmts -> . executable_stmt
+    (50) executable_stmts -> . executable_stmts executable_stmt
+    (51) executable_stmt -> . expression SEMICOLON
+    (52) executable_stmt -> . assignment SEMICOLON
+    (53) executable_stmt -> . assertion SEMICOLON
+    (54) executable_stmt -> . for_stmt
+    (55) executable_stmt -> . for_each_stmt
+    (56) executable_stmt -> . embed_python_stmt SEMICOLON
+    (60) expression -> . query_stmt
+    (61) expression -> . result_set_query_stmt
+    (62) expression -> . query_into_stmt
+    (63) expression -> . query_with_stmt
+    (64) expression -> . query_with_into_stmt
+    (65) expression -> . var_name
+    (66) expression -> . set
+    (67) expression -> . rule
+    (68) expression -> . python_expr
+    (69) expression -> . NUMBER
+    (58) assignment -> . ID EQUAL expression
+    (59) assignment -> . ID EQUAL shared_var
+    (57) assertion -> . EXPECT_EQUAL LPAREN expression COMMA expression RPAREN
+    (81) for_stmt -> . for_start1 executable_stmts for_end
+    (82) for_stmt -> . for_start2 executable_stmts for_end
+    (86) for_each_stmt -> . for_each_start executable_stmts for_each_end
+    (89) embed_python_stmt -> . EMBED_PYTHON LPAREN STRING RPAREN
+    (71) query_stmt -> . COLON STRING
+    (72) result_set_query_stmt -> . COLON RESULT_SET LPAREN STRING RPAREN
+    (73) query_into_stmt -> . COLON STRING INTO var_list
+    (79) query_with_stmt -> . COLON STRING WITH var_list
+    (80) query_with_into_stmt -> . COLON STRING WITH var_list INTO var_list
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+    (70) set -> . SET LPAREN STRING RPAREN
+    (19) rule -> . random_int
+    (20) rule -> . random_double
+    (21) rule -> . current_date
+    (22) rule -> . current_timestamp
+    (23) rule -> . random_string
+    (24) rule -> . sequence
+    (31) python_expr -> . PYTHON_EXP LPAREN STRING RPAREN
+    (83) for_start1 -> . FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE
+    (84) for_start2 -> . FOR ID IN RANGE LPAREN ID RPAREN LBRACE
+    (87) for_each_start -> . FOR EACH var_list LBRACE
+    (25) random_int -> . RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (26) random_double -> . RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (27) current_date -> . CURRENT_DATE LPAREN NUMBER RPAREN
+    (28) current_timestamp -> . CURRENT_TIMESTAMP LPAREN NUMBER RPAREN
+    (29) random_string -> . RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN
+    (30) sequence -> . SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 61
+    ID              shift and go to state 62
+    EXPECT_EQUAL    shift and go to state 63
+    EMBED_PYTHON    shift and go to state 67
+    COLON           shift and go to state 68
+    SET             shift and go to state 69
+    PYTHON_EXP      shift and go to state 76
+    FOR             shift and go to state 77
+    RAND_INT        shift and go to state 78
+    RAND_DOUBLE     shift and go to state 79
+    CURRENT_DATE    shift and go to state 80
+    CURRENT_TIMESTAMP shift and go to state 81
+    RAND_STRING     shift and go to state 82
+    SEQUENCE        shift and go to state 83
+
+    for_start2                     shift and go to state 65
+    executable_stmts               shift and go to state 106
+    executable_stmt                shift and go to state 45
+    expression                     shift and go to state 46
+    assignment                     shift and go to state 47
+    assertion                      shift and go to state 48
+    for_stmt                       shift and go to state 49
+    for_each_stmt                  shift and go to state 50
+    embed_python_stmt              shift and go to state 51
+    query_stmt                     shift and go to state 52
+    result_set_query_stmt          shift and go to state 53
+    query_into_stmt                shift and go to state 54
+    query_with_stmt                shift and go to state 55
+    query_with_into_stmt           shift and go to state 56
+    var_name                       shift and go to state 57
+    set                            shift and go to state 58
+    rule                           shift and go to state 59
+    python_expr                    shift and go to state 60
+    for_start1                     shift and go to state 64
+    for_each_start                 shift and go to state 66
+    random_int                     shift and go to state 70
+    random_double                  shift and go to state 71
+    current_date                   shift and go to state 72
+    current_timestamp              shift and go to state 73
+    random_string                  shift and go to state 74
+    sequence                       shift and go to state 75
+
+state 66
+
+    (86) for_each_stmt -> for_each_start . executable_stmts for_each_end
+    (49) executable_stmts -> . executable_stmt
+    (50) executable_stmts -> . executable_stmts executable_stmt
+    (51) executable_stmt -> . expression SEMICOLON
+    (52) executable_stmt -> . assignment SEMICOLON
+    (53) executable_stmt -> . assertion SEMICOLON
+    (54) executable_stmt -> . for_stmt
+    (55) executable_stmt -> . for_each_stmt
+    (56) executable_stmt -> . embed_python_stmt SEMICOLON
+    (60) expression -> . query_stmt
+    (61) expression -> . result_set_query_stmt
+    (62) expression -> . query_into_stmt
+    (63) expression -> . query_with_stmt
+    (64) expression -> . query_with_into_stmt
+    (65) expression -> . var_name
+    (66) expression -> . set
+    (67) expression -> . rule
+    (68) expression -> . python_expr
+    (69) expression -> . NUMBER
+    (58) assignment -> . ID EQUAL expression
+    (59) assignment -> . ID EQUAL shared_var
+    (57) assertion -> . EXPECT_EQUAL LPAREN expression COMMA expression RPAREN
+    (81) for_stmt -> . for_start1 executable_stmts for_end
+    (82) for_stmt -> . for_start2 executable_stmts for_end
+    (86) for_each_stmt -> . for_each_start executable_stmts for_each_end
+    (89) embed_python_stmt -> . EMBED_PYTHON LPAREN STRING RPAREN
+    (71) query_stmt -> . COLON STRING
+    (72) result_set_query_stmt -> . COLON RESULT_SET LPAREN STRING RPAREN
+    (73) query_into_stmt -> . COLON STRING INTO var_list
+    (79) query_with_stmt -> . COLON STRING WITH var_list
+    (80) query_with_into_stmt -> . COLON STRING WITH var_list INTO var_list
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+    (70) set -> . SET LPAREN STRING RPAREN
+    (19) rule -> . random_int
+    (20) rule -> . random_double
+    (21) rule -> . current_date
+    (22) rule -> . current_timestamp
+    (23) rule -> . random_string
+    (24) rule -> . sequence
+    (31) python_expr -> . PYTHON_EXP LPAREN STRING RPAREN
+    (83) for_start1 -> . FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE
+    (84) for_start2 -> . FOR ID IN RANGE LPAREN ID RPAREN LBRACE
+    (87) for_each_start -> . FOR EACH var_list LBRACE
+    (25) random_int -> . RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (26) random_double -> . RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (27) current_date -> . CURRENT_DATE LPAREN NUMBER RPAREN
+    (28) current_timestamp -> . CURRENT_TIMESTAMP LPAREN NUMBER RPAREN
+    (29) random_string -> . RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN
+    (30) sequence -> . SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 61
+    ID              shift and go to state 62
+    EXPECT_EQUAL    shift and go to state 63
+    EMBED_PYTHON    shift and go to state 67
+    COLON           shift and go to state 68
+    SET             shift and go to state 69
+    PYTHON_EXP      shift and go to state 76
+    FOR             shift and go to state 77
+    RAND_INT        shift and go to state 78
+    RAND_DOUBLE     shift and go to state 79
+    CURRENT_DATE    shift and go to state 80
+    CURRENT_TIMESTAMP shift and go to state 81
+    RAND_STRING     shift and go to state 82
+    SEQUENCE        shift and go to state 83
+
+    for_each_start                 shift and go to state 66
+    executable_stmts               shift and go to state 107
+    executable_stmt                shift and go to state 45
+    expression                     shift and go to state 46
+    assignment                     shift and go to state 47
+    assertion                      shift and go to state 48
+    for_stmt                       shift and go to state 49
+    for_each_stmt                  shift and go to state 50
+    embed_python_stmt              shift and go to state 51
+    query_stmt                     shift and go to state 52
+    result_set_query_stmt          shift and go to state 53
+    query_into_stmt                shift and go to state 54
+    query_with_stmt                shift and go to state 55
+    query_with_into_stmt           shift and go to state 56
+    var_name                       shift and go to state 57
+    set                            shift and go to state 58
+    rule                           shift and go to state 59
+    python_expr                    shift and go to state 60
+    for_start1                     shift and go to state 64
+    for_start2                     shift and go to state 65
+    random_int                     shift and go to state 70
+    random_double                  shift and go to state 71
+    current_date                   shift and go to state 72
+    current_timestamp              shift and go to state 73
+    random_string                  shift and go to state 74
+    sequence                       shift and go to state 75
+
+state 67
+
+    (89) embed_python_stmt -> EMBED_PYTHON . LPAREN STRING RPAREN
+
+    LPAREN          shift and go to state 108
+
+
+state 68
+
+    (71) query_stmt -> COLON . STRING
+    (72) result_set_query_stmt -> COLON . RESULT_SET LPAREN STRING RPAREN
+    (73) query_into_stmt -> COLON . STRING INTO var_list
+    (79) query_with_stmt -> COLON . STRING WITH var_list
+    (80) query_with_into_stmt -> COLON . STRING WITH var_list INTO var_list
+
+    STRING          shift and go to state 109
+    RESULT_SET      shift and go to state 110
+
+
+state 69
+
+    (70) set -> SET . LPAREN STRING RPAREN
+
+    LPAREN          shift and go to state 111
+
+
+state 70
+
+    (19) rule -> random_int .
+
+    SEMICOLON       reduce using rule 19 (rule -> random_int .)
+    RBRACE          reduce using rule 19 (rule -> random_int .)
+    ID              reduce using rule 19 (rule -> random_int .)
+    COMMA           reduce using rule 19 (rule -> random_int .)
+    RPAREN          reduce using rule 19 (rule -> random_int .)
+
+
+state 71
+
+    (20) rule -> random_double .
+
+    SEMICOLON       reduce using rule 20 (rule -> random_double .)
+    RBRACE          reduce using rule 20 (rule -> random_double .)
+    ID              reduce using rule 20 (rule -> random_double .)
+    COMMA           reduce using rule 20 (rule -> random_double .)
+    RPAREN          reduce using rule 20 (rule -> random_double .)
+
+
+state 72
+
+    (21) rule -> current_date .
+
+    SEMICOLON       reduce using rule 21 (rule -> current_date .)
+    RBRACE          reduce using rule 21 (rule -> current_date .)
+    ID              reduce using rule 21 (rule -> current_date .)
+    COMMA           reduce using rule 21 (rule -> current_date .)
+    RPAREN          reduce using rule 21 (rule -> current_date .)
+
+
+state 73
+
+    (22) rule -> current_timestamp .
+
+    SEMICOLON       reduce using rule 22 (rule -> current_timestamp .)
+    RBRACE          reduce using rule 22 (rule -> current_timestamp .)
+    ID              reduce using rule 22 (rule -> current_timestamp .)
+    COMMA           reduce using rule 22 (rule -> current_timestamp .)
+    RPAREN          reduce using rule 22 (rule -> current_timestamp .)
+
+
+state 74
+
+    (23) rule -> random_string .
+
+    SEMICOLON       reduce using rule 23 (rule -> random_string .)
+    RBRACE          reduce using rule 23 (rule -> random_string .)
+    ID              reduce using rule 23 (rule -> random_string .)
+    COMMA           reduce using rule 23 (rule -> random_string .)
+    RPAREN          reduce using rule 23 (rule -> random_string .)
+
+
+state 75
+
+    (24) rule -> sequence .
+
+    SEMICOLON       reduce using rule 24 (rule -> sequence .)
+    RBRACE          reduce using rule 24 (rule -> sequence .)
+    ID              reduce using rule 24 (rule -> sequence .)
+    COMMA           reduce using rule 24 (rule -> sequence .)
+    RPAREN          reduce using rule 24 (rule -> sequence .)
+
+
+state 76
+
+    (31) python_expr -> PYTHON_EXP . LPAREN STRING RPAREN
+
+    LPAREN          shift and go to state 112
+
+
+state 77
+
+    (83) for_start1 -> FOR . ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE
+    (84) for_start2 -> FOR . ID IN RANGE LPAREN ID RPAREN LBRACE
+    (87) for_each_start -> FOR . EACH var_list LBRACE
+
+    ID              shift and go to state 113
+    EACH            shift and go to state 114
+
+
+state 78
+
+    (25) random_int -> RAND_INT . LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+
+    LPAREN          shift and go to state 115
+
+
+state 79
+
+    (26) random_double -> RAND_DOUBLE . LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+
+    LPAREN          shift and go to state 116
+
+
+state 80
+
+    (27) current_date -> CURRENT_DATE . LPAREN NUMBER RPAREN
+
+    LPAREN          shift and go to state 117
+
+
+state 81
+
+    (28) current_timestamp -> CURRENT_TIMESTAMP . LPAREN NUMBER RPAREN
+
+    LPAREN          shift and go to state 118
+
+
+state 82
+
+    (29) random_string -> RAND_STRING . LPAREN NUMBER COMMA NUMBER RPAREN
+
+    LPAREN          shift and go to state 119
+
+
+state 83
+
+    (30) sequence -> SEQUENCE . LPAREN NUMBER COMMA NUMBER RPAREN
+
+    LPAREN          shift and go to state 120
+
+
+state 84
+
+    (11) case_body -> dynamic_param_stmt init_stmt do_stmt undo_stmt . final_check_stmt
+    (45) final_check_stmt -> . FINAL_CHECK final_check_start final_body final_check_end
+
+    FINAL_CHECK     shift and go to state 86
+
+    final_check_stmt               shift and go to state 121
+
+state 85
+
+    (12) case_body -> init_stmt do_stmt undo_stmt final_check_stmt .
+
+    RBRACE          reduce using rule 12 (case_body -> init_stmt do_stmt undo_stmt final_check_stmt .)
+
+
+state 86
+
+    (45) final_check_stmt -> FINAL_CHECK . final_check_start final_body final_check_end
+    (46) final_check_start -> . LBRACE
+
+    LBRACE          shift and go to state 123
+
+    final_check_start              shift and go to state 122
+
+state 87
+
+    (41) undo_stmt -> UNDO undo_start . undo_body undo_end
+    (44) undo_body -> . executable_stmts
+    (49) executable_stmts -> . executable_stmt
+    (50) executable_stmts -> . executable_stmts executable_stmt
+    (51) executable_stmt -> . expression SEMICOLON
+    (52) executable_stmt -> . assignment SEMICOLON
+    (53) executable_stmt -> . assertion SEMICOLON
+    (54) executable_stmt -> . for_stmt
+    (55) executable_stmt -> . for_each_stmt
+    (56) executable_stmt -> . embed_python_stmt SEMICOLON
+    (60) expression -> . query_stmt
+    (61) expression -> . result_set_query_stmt
+    (62) expression -> . query_into_stmt
+    (63) expression -> . query_with_stmt
+    (64) expression -> . query_with_into_stmt
+    (65) expression -> . var_name
+    (66) expression -> . set
+    (67) expression -> . rule
+    (68) expression -> . python_expr
+    (69) expression -> . NUMBER
+    (58) assignment -> . ID EQUAL expression
+    (59) assignment -> . ID EQUAL shared_var
+    (57) assertion -> . EXPECT_EQUAL LPAREN expression COMMA expression RPAREN
+    (81) for_stmt -> . for_start1 executable_stmts for_end
+    (82) for_stmt -> . for_start2 executable_stmts for_end
+    (86) for_each_stmt -> . for_each_start executable_stmts for_each_end
+    (89) embed_python_stmt -> . EMBED_PYTHON LPAREN STRING RPAREN
+    (71) query_stmt -> . COLON STRING
+    (72) result_set_query_stmt -> . COLON RESULT_SET LPAREN STRING RPAREN
+    (73) query_into_stmt -> . COLON STRING INTO var_list
+    (79) query_with_stmt -> . COLON STRING WITH var_list
+    (80) query_with_into_stmt -> . COLON STRING WITH var_list INTO var_list
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+    (70) set -> . SET LPAREN STRING RPAREN
+    (19) rule -> . random_int
+    (20) rule -> . random_double
+    (21) rule -> . current_date
+    (22) rule -> . current_timestamp
+    (23) rule -> . random_string
+    (24) rule -> . sequence
+    (31) python_expr -> . PYTHON_EXP LPAREN STRING RPAREN
+    (83) for_start1 -> . FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE
+    (84) for_start2 -> . FOR ID IN RANGE LPAREN ID RPAREN LBRACE
+    (87) for_each_start -> . FOR EACH var_list LBRACE
+    (25) random_int -> . RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (26) random_double -> . RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (27) current_date -> . CURRENT_DATE LPAREN NUMBER RPAREN
+    (28) current_timestamp -> . CURRENT_TIMESTAMP LPAREN NUMBER RPAREN
+    (29) random_string -> . RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN
+    (30) sequence -> . SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 61
+    ID              shift and go to state 62
+    EXPECT_EQUAL    shift and go to state 63
+    EMBED_PYTHON    shift and go to state 67
+    COLON           shift and go to state 68
+    SET             shift and go to state 69
+    PYTHON_EXP      shift and go to state 76
+    FOR             shift and go to state 77
+    RAND_INT        shift and go to state 78
+    RAND_DOUBLE     shift and go to state 79
+    CURRENT_DATE    shift and go to state 80
+    CURRENT_TIMESTAMP shift and go to state 81
+    RAND_STRING     shift and go to state 82
+    SEQUENCE        shift and go to state 83
+
+    undo_body                      shift and go to state 124
+    executable_stmts               shift and go to state 125
+    executable_stmt                shift and go to state 45
+    expression                     shift and go to state 46
+    assignment                     shift and go to state 47
+    assertion                      shift and go to state 48
+    for_stmt                       shift and go to state 49
+    for_each_stmt                  shift and go to state 50
+    embed_python_stmt              shift and go to state 51
+    query_stmt                     shift and go to state 52
+    result_set_query_stmt          shift and go to state 53
+    query_into_stmt                shift and go to state 54
+    query_with_stmt                shift and go to state 55
+    query_with_into_stmt           shift and go to state 56
+    var_name                       shift and go to state 57
+    set                            shift and go to state 58
+    rule                           shift and go to state 59
+    python_expr                    shift and go to state 60
+    for_start1                     shift and go to state 64
+    for_start2                     shift and go to state 65
+    for_each_start                 shift and go to state 66
+    random_int                     shift and go to state 70
+    random_double                  shift and go to state 71
+    current_date                   shift and go to state 72
+    current_timestamp              shift and go to state 73
+    random_string                  shift and go to state 74
+    sequence                       shift and go to state 75
+
+state 88
+
+    (42) undo_start -> LBRACE .
+
+    NUMBER          reduce using rule 42 (undo_start -> LBRACE .)
+    ID              reduce using rule 42 (undo_start -> LBRACE .)
+    EXPECT_EQUAL    reduce using rule 42 (undo_start -> LBRACE .)
+    EMBED_PYTHON    reduce using rule 42 (undo_start -> LBRACE .)
+    COLON           reduce using rule 42 (undo_start -> LBRACE .)
+    SET             reduce using rule 42 (undo_start -> LBRACE .)
+    PYTHON_EXP      reduce using rule 42 (undo_start -> LBRACE .)
+    FOR             reduce using rule 42 (undo_start -> LBRACE .)
+    RAND_INT        reduce using rule 42 (undo_start -> LBRACE .)
+    RAND_DOUBLE     reduce using rule 42 (undo_start -> LBRACE .)
+    CURRENT_DATE    reduce using rule 42 (undo_start -> LBRACE .)
+    CURRENT_TIMESTAMP reduce using rule 42 (undo_start -> LBRACE .)
+    RAND_STRING     reduce using rule 42 (undo_start -> LBRACE .)
+    SEQUENCE        reduce using rule 42 (undo_start -> LBRACE .)
+
+
+state 89
+
+    (37) do_stmt -> DO do_start do_body . do_end
+    (39) do_end -> . RBRACE
+
+    RBRACE          shift and go to state 127
+
+    do_end                         shift and go to state 126
+
+state 90
+
+    (40) do_body -> executable_stmts .
+    (50) executable_stmts -> executable_stmts . executable_stmt
+    (51) executable_stmt -> . expression SEMICOLON
+    (52) executable_stmt -> . assignment SEMICOLON
+    (53) executable_stmt -> . assertion SEMICOLON
+    (54) executable_stmt -> . for_stmt
+    (55) executable_stmt -> . for_each_stmt
+    (56) executable_stmt -> . embed_python_stmt SEMICOLON
+    (60) expression -> . query_stmt
+    (61) expression -> . result_set_query_stmt
+    (62) expression -> . query_into_stmt
+    (63) expression -> . query_with_stmt
+    (64) expression -> . query_with_into_stmt
+    (65) expression -> . var_name
+    (66) expression -> . set
+    (67) expression -> . rule
+    (68) expression -> . python_expr
+    (69) expression -> . NUMBER
+    (58) assignment -> . ID EQUAL expression
+    (59) assignment -> . ID EQUAL shared_var
+    (57) assertion -> . EXPECT_EQUAL LPAREN expression COMMA expression RPAREN
+    (81) for_stmt -> . for_start1 executable_stmts for_end
+    (82) for_stmt -> . for_start2 executable_stmts for_end
+    (86) for_each_stmt -> . for_each_start executable_stmts for_each_end
+    (89) embed_python_stmt -> . EMBED_PYTHON LPAREN STRING RPAREN
+    (71) query_stmt -> . COLON STRING
+    (72) result_set_query_stmt -> . COLON RESULT_SET LPAREN STRING RPAREN
+    (73) query_into_stmt -> . COLON STRING INTO var_list
+    (79) query_with_stmt -> . COLON STRING WITH var_list
+    (80) query_with_into_stmt -> . COLON STRING WITH var_list INTO var_list
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+    (70) set -> . SET LPAREN STRING RPAREN
+    (19) rule -> . random_int
+    (20) rule -> . random_double
+    (21) rule -> . current_date
+    (22) rule -> . current_timestamp
+    (23) rule -> . random_string
+    (24) rule -> . sequence
+    (31) python_expr -> . PYTHON_EXP LPAREN STRING RPAREN
+    (83) for_start1 -> . FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE
+    (84) for_start2 -> . FOR ID IN RANGE LPAREN ID RPAREN LBRACE
+    (87) for_each_start -> . FOR EACH var_list LBRACE
+    (25) random_int -> . RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (26) random_double -> . RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (27) current_date -> . CURRENT_DATE LPAREN NUMBER RPAREN
+    (28) current_timestamp -> . CURRENT_TIMESTAMP LPAREN NUMBER RPAREN
+    (29) random_string -> . RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN
+    (30) sequence -> . SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN
+
+    RBRACE          reduce using rule 40 (do_body -> executable_stmts .)
+    NUMBER          shift and go to state 61
+    ID              shift and go to state 62
+    EXPECT_EQUAL    shift and go to state 63
+    EMBED_PYTHON    shift and go to state 67
+    COLON           shift and go to state 68
+    SET             shift and go to state 69
+    PYTHON_EXP      shift and go to state 76
+    FOR             shift and go to state 77
+    RAND_INT        shift and go to state 78
+    RAND_DOUBLE     shift and go to state 79
+    CURRENT_DATE    shift and go to state 80
+    CURRENT_TIMESTAMP shift and go to state 81
+    RAND_STRING     shift and go to state 82
+    SEQUENCE        shift and go to state 83
+
+    executable_stmt                shift and go to state 97
+    expression                     shift and go to state 46
+    assignment                     shift and go to state 47
+    assertion                      shift and go to state 48
+    for_stmt                       shift and go to state 49
+    for_each_stmt                  shift and go to state 50
+    embed_python_stmt              shift and go to state 51
+    query_stmt                     shift and go to state 52
+    result_set_query_stmt          shift and go to state 53
+    query_into_stmt                shift and go to state 54
+    query_with_stmt                shift and go to state 55
+    query_with_into_stmt           shift and go to state 56
+    var_name                       shift and go to state 57
+    set                            shift and go to state 58
+    rule                           shift and go to state 59
+    python_expr                    shift and go to state 60
+    for_start1                     shift and go to state 64
+    for_start2                     shift and go to state 65
+    for_each_start                 shift and go to state 66
+    random_int                     shift and go to state 70
+    random_double                  shift and go to state 71
+    current_date                   shift and go to state 72
+    current_timestamp              shift and go to state 73
+    random_string                  shift and go to state 74
+    sequence                       shift and go to state 75
+
+state 91
+
+    (13) dynamic_param_stmt -> DYNAMIC_PARAM d_start dynamic_var_declarations d_end .
+
+    INIT            reduce using rule 13 (dynamic_param_stmt -> DYNAMIC_PARAM d_start dynamic_var_declarations d_end .)
+
+
+state 92
+
+    (16) dynamic_var_declarations -> dynamic_var_declarations dynamic_var_declaration .
+
+    RBRACE          reduce using rule 16 (dynamic_var_declarations -> dynamic_var_declarations dynamic_var_declaration .)
+    ID              reduce using rule 16 (dynamic_var_declarations -> dynamic_var_declarations dynamic_var_declaration .)
+
+
+state 93
+
+    (15) d_end -> RBRACE .
+
+    INIT            reduce using rule 15 (d_end -> RBRACE .)
+
+
+state 94
+
+    (18) dynamic_var_declaration -> ID EQUAL . rule
+    (19) rule -> . random_int
+    (20) rule -> . random_double
+    (21) rule -> . current_date
+    (22) rule -> . current_timestamp
+    (23) rule -> . random_string
+    (24) rule -> . sequence
+    (25) random_int -> . RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (26) random_double -> . RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (27) current_date -> . CURRENT_DATE LPAREN NUMBER RPAREN
+    (28) current_timestamp -> . CURRENT_TIMESTAMP LPAREN NUMBER RPAREN
+    (29) random_string -> . RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN
+    (30) sequence -> . SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN
+
+    RAND_INT        shift and go to state 78
+    RAND_DOUBLE     shift and go to state 79
+    CURRENT_DATE    shift and go to state 80
+    CURRENT_TIMESTAMP shift and go to state 81
+    RAND_STRING     shift and go to state 82
+    SEQUENCE        shift and go to state 83
+
+    rule                           shift and go to state 128
+    random_int                     shift and go to state 70
+    random_double                  shift and go to state 71
+    current_date                   shift and go to state 72
+    current_timestamp              shift and go to state 73
+    random_string                  shift and go to state 74
+    sequence                       shift and go to state 75
+
+state 95
+
+    (33) init_stmt -> INIT init_start init_body init_end .
+
+    DO              reduce using rule 33 (init_stmt -> INIT init_start init_body init_end .)
+
+
+state 96
+
+    (35) init_end -> RBRACE .
+
+    DO              reduce using rule 35 (init_end -> RBRACE .)
+
+
+state 97
+
+    (50) executable_stmts -> executable_stmts executable_stmt .
+
+    NUMBER          reduce using rule 50 (executable_stmts -> executable_stmts executable_stmt .)
+    ID              reduce using rule 50 (executable_stmts -> executable_stmts executable_stmt .)
+    EXPECT_EQUAL    reduce using rule 50 (executable_stmts -> executable_stmts executable_stmt .)
+    EMBED_PYTHON    reduce using rule 50 (executable_stmts -> executable_stmts executable_stmt .)
+    COLON           reduce using rule 50 (executable_stmts -> executable_stmts executable_stmt .)
+    SET             reduce using rule 50 (executable_stmts -> executable_stmts executable_stmt .)
+    PYTHON_EXP      reduce using rule 50 (executable_stmts -> executable_stmts executable_stmt .)
+    FOR             reduce using rule 50 (executable_stmts -> executable_stmts executable_stmt .)
+    RAND_INT        reduce using rule 50 (executable_stmts -> executable_stmts executable_stmt .)
+    RAND_DOUBLE     reduce using rule 50 (executable_stmts -> executable_stmts executable_stmt .)
+    CURRENT_DATE    reduce using rule 50 (executable_stmts -> executable_stmts executable_stmt .)
+    CURRENT_TIMESTAMP reduce using rule 50 (executable_stmts -> executable_stmts executable_stmt .)
+    RAND_STRING     reduce using rule 50 (executable_stmts -> executable_stmts executable_stmt .)
+    SEQUENCE        reduce using rule 50 (executable_stmts -> executable_stmts executable_stmt .)
+    RBRACE          reduce using rule 50 (executable_stmts -> executable_stmts executable_stmt .)
+
+
+state 98
+
+    (51) executable_stmt -> expression SEMICOLON .
+
+    NUMBER          reduce using rule 51 (executable_stmt -> expression SEMICOLON .)
+    ID              reduce using rule 51 (executable_stmt -> expression SEMICOLON .)
+    EXPECT_EQUAL    reduce using rule 51 (executable_stmt -> expression SEMICOLON .)
+    EMBED_PYTHON    reduce using rule 51 (executable_stmt -> expression SEMICOLON .)
+    COLON           reduce using rule 51 (executable_stmt -> expression SEMICOLON .)
+    SET             reduce using rule 51 (executable_stmt -> expression SEMICOLON .)
+    PYTHON_EXP      reduce using rule 51 (executable_stmt -> expression SEMICOLON .)
+    FOR             reduce using rule 51 (executable_stmt -> expression SEMICOLON .)
+    RAND_INT        reduce using rule 51 (executable_stmt -> expression SEMICOLON .)
+    RAND_DOUBLE     reduce using rule 51 (executable_stmt -> expression SEMICOLON .)
+    CURRENT_DATE    reduce using rule 51 (executable_stmt -> expression SEMICOLON .)
+    CURRENT_TIMESTAMP reduce using rule 51 (executable_stmt -> expression SEMICOLON .)
+    RAND_STRING     reduce using rule 51 (executable_stmt -> expression SEMICOLON .)
+    SEQUENCE        reduce using rule 51 (executable_stmt -> expression SEMICOLON .)
+    RBRACE          reduce using rule 51 (executable_stmt -> expression SEMICOLON .)
+
+
+state 99
+
+    (52) executable_stmt -> assignment SEMICOLON .
+
+    NUMBER          reduce using rule 52 (executable_stmt -> assignment SEMICOLON .)
+    ID              reduce using rule 52 (executable_stmt -> assignment SEMICOLON .)
+    EXPECT_EQUAL    reduce using rule 52 (executable_stmt -> assignment SEMICOLON .)
+    EMBED_PYTHON    reduce using rule 52 (executable_stmt -> assignment SEMICOLON .)
+    COLON           reduce using rule 52 (executable_stmt -> assignment SEMICOLON .)
+    SET             reduce using rule 52 (executable_stmt -> assignment SEMICOLON .)
+    PYTHON_EXP      reduce using rule 52 (executable_stmt -> assignment SEMICOLON .)
+    FOR             reduce using rule 52 (executable_stmt -> assignment SEMICOLON .)
+    RAND_INT        reduce using rule 52 (executable_stmt -> assignment SEMICOLON .)
+    RAND_DOUBLE     reduce using rule 52 (executable_stmt -> assignment SEMICOLON .)
+    CURRENT_DATE    reduce using rule 52 (executable_stmt -> assignment SEMICOLON .)
+    CURRENT_TIMESTAMP reduce using rule 52 (executable_stmt -> assignment SEMICOLON .)
+    RAND_STRING     reduce using rule 52 (executable_stmt -> assignment SEMICOLON .)
+    SEQUENCE        reduce using rule 52 (executable_stmt -> assignment SEMICOLON .)
+    RBRACE          reduce using rule 52 (executable_stmt -> assignment SEMICOLON .)
+
+
+state 100
+
+    (53) executable_stmt -> assertion SEMICOLON .
+
+    NUMBER          reduce using rule 53 (executable_stmt -> assertion SEMICOLON .)
+    ID              reduce using rule 53 (executable_stmt -> assertion SEMICOLON .)
+    EXPECT_EQUAL    reduce using rule 53 (executable_stmt -> assertion SEMICOLON .)
+    EMBED_PYTHON    reduce using rule 53 (executable_stmt -> assertion SEMICOLON .)
+    COLON           reduce using rule 53 (executable_stmt -> assertion SEMICOLON .)
+    SET             reduce using rule 53 (executable_stmt -> assertion SEMICOLON .)
+    PYTHON_EXP      reduce using rule 53 (executable_stmt -> assertion SEMICOLON .)
+    FOR             reduce using rule 53 (executable_stmt -> assertion SEMICOLON .)
+    RAND_INT        reduce using rule 53 (executable_stmt -> assertion SEMICOLON .)
+    RAND_DOUBLE     reduce using rule 53 (executable_stmt -> assertion SEMICOLON .)
+    CURRENT_DATE    reduce using rule 53 (executable_stmt -> assertion SEMICOLON .)
+    CURRENT_TIMESTAMP reduce using rule 53 (executable_stmt -> assertion SEMICOLON .)
+    RAND_STRING     reduce using rule 53 (executable_stmt -> assertion SEMICOLON .)
+    SEQUENCE        reduce using rule 53 (executable_stmt -> assertion SEMICOLON .)
+    RBRACE          reduce using rule 53 (executable_stmt -> assertion SEMICOLON .)
+
+
+state 101
+
+    (56) executable_stmt -> embed_python_stmt SEMICOLON .
+
+    NUMBER          reduce using rule 56 (executable_stmt -> embed_python_stmt SEMICOLON .)
+    ID              reduce using rule 56 (executable_stmt -> embed_python_stmt SEMICOLON .)
+    EXPECT_EQUAL    reduce using rule 56 (executable_stmt -> embed_python_stmt SEMICOLON .)
+    EMBED_PYTHON    reduce using rule 56 (executable_stmt -> embed_python_stmt SEMICOLON .)
+    COLON           reduce using rule 56 (executable_stmt -> embed_python_stmt SEMICOLON .)
+    SET             reduce using rule 56 (executable_stmt -> embed_python_stmt SEMICOLON .)
+    PYTHON_EXP      reduce using rule 56 (executable_stmt -> embed_python_stmt SEMICOLON .)
+    FOR             reduce using rule 56 (executable_stmt -> embed_python_stmt SEMICOLON .)
+    RAND_INT        reduce using rule 56 (executable_stmt -> embed_python_stmt SEMICOLON .)
+    RAND_DOUBLE     reduce using rule 56 (executable_stmt -> embed_python_stmt SEMICOLON .)
+    CURRENT_DATE    reduce using rule 56 (executable_stmt -> embed_python_stmt SEMICOLON .)
+    CURRENT_TIMESTAMP reduce using rule 56 (executable_stmt -> embed_python_stmt SEMICOLON .)
+    RAND_STRING     reduce using rule 56 (executable_stmt -> embed_python_stmt SEMICOLON .)
+    SEQUENCE        reduce using rule 56 (executable_stmt -> embed_python_stmt SEMICOLON .)
+    RBRACE          reduce using rule 56 (executable_stmt -> embed_python_stmt SEMICOLON .)
+
+
+state 102
+
+    (58) assignment -> ID EQUAL . expression
+    (59) assignment -> ID EQUAL . shared_var
+    (60) expression -> . query_stmt
+    (61) expression -> . result_set_query_stmt
+    (62) expression -> . query_into_stmt
+    (63) expression -> . query_with_stmt
+    (64) expression -> . query_with_into_stmt
+    (65) expression -> . var_name
+    (66) expression -> . set
+    (67) expression -> . rule
+    (68) expression -> . python_expr
+    (69) expression -> . NUMBER
+    (32) shared_var -> . SHARED_LIST
+    (71) query_stmt -> . COLON STRING
+    (72) result_set_query_stmt -> . COLON RESULT_SET LPAREN STRING RPAREN
+    (73) query_into_stmt -> . COLON STRING INTO var_list
+    (79) query_with_stmt -> . COLON STRING WITH var_list
+    (80) query_with_into_stmt -> . COLON STRING WITH var_list INTO var_list
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+    (70) set -> . SET LPAREN STRING RPAREN
+    (19) rule -> . random_int
+    (20) rule -> . random_double
+    (21) rule -> . current_date
+    (22) rule -> . current_timestamp
+    (23) rule -> . random_string
+    (24) rule -> . sequence
+    (31) python_expr -> . PYTHON_EXP LPAREN STRING RPAREN
+    (25) random_int -> . RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (26) random_double -> . RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (27) current_date -> . CURRENT_DATE LPAREN NUMBER RPAREN
+    (28) current_timestamp -> . CURRENT_TIMESTAMP LPAREN NUMBER RPAREN
+    (29) random_string -> . RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN
+    (30) sequence -> . SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 61
+    SHARED_LIST     shift and go to state 132
+    COLON           shift and go to state 68
+    ID              shift and go to state 129
+    SET             shift and go to state 69
+    PYTHON_EXP      shift and go to state 76
+    RAND_INT        shift and go to state 78
+    RAND_DOUBLE     shift and go to state 79
+    CURRENT_DATE    shift and go to state 80
+    CURRENT_TIMESTAMP shift and go to state 81
+    RAND_STRING     shift and go to state 82
+    SEQUENCE        shift and go to state 83
+
+    expression                     shift and go to state 130
+    shared_var                     shift and go to state 131
+    query_stmt                     shift and go to state 52
+    result_set_query_stmt          shift and go to state 53
+    query_into_stmt                shift and go to state 54
+    query_with_stmt                shift and go to state 55
+    query_with_into_stmt           shift and go to state 56
+    var_name                       shift and go to state 57
+    set                            shift and go to state 58
+    rule                           shift and go to state 59
+    python_expr                    shift and go to state 60
+    random_int                     shift and go to state 70
+    random_double                  shift and go to state 71
+    current_date                   shift and go to state 72
+    current_timestamp              shift and go to state 73
+    random_string                  shift and go to state 74
+    sequence                       shift and go to state 75
+
+state 103
+
+    (75) var_name -> ID LBRACKET . NUMBER RBRACKET
+    (76) var_name -> ID LBRACKET . ID RBRACKET
+
+    NUMBER          shift and go to state 134
+    ID              shift and go to state 133
+
+
+state 104
+
+    (57) assertion -> EXPECT_EQUAL LPAREN . expression COMMA expression RPAREN
+    (60) expression -> . query_stmt
+    (61) expression -> . result_set_query_stmt
+    (62) expression -> . query_into_stmt
+    (63) expression -> . query_with_stmt
+    (64) expression -> . query_with_into_stmt
+    (65) expression -> . var_name
+    (66) expression -> . set
+    (67) expression -> . rule
+    (68) expression -> . python_expr
+    (69) expression -> . NUMBER
+    (71) query_stmt -> . COLON STRING
+    (72) result_set_query_stmt -> . COLON RESULT_SET LPAREN STRING RPAREN
+    (73) query_into_stmt -> . COLON STRING INTO var_list
+    (79) query_with_stmt -> . COLON STRING WITH var_list
+    (80) query_with_into_stmt -> . COLON STRING WITH var_list INTO var_list
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+    (70) set -> . SET LPAREN STRING RPAREN
+    (19) rule -> . random_int
+    (20) rule -> . random_double
+    (21) rule -> . current_date
+    (22) rule -> . current_timestamp
+    (23) rule -> . random_string
+    (24) rule -> . sequence
+    (31) python_expr -> . PYTHON_EXP LPAREN STRING RPAREN
+    (25) random_int -> . RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (26) random_double -> . RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (27) current_date -> . CURRENT_DATE LPAREN NUMBER RPAREN
+    (28) current_timestamp -> . CURRENT_TIMESTAMP LPAREN NUMBER RPAREN
+    (29) random_string -> . RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN
+    (30) sequence -> . SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 61
+    COLON           shift and go to state 68
+    ID              shift and go to state 129
+    SET             shift and go to state 69
+    PYTHON_EXP      shift and go to state 76
+    RAND_INT        shift and go to state 78
+    RAND_DOUBLE     shift and go to state 79
+    CURRENT_DATE    shift and go to state 80
+    CURRENT_TIMESTAMP shift and go to state 81
+    RAND_STRING     shift and go to state 82
+    SEQUENCE        shift and go to state 83
+
+    expression                     shift and go to state 135
+    query_stmt                     shift and go to state 52
+    result_set_query_stmt          shift and go to state 53
+    query_into_stmt                shift and go to state 54
+    query_with_stmt                shift and go to state 55
+    query_with_into_stmt           shift and go to state 56
+    var_name                       shift and go to state 57
+    set                            shift and go to state 58
+    rule                           shift and go to state 59
+    python_expr                    shift and go to state 60
+    random_int                     shift and go to state 70
+    random_double                  shift and go to state 71
+    current_date                   shift and go to state 72
+    current_timestamp              shift and go to state 73
+    random_string                  shift and go to state 74
+    sequence                       shift and go to state 75
+
+state 105
+
+    (81) for_stmt -> for_start1 executable_stmts . for_end
+    (50) executable_stmts -> executable_stmts . executable_stmt
+    (85) for_end -> . RBRACE
+    (51) executable_stmt -> . expression SEMICOLON
+    (52) executable_stmt -> . assignment SEMICOLON
+    (53) executable_stmt -> . assertion SEMICOLON
+    (54) executable_stmt -> . for_stmt
+    (55) executable_stmt -> . for_each_stmt
+    (56) executable_stmt -> . embed_python_stmt SEMICOLON
+    (60) expression -> . query_stmt
+    (61) expression -> . result_set_query_stmt
+    (62) expression -> . query_into_stmt
+    (63) expression -> . query_with_stmt
+    (64) expression -> . query_with_into_stmt
+    (65) expression -> . var_name
+    (66) expression -> . set
+    (67) expression -> . rule
+    (68) expression -> . python_expr
+    (69) expression -> . NUMBER
+    (58) assignment -> . ID EQUAL expression
+    (59) assignment -> . ID EQUAL shared_var
+    (57) assertion -> . EXPECT_EQUAL LPAREN expression COMMA expression RPAREN
+    (81) for_stmt -> . for_start1 executable_stmts for_end
+    (82) for_stmt -> . for_start2 executable_stmts for_end
+    (86) for_each_stmt -> . for_each_start executable_stmts for_each_end
+    (89) embed_python_stmt -> . EMBED_PYTHON LPAREN STRING RPAREN
+    (71) query_stmt -> . COLON STRING
+    (72) result_set_query_stmt -> . COLON RESULT_SET LPAREN STRING RPAREN
+    (73) query_into_stmt -> . COLON STRING INTO var_list
+    (79) query_with_stmt -> . COLON STRING WITH var_list
+    (80) query_with_into_stmt -> . COLON STRING WITH var_list INTO var_list
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+    (70) set -> . SET LPAREN STRING RPAREN
+    (19) rule -> . random_int
+    (20) rule -> . random_double
+    (21) rule -> . current_date
+    (22) rule -> . current_timestamp
+    (23) rule -> . random_string
+    (24) rule -> . sequence
+    (31) python_expr -> . PYTHON_EXP LPAREN STRING RPAREN
+    (83) for_start1 -> . FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE
+    (84) for_start2 -> . FOR ID IN RANGE LPAREN ID RPAREN LBRACE
+    (87) for_each_start -> . FOR EACH var_list LBRACE
+    (25) random_int -> . RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (26) random_double -> . RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (27) current_date -> . CURRENT_DATE LPAREN NUMBER RPAREN
+    (28) current_timestamp -> . CURRENT_TIMESTAMP LPAREN NUMBER RPAREN
+    (29) random_string -> . RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN
+    (30) sequence -> . SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN
+
+    RBRACE          shift and go to state 137
+    NUMBER          shift and go to state 61
+    ID              shift and go to state 62
+    EXPECT_EQUAL    shift and go to state 63
+    EMBED_PYTHON    shift and go to state 67
+    COLON           shift and go to state 68
+    SET             shift and go to state 69
+    PYTHON_EXP      shift and go to state 76
+    FOR             shift and go to state 77
+    RAND_INT        shift and go to state 78
+    RAND_DOUBLE     shift and go to state 79
+    CURRENT_DATE    shift and go to state 80
+    CURRENT_TIMESTAMP shift and go to state 81
+    RAND_STRING     shift and go to state 82
+    SEQUENCE        shift and go to state 83
+
+    for_start1                     shift and go to state 64
+    for_end                        shift and go to state 136
+    executable_stmt                shift and go to state 97
+    expression                     shift and go to state 46
+    assignment                     shift and go to state 47
+    assertion                      shift and go to state 48
+    for_stmt                       shift and go to state 49
+    for_each_stmt                  shift and go to state 50
+    embed_python_stmt              shift and go to state 51
+    query_stmt                     shift and go to state 52
+    result_set_query_stmt          shift and go to state 53
+    query_into_stmt                shift and go to state 54
+    query_with_stmt                shift and go to state 55
+    query_with_into_stmt           shift and go to state 56
+    var_name                       shift and go to state 57
+    set                            shift and go to state 58
+    rule                           shift and go to state 59
+    python_expr                    shift and go to state 60
+    for_start2                     shift and go to state 65
+    for_each_start                 shift and go to state 66
+    random_int                     shift and go to state 70
+    random_double                  shift and go to state 71
+    current_date                   shift and go to state 72
+    current_timestamp              shift and go to state 73
+    random_string                  shift and go to state 74
+    sequence                       shift and go to state 75
+
+state 106
+
+    (82) for_stmt -> for_start2 executable_stmts . for_end
+    (50) executable_stmts -> executable_stmts . executable_stmt
+    (85) for_end -> . RBRACE
+    (51) executable_stmt -> . expression SEMICOLON
+    (52) executable_stmt -> . assignment SEMICOLON
+    (53) executable_stmt -> . assertion SEMICOLON
+    (54) executable_stmt -> . for_stmt
+    (55) executable_stmt -> . for_each_stmt
+    (56) executable_stmt -> . embed_python_stmt SEMICOLON
+    (60) expression -> . query_stmt
+    (61) expression -> . result_set_query_stmt
+    (62) expression -> . query_into_stmt
+    (63) expression -> . query_with_stmt
+    (64) expression -> . query_with_into_stmt
+    (65) expression -> . var_name
+    (66) expression -> . set
+    (67) expression -> . rule
+    (68) expression -> . python_expr
+    (69) expression -> . NUMBER
+    (58) assignment -> . ID EQUAL expression
+    (59) assignment -> . ID EQUAL shared_var
+    (57) assertion -> . EXPECT_EQUAL LPAREN expression COMMA expression RPAREN
+    (81) for_stmt -> . for_start1 executable_stmts for_end
+    (82) for_stmt -> . for_start2 executable_stmts for_end
+    (86) for_each_stmt -> . for_each_start executable_stmts for_each_end
+    (89) embed_python_stmt -> . EMBED_PYTHON LPAREN STRING RPAREN
+    (71) query_stmt -> . COLON STRING
+    (72) result_set_query_stmt -> . COLON RESULT_SET LPAREN STRING RPAREN
+    (73) query_into_stmt -> . COLON STRING INTO var_list
+    (79) query_with_stmt -> . COLON STRING WITH var_list
+    (80) query_with_into_stmt -> . COLON STRING WITH var_list INTO var_list
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+    (70) set -> . SET LPAREN STRING RPAREN
+    (19) rule -> . random_int
+    (20) rule -> . random_double
+    (21) rule -> . current_date
+    (22) rule -> . current_timestamp
+    (23) rule -> . random_string
+    (24) rule -> . sequence
+    (31) python_expr -> . PYTHON_EXP LPAREN STRING RPAREN
+    (83) for_start1 -> . FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE
+    (84) for_start2 -> . FOR ID IN RANGE LPAREN ID RPAREN LBRACE
+    (87) for_each_start -> . FOR EACH var_list LBRACE
+    (25) random_int -> . RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (26) random_double -> . RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (27) current_date -> . CURRENT_DATE LPAREN NUMBER RPAREN
+    (28) current_timestamp -> . CURRENT_TIMESTAMP LPAREN NUMBER RPAREN
+    (29) random_string -> . RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN
+    (30) sequence -> . SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN
+
+    RBRACE          shift and go to state 137
+    NUMBER          shift and go to state 61
+    ID              shift and go to state 62
+    EXPECT_EQUAL    shift and go to state 63
+    EMBED_PYTHON    shift and go to state 67
+    COLON           shift and go to state 68
+    SET             shift and go to state 69
+    PYTHON_EXP      shift and go to state 76
+    FOR             shift and go to state 77
+    RAND_INT        shift and go to state 78
+    RAND_DOUBLE     shift and go to state 79
+    CURRENT_DATE    shift and go to state 80
+    CURRENT_TIMESTAMP shift and go to state 81
+    RAND_STRING     shift and go to state 82
+    SEQUENCE        shift and go to state 83
+
+    for_start2                     shift and go to state 65
+    for_end                        shift and go to state 138
+    executable_stmt                shift and go to state 97
+    expression                     shift and go to state 46
+    assignment                     shift and go to state 47
+    assertion                      shift and go to state 48
+    for_stmt                       shift and go to state 49
+    for_each_stmt                  shift and go to state 50
+    embed_python_stmt              shift and go to state 51
+    query_stmt                     shift and go to state 52
+    result_set_query_stmt          shift and go to state 53
+    query_into_stmt                shift and go to state 54
+    query_with_stmt                shift and go to state 55
+    query_with_into_stmt           shift and go to state 56
+    var_name                       shift and go to state 57
+    set                            shift and go to state 58
+    rule                           shift and go to state 59
+    python_expr                    shift and go to state 60
+    for_start1                     shift and go to state 64
+    for_each_start                 shift and go to state 66
+    random_int                     shift and go to state 70
+    random_double                  shift and go to state 71
+    current_date                   shift and go to state 72
+    current_timestamp              shift and go to state 73
+    random_string                  shift and go to state 74
+    sequence                       shift and go to state 75
+
+state 107
+
+    (86) for_each_stmt -> for_each_start executable_stmts . for_each_end
+    (50) executable_stmts -> executable_stmts . executable_stmt
+    (88) for_each_end -> . RBRACE
+    (51) executable_stmt -> . expression SEMICOLON
+    (52) executable_stmt -> . assignment SEMICOLON
+    (53) executable_stmt -> . assertion SEMICOLON
+    (54) executable_stmt -> . for_stmt
+    (55) executable_stmt -> . for_each_stmt
+    (56) executable_stmt -> . embed_python_stmt SEMICOLON
+    (60) expression -> . query_stmt
+    (61) expression -> . result_set_query_stmt
+    (62) expression -> . query_into_stmt
+    (63) expression -> . query_with_stmt
+    (64) expression -> . query_with_into_stmt
+    (65) expression -> . var_name
+    (66) expression -> . set
+    (67) expression -> . rule
+    (68) expression -> . python_expr
+    (69) expression -> . NUMBER
+    (58) assignment -> . ID EQUAL expression
+    (59) assignment -> . ID EQUAL shared_var
+    (57) assertion -> . EXPECT_EQUAL LPAREN expression COMMA expression RPAREN
+    (81) for_stmt -> . for_start1 executable_stmts for_end
+    (82) for_stmt -> . for_start2 executable_stmts for_end
+    (86) for_each_stmt -> . for_each_start executable_stmts for_each_end
+    (89) embed_python_stmt -> . EMBED_PYTHON LPAREN STRING RPAREN
+    (71) query_stmt -> . COLON STRING
+    (72) result_set_query_stmt -> . COLON RESULT_SET LPAREN STRING RPAREN
+    (73) query_into_stmt -> . COLON STRING INTO var_list
+    (79) query_with_stmt -> . COLON STRING WITH var_list
+    (80) query_with_into_stmt -> . COLON STRING WITH var_list INTO var_list
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+    (70) set -> . SET LPAREN STRING RPAREN
+    (19) rule -> . random_int
+    (20) rule -> . random_double
+    (21) rule -> . current_date
+    (22) rule -> . current_timestamp
+    (23) rule -> . random_string
+    (24) rule -> . sequence
+    (31) python_expr -> . PYTHON_EXP LPAREN STRING RPAREN
+    (83) for_start1 -> . FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE
+    (84) for_start2 -> . FOR ID IN RANGE LPAREN ID RPAREN LBRACE
+    (87) for_each_start -> . FOR EACH var_list LBRACE
+    (25) random_int -> . RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (26) random_double -> . RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (27) current_date -> . CURRENT_DATE LPAREN NUMBER RPAREN
+    (28) current_timestamp -> . CURRENT_TIMESTAMP LPAREN NUMBER RPAREN
+    (29) random_string -> . RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN
+    (30) sequence -> . SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN
+
+    RBRACE          shift and go to state 140
+    NUMBER          shift and go to state 61
+    ID              shift and go to state 62
+    EXPECT_EQUAL    shift and go to state 63
+    EMBED_PYTHON    shift and go to state 67
+    COLON           shift and go to state 68
+    SET             shift and go to state 69
+    PYTHON_EXP      shift and go to state 76
+    FOR             shift and go to state 77
+    RAND_INT        shift and go to state 78
+    RAND_DOUBLE     shift and go to state 79
+    CURRENT_DATE    shift and go to state 80
+    CURRENT_TIMESTAMP shift and go to state 81
+    RAND_STRING     shift and go to state 82
+    SEQUENCE        shift and go to state 83
+
+    for_each_start                 shift and go to state 66
+    for_each_end                   shift and go to state 139
+    executable_stmt                shift and go to state 97
+    expression                     shift and go to state 46
+    assignment                     shift and go to state 47
+    assertion                      shift and go to state 48
+    for_stmt                       shift and go to state 49
+    for_each_stmt                  shift and go to state 50
+    embed_python_stmt              shift and go to state 51
+    query_stmt                     shift and go to state 52
+    result_set_query_stmt          shift and go to state 53
+    query_into_stmt                shift and go to state 54
+    query_with_stmt                shift and go to state 55
+    query_with_into_stmt           shift and go to state 56
+    var_name                       shift and go to state 57
+    set                            shift and go to state 58
+    rule                           shift and go to state 59
+    python_expr                    shift and go to state 60
+    for_start1                     shift and go to state 64
+    for_start2                     shift and go to state 65
+    random_int                     shift and go to state 70
+    random_double                  shift and go to state 71
+    current_date                   shift and go to state 72
+    current_timestamp              shift and go to state 73
+    random_string                  shift and go to state 74
+    sequence                       shift and go to state 75
+
+state 108
+
+    (89) embed_python_stmt -> EMBED_PYTHON LPAREN . STRING RPAREN
+
+    STRING          shift and go to state 141
+
+
+state 109
+
+    (71) query_stmt -> COLON STRING .
+    (73) query_into_stmt -> COLON STRING . INTO var_list
+    (79) query_with_stmt -> COLON STRING . WITH var_list
+    (80) query_with_into_stmt -> COLON STRING . WITH var_list INTO var_list
+
+    SEMICOLON       reduce using rule 71 (query_stmt -> COLON STRING .)
+    COMMA           reduce using rule 71 (query_stmt -> COLON STRING .)
+    RPAREN          reduce using rule 71 (query_stmt -> COLON STRING .)
+    INTO            shift and go to state 142
+    WITH            shift and go to state 143
+
+
+state 110
+
+    (72) result_set_query_stmt -> COLON RESULT_SET . LPAREN STRING RPAREN
+
+    LPAREN          shift and go to state 144
+
+
+state 111
+
+    (70) set -> SET LPAREN . STRING RPAREN
+
+    STRING          shift and go to state 145
+
+
+state 112
+
+    (31) python_expr -> PYTHON_EXP LPAREN . STRING RPAREN
+
+    STRING          shift and go to state 146
+
+
+state 113
+
+    (83) for_start1 -> FOR ID . IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE
+    (84) for_start2 -> FOR ID . IN RANGE LPAREN ID RPAREN LBRACE
+
+    IN              shift and go to state 147
+
+
+state 114
+
+    (87) for_each_start -> FOR EACH . var_list LBRACE
+    (77) var_list -> . var_name
+    (78) var_list -> . var_list COMMA var_name
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+
+    ID              shift and go to state 129
+
+    var_list                       shift and go to state 148
+    var_name                       shift and go to state 149
+
+state 115
+
+    (25) random_int -> RAND_INT LPAREN . NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 150
+
+
+state 116
+
+    (26) random_double -> RAND_DOUBLE LPAREN . NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 151
+
+
+state 117
+
+    (27) current_date -> CURRENT_DATE LPAREN . NUMBER RPAREN
+
+    NUMBER          shift and go to state 152
+
+
+state 118
+
+    (28) current_timestamp -> CURRENT_TIMESTAMP LPAREN . NUMBER RPAREN
+
+    NUMBER          shift and go to state 153
+
+
+state 119
+
+    (29) random_string -> RAND_STRING LPAREN . NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 154
+
+
+state 120
+
+    (30) sequence -> SEQUENCE LPAREN . NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 155
+
+
+state 121
+
+    (11) case_body -> dynamic_param_stmt init_stmt do_stmt undo_stmt final_check_stmt .
+
+    RBRACE          reduce using rule 11 (case_body -> dynamic_param_stmt init_stmt do_stmt undo_stmt final_check_stmt .)
+
+
+state 122
+
+    (45) final_check_stmt -> FINAL_CHECK final_check_start . final_body final_check_end
+    (47) final_body -> . executable_stmts
+    (49) executable_stmts -> . executable_stmt
+    (50) executable_stmts -> . executable_stmts executable_stmt
+    (51) executable_stmt -> . expression SEMICOLON
+    (52) executable_stmt -> . assignment SEMICOLON
+    (53) executable_stmt -> . assertion SEMICOLON
+    (54) executable_stmt -> . for_stmt
+    (55) executable_stmt -> . for_each_stmt
+    (56) executable_stmt -> . embed_python_stmt SEMICOLON
+    (60) expression -> . query_stmt
+    (61) expression -> . result_set_query_stmt
+    (62) expression -> . query_into_stmt
+    (63) expression -> . query_with_stmt
+    (64) expression -> . query_with_into_stmt
+    (65) expression -> . var_name
+    (66) expression -> . set
+    (67) expression -> . rule
+    (68) expression -> . python_expr
+    (69) expression -> . NUMBER
+    (58) assignment -> . ID EQUAL expression
+    (59) assignment -> . ID EQUAL shared_var
+    (57) assertion -> . EXPECT_EQUAL LPAREN expression COMMA expression RPAREN
+    (81) for_stmt -> . for_start1 executable_stmts for_end
+    (82) for_stmt -> . for_start2 executable_stmts for_end
+    (86) for_each_stmt -> . for_each_start executable_stmts for_each_end
+    (89) embed_python_stmt -> . EMBED_PYTHON LPAREN STRING RPAREN
+    (71) query_stmt -> . COLON STRING
+    (72) result_set_query_stmt -> . COLON RESULT_SET LPAREN STRING RPAREN
+    (73) query_into_stmt -> . COLON STRING INTO var_list
+    (79) query_with_stmt -> . COLON STRING WITH var_list
+    (80) query_with_into_stmt -> . COLON STRING WITH var_list INTO var_list
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+    (70) set -> . SET LPAREN STRING RPAREN
+    (19) rule -> . random_int
+    (20) rule -> . random_double
+    (21) rule -> . current_date
+    (22) rule -> . current_timestamp
+    (23) rule -> . random_string
+    (24) rule -> . sequence
+    (31) python_expr -> . PYTHON_EXP LPAREN STRING RPAREN
+    (83) for_start1 -> . FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE
+    (84) for_start2 -> . FOR ID IN RANGE LPAREN ID RPAREN LBRACE
+    (87) for_each_start -> . FOR EACH var_list LBRACE
+    (25) random_int -> . RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (26) random_double -> . RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (27) current_date -> . CURRENT_DATE LPAREN NUMBER RPAREN
+    (28) current_timestamp -> . CURRENT_TIMESTAMP LPAREN NUMBER RPAREN
+    (29) random_string -> . RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN
+    (30) sequence -> . SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 61
+    ID              shift and go to state 62
+    EXPECT_EQUAL    shift and go to state 63
+    EMBED_PYTHON    shift and go to state 67
+    COLON           shift and go to state 68
+    SET             shift and go to state 69
+    PYTHON_EXP      shift and go to state 76
+    FOR             shift and go to state 77
+    RAND_INT        shift and go to state 78
+    RAND_DOUBLE     shift and go to state 79
+    CURRENT_DATE    shift and go to state 80
+    CURRENT_TIMESTAMP shift and go to state 81
+    RAND_STRING     shift and go to state 82
+    SEQUENCE        shift and go to state 83
+
+    final_body                     shift and go to state 156
+    executable_stmts               shift and go to state 157
+    executable_stmt                shift and go to state 45
+    expression                     shift and go to state 46
+    assignment                     shift and go to state 47
+    assertion                      shift and go to state 48
+    for_stmt                       shift and go to state 49
+    for_each_stmt                  shift and go to state 50
+    embed_python_stmt              shift and go to state 51
+    query_stmt                     shift and go to state 52
+    result_set_query_stmt          shift and go to state 53
+    query_into_stmt                shift and go to state 54
+    query_with_stmt                shift and go to state 55
+    query_with_into_stmt           shift and go to state 56
+    var_name                       shift and go to state 57
+    set                            shift and go to state 58
+    rule                           shift and go to state 59
+    python_expr                    shift and go to state 60
+    for_start1                     shift and go to state 64
+    for_start2                     shift and go to state 65
+    for_each_start                 shift and go to state 66
+    random_int                     shift and go to state 70
+    random_double                  shift and go to state 71
+    current_date                   shift and go to state 72
+    current_timestamp              shift and go to state 73
+    random_string                  shift and go to state 74
+    sequence                       shift and go to state 75
+
+state 123
+
+    (46) final_check_start -> LBRACE .
+
+    NUMBER          reduce using rule 46 (final_check_start -> LBRACE .)
+    ID              reduce using rule 46 (final_check_start -> LBRACE .)
+    EXPECT_EQUAL    reduce using rule 46 (final_check_start -> LBRACE .)
+    EMBED_PYTHON    reduce using rule 46 (final_check_start -> LBRACE .)
+    COLON           reduce using rule 46 (final_check_start -> LBRACE .)
+    SET             reduce using rule 46 (final_check_start -> LBRACE .)
+    PYTHON_EXP      reduce using rule 46 (final_check_start -> LBRACE .)
+    FOR             reduce using rule 46 (final_check_start -> LBRACE .)
+    RAND_INT        reduce using rule 46 (final_check_start -> LBRACE .)
+    RAND_DOUBLE     reduce using rule 46 (final_check_start -> LBRACE .)
+    CURRENT_DATE    reduce using rule 46 (final_check_start -> LBRACE .)
+    CURRENT_TIMESTAMP reduce using rule 46 (final_check_start -> LBRACE .)
+    RAND_STRING     reduce using rule 46 (final_check_start -> LBRACE .)
+    SEQUENCE        reduce using rule 46 (final_check_start -> LBRACE .)
+
+
+state 124
+
+    (41) undo_stmt -> UNDO undo_start undo_body . undo_end
+    (43) undo_end -> . RBRACE
+
+    RBRACE          shift and go to state 159
+
+    undo_end                       shift and go to state 158
+
+state 125
+
+    (44) undo_body -> executable_stmts .
+    (50) executable_stmts -> executable_stmts . executable_stmt
+    (51) executable_stmt -> . expression SEMICOLON
+    (52) executable_stmt -> . assignment SEMICOLON
+    (53) executable_stmt -> . assertion SEMICOLON
+    (54) executable_stmt -> . for_stmt
+    (55) executable_stmt -> . for_each_stmt
+    (56) executable_stmt -> . embed_python_stmt SEMICOLON
+    (60) expression -> . query_stmt
+    (61) expression -> . result_set_query_stmt
+    (62) expression -> . query_into_stmt
+    (63) expression -> . query_with_stmt
+    (64) expression -> . query_with_into_stmt
+    (65) expression -> . var_name
+    (66) expression -> . set
+    (67) expression -> . rule
+    (68) expression -> . python_expr
+    (69) expression -> . NUMBER
+    (58) assignment -> . ID EQUAL expression
+    (59) assignment -> . ID EQUAL shared_var
+    (57) assertion -> . EXPECT_EQUAL LPAREN expression COMMA expression RPAREN
+    (81) for_stmt -> . for_start1 executable_stmts for_end
+    (82) for_stmt -> . for_start2 executable_stmts for_end
+    (86) for_each_stmt -> . for_each_start executable_stmts for_each_end
+    (89) embed_python_stmt -> . EMBED_PYTHON LPAREN STRING RPAREN
+    (71) query_stmt -> . COLON STRING
+    (72) result_set_query_stmt -> . COLON RESULT_SET LPAREN STRING RPAREN
+    (73) query_into_stmt -> . COLON STRING INTO var_list
+    (79) query_with_stmt -> . COLON STRING WITH var_list
+    (80) query_with_into_stmt -> . COLON STRING WITH var_list INTO var_list
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+    (70) set -> . SET LPAREN STRING RPAREN
+    (19) rule -> . random_int
+    (20) rule -> . random_double
+    (21) rule -> . current_date
+    (22) rule -> . current_timestamp
+    (23) rule -> . random_string
+    (24) rule -> . sequence
+    (31) python_expr -> . PYTHON_EXP LPAREN STRING RPAREN
+    (83) for_start1 -> . FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE
+    (84) for_start2 -> . FOR ID IN RANGE LPAREN ID RPAREN LBRACE
+    (87) for_each_start -> . FOR EACH var_list LBRACE
+    (25) random_int -> . RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (26) random_double -> . RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (27) current_date -> . CURRENT_DATE LPAREN NUMBER RPAREN
+    (28) current_timestamp -> . CURRENT_TIMESTAMP LPAREN NUMBER RPAREN
+    (29) random_string -> . RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN
+    (30) sequence -> . SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN
+
+    RBRACE          reduce using rule 44 (undo_body -> executable_stmts .)
+    NUMBER          shift and go to state 61
+    ID              shift and go to state 62
+    EXPECT_EQUAL    shift and go to state 63
+    EMBED_PYTHON    shift and go to state 67
+    COLON           shift and go to state 68
+    SET             shift and go to state 69
+    PYTHON_EXP      shift and go to state 76
+    FOR             shift and go to state 77
+    RAND_INT        shift and go to state 78
+    RAND_DOUBLE     shift and go to state 79
+    CURRENT_DATE    shift and go to state 80
+    CURRENT_TIMESTAMP shift and go to state 81
+    RAND_STRING     shift and go to state 82
+    SEQUENCE        shift and go to state 83
+
+    executable_stmt                shift and go to state 97
+    expression                     shift and go to state 46
+    assignment                     shift and go to state 47
+    assertion                      shift and go to state 48
+    for_stmt                       shift and go to state 49
+    for_each_stmt                  shift and go to state 50
+    embed_python_stmt              shift and go to state 51
+    query_stmt                     shift and go to state 52
+    result_set_query_stmt          shift and go to state 53
+    query_into_stmt                shift and go to state 54
+    query_with_stmt                shift and go to state 55
+    query_with_into_stmt           shift and go to state 56
+    var_name                       shift and go to state 57
+    set                            shift and go to state 58
+    rule                           shift and go to state 59
+    python_expr                    shift and go to state 60
+    for_start1                     shift and go to state 64
+    for_start2                     shift and go to state 65
+    for_each_start                 shift and go to state 66
+    random_int                     shift and go to state 70
+    random_double                  shift and go to state 71
+    current_date                   shift and go to state 72
+    current_timestamp              shift and go to state 73
+    random_string                  shift and go to state 74
+    sequence                       shift and go to state 75
+
+state 126
+
+    (37) do_stmt -> DO do_start do_body do_end .
+
+    UNDO            reduce using rule 37 (do_stmt -> DO do_start do_body do_end .)
+
+
+state 127
+
+    (39) do_end -> RBRACE .
+
+    UNDO            reduce using rule 39 (do_end -> RBRACE .)
+
+
+state 128
+
+    (18) dynamic_var_declaration -> ID EQUAL rule .
+
+    RBRACE          reduce using rule 18 (dynamic_var_declaration -> ID EQUAL rule .)
+    ID              reduce using rule 18 (dynamic_var_declaration -> ID EQUAL rule .)
+
+
+state 129
+
+    (74) var_name -> ID .
+    (75) var_name -> ID . LBRACKET NUMBER RBRACKET
+    (76) var_name -> ID . LBRACKET ID RBRACKET
+
+    SEMICOLON       reduce using rule 74 (var_name -> ID .)
+    COMMA           reduce using rule 74 (var_name -> ID .)
+    LBRACE          reduce using rule 74 (var_name -> ID .)
+    RPAREN          reduce using rule 74 (var_name -> ID .)
+    INTO            reduce using rule 74 (var_name -> ID .)
+    LBRACKET        shift and go to state 103
+
+
+state 130
+
+    (58) assignment -> ID EQUAL expression .
+
+    SEMICOLON       reduce using rule 58 (assignment -> ID EQUAL expression .)
+
+
+state 131
+
+    (59) assignment -> ID EQUAL shared_var .
+
+    SEMICOLON       reduce using rule 59 (assignment -> ID EQUAL shared_var .)
+
+
+state 132
+
+    (32) shared_var -> SHARED_LIST .
+
+    SEMICOLON       reduce using rule 32 (shared_var -> SHARED_LIST .)
+
+
+state 133
+
+    (76) var_name -> ID LBRACKET ID . RBRACKET
+
+    RBRACKET        shift and go to state 160
+
+
+state 134
+
+    (75) var_name -> ID LBRACKET NUMBER . RBRACKET
+
+    RBRACKET        shift and go to state 161
+
+
+state 135
+
+    (57) assertion -> EXPECT_EQUAL LPAREN expression . COMMA expression RPAREN
+
+    COMMA           shift and go to state 162
+
+
+state 136
+
+    (81) for_stmt -> for_start1 executable_stmts for_end .
+
+    NUMBER          reduce using rule 81 (for_stmt -> for_start1 executable_stmts for_end .)
+    ID              reduce using rule 81 (for_stmt -> for_start1 executable_stmts for_end .)
+    EXPECT_EQUAL    reduce using rule 81 (for_stmt -> for_start1 executable_stmts for_end .)
+    EMBED_PYTHON    reduce using rule 81 (for_stmt -> for_start1 executable_stmts for_end .)
+    COLON           reduce using rule 81 (for_stmt -> for_start1 executable_stmts for_end .)
+    SET             reduce using rule 81 (for_stmt -> for_start1 executable_stmts for_end .)
+    PYTHON_EXP      reduce using rule 81 (for_stmt -> for_start1 executable_stmts for_end .)
+    FOR             reduce using rule 81 (for_stmt -> for_start1 executable_stmts for_end .)
+    RAND_INT        reduce using rule 81 (for_stmt -> for_start1 executable_stmts for_end .)
+    RAND_DOUBLE     reduce using rule 81 (for_stmt -> for_start1 executable_stmts for_end .)
+    CURRENT_DATE    reduce using rule 81 (for_stmt -> for_start1 executable_stmts for_end .)
+    CURRENT_TIMESTAMP reduce using rule 81 (for_stmt -> for_start1 executable_stmts for_end .)
+    RAND_STRING     reduce using rule 81 (for_stmt -> for_start1 executable_stmts for_end .)
+    SEQUENCE        reduce using rule 81 (for_stmt -> for_start1 executable_stmts for_end .)
+    RBRACE          reduce using rule 81 (for_stmt -> for_start1 executable_stmts for_end .)
+
+
+state 137
+
+    (85) for_end -> RBRACE .
+
+    NUMBER          reduce using rule 85 (for_end -> RBRACE .)
+    ID              reduce using rule 85 (for_end -> RBRACE .)
+    EXPECT_EQUAL    reduce using rule 85 (for_end -> RBRACE .)
+    EMBED_PYTHON    reduce using rule 85 (for_end -> RBRACE .)
+    COLON           reduce using rule 85 (for_end -> RBRACE .)
+    SET             reduce using rule 85 (for_end -> RBRACE .)
+    PYTHON_EXP      reduce using rule 85 (for_end -> RBRACE .)
+    FOR             reduce using rule 85 (for_end -> RBRACE .)
+    RAND_INT        reduce using rule 85 (for_end -> RBRACE .)
+    RAND_DOUBLE     reduce using rule 85 (for_end -> RBRACE .)
+    CURRENT_DATE    reduce using rule 85 (for_end -> RBRACE .)
+    CURRENT_TIMESTAMP reduce using rule 85 (for_end -> RBRACE .)
+    RAND_STRING     reduce using rule 85 (for_end -> RBRACE .)
+    SEQUENCE        reduce using rule 85 (for_end -> RBRACE .)
+    RBRACE          reduce using rule 85 (for_end -> RBRACE .)
+
+
+state 138
+
+    (82) for_stmt -> for_start2 executable_stmts for_end .
+
+    NUMBER          reduce using rule 82 (for_stmt -> for_start2 executable_stmts for_end .)
+    ID              reduce using rule 82 (for_stmt -> for_start2 executable_stmts for_end .)
+    EXPECT_EQUAL    reduce using rule 82 (for_stmt -> for_start2 executable_stmts for_end .)
+    EMBED_PYTHON    reduce using rule 82 (for_stmt -> for_start2 executable_stmts for_end .)
+    COLON           reduce using rule 82 (for_stmt -> for_start2 executable_stmts for_end .)
+    SET             reduce using rule 82 (for_stmt -> for_start2 executable_stmts for_end .)
+    PYTHON_EXP      reduce using rule 82 (for_stmt -> for_start2 executable_stmts for_end .)
+    FOR             reduce using rule 82 (for_stmt -> for_start2 executable_stmts for_end .)
+    RAND_INT        reduce using rule 82 (for_stmt -> for_start2 executable_stmts for_end .)
+    RAND_DOUBLE     reduce using rule 82 (for_stmt -> for_start2 executable_stmts for_end .)
+    CURRENT_DATE    reduce using rule 82 (for_stmt -> for_start2 executable_stmts for_end .)
+    CURRENT_TIMESTAMP reduce using rule 82 (for_stmt -> for_start2 executable_stmts for_end .)
+    RAND_STRING     reduce using rule 82 (for_stmt -> for_start2 executable_stmts for_end .)
+    SEQUENCE        reduce using rule 82 (for_stmt -> for_start2 executable_stmts for_end .)
+    RBRACE          reduce using rule 82 (for_stmt -> for_start2 executable_stmts for_end .)
+
+
+state 139
+
+    (86) for_each_stmt -> for_each_start executable_stmts for_each_end .
+
+    NUMBER          reduce using rule 86 (for_each_stmt -> for_each_start executable_stmts for_each_end .)
+    ID              reduce using rule 86 (for_each_stmt -> for_each_start executable_stmts for_each_end .)
+    EXPECT_EQUAL    reduce using rule 86 (for_each_stmt -> for_each_start executable_stmts for_each_end .)
+    EMBED_PYTHON    reduce using rule 86 (for_each_stmt -> for_each_start executable_stmts for_each_end .)
+    COLON           reduce using rule 86 (for_each_stmt -> for_each_start executable_stmts for_each_end .)
+    SET             reduce using rule 86 (for_each_stmt -> for_each_start executable_stmts for_each_end .)
+    PYTHON_EXP      reduce using rule 86 (for_each_stmt -> for_each_start executable_stmts for_each_end .)
+    FOR             reduce using rule 86 (for_each_stmt -> for_each_start executable_stmts for_each_end .)
+    RAND_INT        reduce using rule 86 (for_each_stmt -> for_each_start executable_stmts for_each_end .)
+    RAND_DOUBLE     reduce using rule 86 (for_each_stmt -> for_each_start executable_stmts for_each_end .)
+    CURRENT_DATE    reduce using rule 86 (for_each_stmt -> for_each_start executable_stmts for_each_end .)
+    CURRENT_TIMESTAMP reduce using rule 86 (for_each_stmt -> for_each_start executable_stmts for_each_end .)
+    RAND_STRING     reduce using rule 86 (for_each_stmt -> for_each_start executable_stmts for_each_end .)
+    SEQUENCE        reduce using rule 86 (for_each_stmt -> for_each_start executable_stmts for_each_end .)
+    RBRACE          reduce using rule 86 (for_each_stmt -> for_each_start executable_stmts for_each_end .)
+
+
+state 140
+
+    (88) for_each_end -> RBRACE .
+
+    NUMBER          reduce using rule 88 (for_each_end -> RBRACE .)
+    ID              reduce using rule 88 (for_each_end -> RBRACE .)
+    EXPECT_EQUAL    reduce using rule 88 (for_each_end -> RBRACE .)
+    EMBED_PYTHON    reduce using rule 88 (for_each_end -> RBRACE .)
+    COLON           reduce using rule 88 (for_each_end -> RBRACE .)
+    SET             reduce using rule 88 (for_each_end -> RBRACE .)
+    PYTHON_EXP      reduce using rule 88 (for_each_end -> RBRACE .)
+    FOR             reduce using rule 88 (for_each_end -> RBRACE .)
+    RAND_INT        reduce using rule 88 (for_each_end -> RBRACE .)
+    RAND_DOUBLE     reduce using rule 88 (for_each_end -> RBRACE .)
+    CURRENT_DATE    reduce using rule 88 (for_each_end -> RBRACE .)
+    CURRENT_TIMESTAMP reduce using rule 88 (for_each_end -> RBRACE .)
+    RAND_STRING     reduce using rule 88 (for_each_end -> RBRACE .)
+    SEQUENCE        reduce using rule 88 (for_each_end -> RBRACE .)
+    RBRACE          reduce using rule 88 (for_each_end -> RBRACE .)
+
+
+state 141
+
+    (89) embed_python_stmt -> EMBED_PYTHON LPAREN STRING . RPAREN
+
+    RPAREN          shift and go to state 163
+
+
+state 142
+
+    (73) query_into_stmt -> COLON STRING INTO . var_list
+    (77) var_list -> . var_name
+    (78) var_list -> . var_list COMMA var_name
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+
+    ID              shift and go to state 129
+
+    var_list                       shift and go to state 164
+    var_name                       shift and go to state 149
+
+state 143
+
+    (79) query_with_stmt -> COLON STRING WITH . var_list
+    (80) query_with_into_stmt -> COLON STRING WITH . var_list INTO var_list
+    (77) var_list -> . var_name
+    (78) var_list -> . var_list COMMA var_name
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+
+    ID              shift and go to state 129
+
+    var_list                       shift and go to state 165
+    var_name                       shift and go to state 149
+
+state 144
+
+    (72) result_set_query_stmt -> COLON RESULT_SET LPAREN . STRING RPAREN
+
+    STRING          shift and go to state 166
+
+
+state 145
+
+    (70) set -> SET LPAREN STRING . RPAREN
+
+    RPAREN          shift and go to state 167
+
+
+state 146
+
+    (31) python_expr -> PYTHON_EXP LPAREN STRING . RPAREN
+
+    RPAREN          shift and go to state 168
+
+
+state 147
+
+    (83) for_start1 -> FOR ID IN . RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE
+    (84) for_start2 -> FOR ID IN . RANGE LPAREN ID RPAREN LBRACE
+
+    RANGE           shift and go to state 169
+
+
+state 148
+
+    (87) for_each_start -> FOR EACH var_list . LBRACE
+    (78) var_list -> var_list . COMMA var_name
+
+    LBRACE          shift and go to state 170
+    COMMA           shift and go to state 171
+
+
+state 149
+
+    (77) var_list -> var_name .
+
+    LBRACE          reduce using rule 77 (var_list -> var_name .)
+    COMMA           reduce using rule 77 (var_list -> var_name .)
+    SEMICOLON       reduce using rule 77 (var_list -> var_name .)
+    RPAREN          reduce using rule 77 (var_list -> var_name .)
+    INTO            reduce using rule 77 (var_list -> var_name .)
+
+
+state 150
+
+    (25) random_int -> RAND_INT LPAREN NUMBER . COMMA NUMBER COMMA NUMBER RPAREN
+
+    COMMA           shift and go to state 172
+
+
+state 151
+
+    (26) random_double -> RAND_DOUBLE LPAREN NUMBER . COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+
+    COMMA           shift and go to state 173
+
+
+state 152
+
+    (27) current_date -> CURRENT_DATE LPAREN NUMBER . RPAREN
+
+    RPAREN          shift and go to state 174
+
+
+state 153
+
+    (28) current_timestamp -> CURRENT_TIMESTAMP LPAREN NUMBER . RPAREN
+
+    RPAREN          shift and go to state 175
+
+
+state 154
+
+    (29) random_string -> RAND_STRING LPAREN NUMBER . COMMA NUMBER RPAREN
+
+    COMMA           shift and go to state 176
+
+
+state 155
+
+    (30) sequence -> SEQUENCE LPAREN NUMBER . COMMA NUMBER RPAREN
+
+    COMMA           shift and go to state 177
+
+
+state 156
+
+    (45) final_check_stmt -> FINAL_CHECK final_check_start final_body . final_check_end
+    (48) final_check_end -> . RBRACE
+
+    RBRACE          shift and go to state 179
+
+    final_check_end                shift and go to state 178
+
+state 157
+
+    (47) final_body -> executable_stmts .
+    (50) executable_stmts -> executable_stmts . executable_stmt
+    (51) executable_stmt -> . expression SEMICOLON
+    (52) executable_stmt -> . assignment SEMICOLON
+    (53) executable_stmt -> . assertion SEMICOLON
+    (54) executable_stmt -> . for_stmt
+    (55) executable_stmt -> . for_each_stmt
+    (56) executable_stmt -> . embed_python_stmt SEMICOLON
+    (60) expression -> . query_stmt
+    (61) expression -> . result_set_query_stmt
+    (62) expression -> . query_into_stmt
+    (63) expression -> . query_with_stmt
+    (64) expression -> . query_with_into_stmt
+    (65) expression -> . var_name
+    (66) expression -> . set
+    (67) expression -> . rule
+    (68) expression -> . python_expr
+    (69) expression -> . NUMBER
+    (58) assignment -> . ID EQUAL expression
+    (59) assignment -> . ID EQUAL shared_var
+    (57) assertion -> . EXPECT_EQUAL LPAREN expression COMMA expression RPAREN
+    (81) for_stmt -> . for_start1 executable_stmts for_end
+    (82) for_stmt -> . for_start2 executable_stmts for_end
+    (86) for_each_stmt -> . for_each_start executable_stmts for_each_end
+    (89) embed_python_stmt -> . EMBED_PYTHON LPAREN STRING RPAREN
+    (71) query_stmt -> . COLON STRING
+    (72) result_set_query_stmt -> . COLON RESULT_SET LPAREN STRING RPAREN
+    (73) query_into_stmt -> . COLON STRING INTO var_list
+    (79) query_with_stmt -> . COLON STRING WITH var_list
+    (80) query_with_into_stmt -> . COLON STRING WITH var_list INTO var_list
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+    (70) set -> . SET LPAREN STRING RPAREN
+    (19) rule -> . random_int
+    (20) rule -> . random_double
+    (21) rule -> . current_date
+    (22) rule -> . current_timestamp
+    (23) rule -> . random_string
+    (24) rule -> . sequence
+    (31) python_expr -> . PYTHON_EXP LPAREN STRING RPAREN
+    (83) for_start1 -> . FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE
+    (84) for_start2 -> . FOR ID IN RANGE LPAREN ID RPAREN LBRACE
+    (87) for_each_start -> . FOR EACH var_list LBRACE
+    (25) random_int -> . RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (26) random_double -> . RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (27) current_date -> . CURRENT_DATE LPAREN NUMBER RPAREN
+    (28) current_timestamp -> . CURRENT_TIMESTAMP LPAREN NUMBER RPAREN
+    (29) random_string -> . RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN
+    (30) sequence -> . SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN
+
+    RBRACE          reduce using rule 47 (final_body -> executable_stmts .)
+    NUMBER          shift and go to state 61
+    ID              shift and go to state 62
+    EXPECT_EQUAL    shift and go to state 63
+    EMBED_PYTHON    shift and go to state 67
+    COLON           shift and go to state 68
+    SET             shift and go to state 69
+    PYTHON_EXP      shift and go to state 76
+    FOR             shift and go to state 77
+    RAND_INT        shift and go to state 78
+    RAND_DOUBLE     shift and go to state 79
+    CURRENT_DATE    shift and go to state 80
+    CURRENT_TIMESTAMP shift and go to state 81
+    RAND_STRING     shift and go to state 82
+    SEQUENCE        shift and go to state 83
+
+    executable_stmt                shift and go to state 97
+    expression                     shift and go to state 46
+    assignment                     shift and go to state 47
+    assertion                      shift and go to state 48
+    for_stmt                       shift and go to state 49
+    for_each_stmt                  shift and go to state 50
+    embed_python_stmt              shift and go to state 51
+    query_stmt                     shift and go to state 52
+    result_set_query_stmt          shift and go to state 53
+    query_into_stmt                shift and go to state 54
+    query_with_stmt                shift and go to state 55
+    query_with_into_stmt           shift and go to state 56
+    var_name                       shift and go to state 57
+    set                            shift and go to state 58
+    rule                           shift and go to state 59
+    python_expr                    shift and go to state 60
+    for_start1                     shift and go to state 64
+    for_start2                     shift and go to state 65
+    for_each_start                 shift and go to state 66
+    random_int                     shift and go to state 70
+    random_double                  shift and go to state 71
+    current_date                   shift and go to state 72
+    current_timestamp              shift and go to state 73
+    random_string                  shift and go to state 74
+    sequence                       shift and go to state 75
+
+state 158
+
+    (41) undo_stmt -> UNDO undo_start undo_body undo_end .
+
+    FINAL_CHECK     reduce using rule 41 (undo_stmt -> UNDO undo_start undo_body undo_end .)
+
+
+state 159
+
+    (43) undo_end -> RBRACE .
+
+    FINAL_CHECK     reduce using rule 43 (undo_end -> RBRACE .)
+
+
+state 160
+
+    (76) var_name -> ID LBRACKET ID RBRACKET .
+
+    SEMICOLON       reduce using rule 76 (var_name -> ID LBRACKET ID RBRACKET .)
+    COMMA           reduce using rule 76 (var_name -> ID LBRACKET ID RBRACKET .)
+    LBRACE          reduce using rule 76 (var_name -> ID LBRACKET ID RBRACKET .)
+    RPAREN          reduce using rule 76 (var_name -> ID LBRACKET ID RBRACKET .)
+    INTO            reduce using rule 76 (var_name -> ID LBRACKET ID RBRACKET .)
+
+
+state 161
+
+    (75) var_name -> ID LBRACKET NUMBER RBRACKET .
+
+    SEMICOLON       reduce using rule 75 (var_name -> ID LBRACKET NUMBER RBRACKET .)
+    COMMA           reduce using rule 75 (var_name -> ID LBRACKET NUMBER RBRACKET .)
+    LBRACE          reduce using rule 75 (var_name -> ID LBRACKET NUMBER RBRACKET .)
+    RPAREN          reduce using rule 75 (var_name -> ID LBRACKET NUMBER RBRACKET .)
+    INTO            reduce using rule 75 (var_name -> ID LBRACKET NUMBER RBRACKET .)
+
+
+state 162
+
+    (57) assertion -> EXPECT_EQUAL LPAREN expression COMMA . expression RPAREN
+    (60) expression -> . query_stmt
+    (61) expression -> . result_set_query_stmt
+    (62) expression -> . query_into_stmt
+    (63) expression -> . query_with_stmt
+    (64) expression -> . query_with_into_stmt
+    (65) expression -> . var_name
+    (66) expression -> . set
+    (67) expression -> . rule
+    (68) expression -> . python_expr
+    (69) expression -> . NUMBER
+    (71) query_stmt -> . COLON STRING
+    (72) result_set_query_stmt -> . COLON RESULT_SET LPAREN STRING RPAREN
+    (73) query_into_stmt -> . COLON STRING INTO var_list
+    (79) query_with_stmt -> . COLON STRING WITH var_list
+    (80) query_with_into_stmt -> . COLON STRING WITH var_list INTO var_list
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+    (70) set -> . SET LPAREN STRING RPAREN
+    (19) rule -> . random_int
+    (20) rule -> . random_double
+    (21) rule -> . current_date
+    (22) rule -> . current_timestamp
+    (23) rule -> . random_string
+    (24) rule -> . sequence
+    (31) python_expr -> . PYTHON_EXP LPAREN STRING RPAREN
+    (25) random_int -> . RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (26) random_double -> . RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+    (27) current_date -> . CURRENT_DATE LPAREN NUMBER RPAREN
+    (28) current_timestamp -> . CURRENT_TIMESTAMP LPAREN NUMBER RPAREN
+    (29) random_string -> . RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN
+    (30) sequence -> . SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 61
+    COLON           shift and go to state 68
+    ID              shift and go to state 129
+    SET             shift and go to state 69
+    PYTHON_EXP      shift and go to state 76
+    RAND_INT        shift and go to state 78
+    RAND_DOUBLE     shift and go to state 79
+    CURRENT_DATE    shift and go to state 80
+    CURRENT_TIMESTAMP shift and go to state 81
+    RAND_STRING     shift and go to state 82
+    SEQUENCE        shift and go to state 83
+
+    expression                     shift and go to state 180
+    query_stmt                     shift and go to state 52
+    result_set_query_stmt          shift and go to state 53
+    query_into_stmt                shift and go to state 54
+    query_with_stmt                shift and go to state 55
+    query_with_into_stmt           shift and go to state 56
+    var_name                       shift and go to state 57
+    set                            shift and go to state 58
+    rule                           shift and go to state 59
+    python_expr                    shift and go to state 60
+    random_int                     shift and go to state 70
+    random_double                  shift and go to state 71
+    current_date                   shift and go to state 72
+    current_timestamp              shift and go to state 73
+    random_string                  shift and go to state 74
+    sequence                       shift and go to state 75
+
+state 163
+
+    (89) embed_python_stmt -> EMBED_PYTHON LPAREN STRING RPAREN .
+
+    SEMICOLON       reduce using rule 89 (embed_python_stmt -> EMBED_PYTHON LPAREN STRING RPAREN .)
+
+
+state 164
+
+    (73) query_into_stmt -> COLON STRING INTO var_list .
+    (78) var_list -> var_list . COMMA var_name
+
+  ! shift/reduce conflict for COMMA resolved as shift
+    SEMICOLON       reduce using rule 73 (query_into_stmt -> COLON STRING INTO var_list .)
+    RPAREN          reduce using rule 73 (query_into_stmt -> COLON STRING INTO var_list .)
+    COMMA           shift and go to state 171
+
+  ! COMMA           [ reduce using rule 73 (query_into_stmt -> COLON STRING INTO var_list .) ]
+
+
+state 165
+
+    (79) query_with_stmt -> COLON STRING WITH var_list .
+    (80) query_with_into_stmt -> COLON STRING WITH var_list . INTO var_list
+    (78) var_list -> var_list . COMMA var_name
+
+  ! shift/reduce conflict for COMMA resolved as shift
+    SEMICOLON       reduce using rule 79 (query_with_stmt -> COLON STRING WITH var_list .)
+    RPAREN          reduce using rule 79 (query_with_stmt -> COLON STRING WITH var_list .)
+    INTO            shift and go to state 181
+    COMMA           shift and go to state 171
+
+  ! COMMA           [ reduce using rule 79 (query_with_stmt -> COLON STRING WITH var_list .) ]
+
+
+state 166
+
+    (72) result_set_query_stmt -> COLON RESULT_SET LPAREN STRING . RPAREN
+
+    RPAREN          shift and go to state 182
+
+
+state 167
+
+    (70) set -> SET LPAREN STRING RPAREN .
+
+    SEMICOLON       reduce using rule 70 (set -> SET LPAREN STRING RPAREN .)
+    COMMA           reduce using rule 70 (set -> SET LPAREN STRING RPAREN .)
+    RPAREN          reduce using rule 70 (set -> SET LPAREN STRING RPAREN .)
+
+
+state 168
+
+    (31) python_expr -> PYTHON_EXP LPAREN STRING RPAREN .
+
+    SEMICOLON       reduce using rule 31 (python_expr -> PYTHON_EXP LPAREN STRING RPAREN .)
+    COMMA           reduce using rule 31 (python_expr -> PYTHON_EXP LPAREN STRING RPAREN .)
+    RPAREN          reduce using rule 31 (python_expr -> PYTHON_EXP LPAREN STRING RPAREN .)
+
+
+state 169
+
+    (83) for_start1 -> FOR ID IN RANGE . LPAREN NUMBER COMMA NUMBER RPAREN LBRACE
+    (84) for_start2 -> FOR ID IN RANGE . LPAREN ID RPAREN LBRACE
+
+    LPAREN          shift and go to state 183
+
+
+state 170
+
+    (87) for_each_start -> FOR EACH var_list LBRACE .
+
+    NUMBER          reduce using rule 87 (for_each_start -> FOR EACH var_list LBRACE .)
+    ID              reduce using rule 87 (for_each_start -> FOR EACH var_list LBRACE .)
+    EXPECT_EQUAL    reduce using rule 87 (for_each_start -> FOR EACH var_list LBRACE .)
+    EMBED_PYTHON    reduce using rule 87 (for_each_start -> FOR EACH var_list LBRACE .)
+    COLON           reduce using rule 87 (for_each_start -> FOR EACH var_list LBRACE .)
+    SET             reduce using rule 87 (for_each_start -> FOR EACH var_list LBRACE .)
+    PYTHON_EXP      reduce using rule 87 (for_each_start -> FOR EACH var_list LBRACE .)
+    FOR             reduce using rule 87 (for_each_start -> FOR EACH var_list LBRACE .)
+    RAND_INT        reduce using rule 87 (for_each_start -> FOR EACH var_list LBRACE .)
+    RAND_DOUBLE     reduce using rule 87 (for_each_start -> FOR EACH var_list LBRACE .)
+    CURRENT_DATE    reduce using rule 87 (for_each_start -> FOR EACH var_list LBRACE .)
+    CURRENT_TIMESTAMP reduce using rule 87 (for_each_start -> FOR EACH var_list LBRACE .)
+    RAND_STRING     reduce using rule 87 (for_each_start -> FOR EACH var_list LBRACE .)
+    SEQUENCE        reduce using rule 87 (for_each_start -> FOR EACH var_list LBRACE .)
+
+
+state 171
+
+    (78) var_list -> var_list COMMA . var_name
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+
+    ID              shift and go to state 129
+
+    var_name                       shift and go to state 184
+
+state 172
+
+    (25) random_int -> RAND_INT LPAREN NUMBER COMMA . NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 185
+
+
+state 173
+
+    (26) random_double -> RAND_DOUBLE LPAREN NUMBER COMMA . NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 186
+
+
+state 174
+
+    (27) current_date -> CURRENT_DATE LPAREN NUMBER RPAREN .
+
+    SEMICOLON       reduce using rule 27 (current_date -> CURRENT_DATE LPAREN NUMBER RPAREN .)
+    RBRACE          reduce using rule 27 (current_date -> CURRENT_DATE LPAREN NUMBER RPAREN .)
+    ID              reduce using rule 27 (current_date -> CURRENT_DATE LPAREN NUMBER RPAREN .)
+    COMMA           reduce using rule 27 (current_date -> CURRENT_DATE LPAREN NUMBER RPAREN .)
+    RPAREN          reduce using rule 27 (current_date -> CURRENT_DATE LPAREN NUMBER RPAREN .)
+
+
+state 175
+
+    (28) current_timestamp -> CURRENT_TIMESTAMP LPAREN NUMBER RPAREN .
+
+    SEMICOLON       reduce using rule 28 (current_timestamp -> CURRENT_TIMESTAMP LPAREN NUMBER RPAREN .)
+    RBRACE          reduce using rule 28 (current_timestamp -> CURRENT_TIMESTAMP LPAREN NUMBER RPAREN .)
+    ID              reduce using rule 28 (current_timestamp -> CURRENT_TIMESTAMP LPAREN NUMBER RPAREN .)
+    COMMA           reduce using rule 28 (current_timestamp -> CURRENT_TIMESTAMP LPAREN NUMBER RPAREN .)
+    RPAREN          reduce using rule 28 (current_timestamp -> CURRENT_TIMESTAMP LPAREN NUMBER RPAREN .)
+
+
+state 176
+
+    (29) random_string -> RAND_STRING LPAREN NUMBER COMMA . NUMBER RPAREN
+
+    NUMBER          shift and go to state 187
+
+
+state 177
+
+    (30) sequence -> SEQUENCE LPAREN NUMBER COMMA . NUMBER RPAREN
+
+    NUMBER          shift and go to state 188
+
+
+state 178
+
+    (45) final_check_stmt -> FINAL_CHECK final_check_start final_body final_check_end .
+
+    RBRACE          reduce using rule 45 (final_check_stmt -> FINAL_CHECK final_check_start final_body final_check_end .)
+
+
+state 179
+
+    (48) final_check_end -> RBRACE .
+
+    RBRACE          reduce using rule 48 (final_check_end -> RBRACE .)
+
+
+state 180
+
+    (57) assertion -> EXPECT_EQUAL LPAREN expression COMMA expression . RPAREN
+
+    RPAREN          shift and go to state 189
+
+
+state 181
+
+    (80) query_with_into_stmt -> COLON STRING WITH var_list INTO . var_list
+    (77) var_list -> . var_name
+    (78) var_list -> . var_list COMMA var_name
+    (74) var_name -> . ID
+    (75) var_name -> . ID LBRACKET NUMBER RBRACKET
+    (76) var_name -> . ID LBRACKET ID RBRACKET
+
+    ID              shift and go to state 129
+
+    var_list                       shift and go to state 190
+    var_name                       shift and go to state 149
+
+state 182
+
+    (72) result_set_query_stmt -> COLON RESULT_SET LPAREN STRING RPAREN .
+
+    SEMICOLON       reduce using rule 72 (result_set_query_stmt -> COLON RESULT_SET LPAREN STRING RPAREN .)
+    COMMA           reduce using rule 72 (result_set_query_stmt -> COLON RESULT_SET LPAREN STRING RPAREN .)
+    RPAREN          reduce using rule 72 (result_set_query_stmt -> COLON RESULT_SET LPAREN STRING RPAREN .)
+
+
+state 183
+
+    (83) for_start1 -> FOR ID IN RANGE LPAREN . NUMBER COMMA NUMBER RPAREN LBRACE
+    (84) for_start2 -> FOR ID IN RANGE LPAREN . ID RPAREN LBRACE
+
+    NUMBER          shift and go to state 192
+    ID              shift and go to state 191
+
+
+state 184
+
+    (78) var_list -> var_list COMMA var_name .
+
+    LBRACE          reduce using rule 78 (var_list -> var_list COMMA var_name .)
+    COMMA           reduce using rule 78 (var_list -> var_list COMMA var_name .)
+    SEMICOLON       reduce using rule 78 (var_list -> var_list COMMA var_name .)
+    RPAREN          reduce using rule 78 (var_list -> var_list COMMA var_name .)
+    INTO            reduce using rule 78 (var_list -> var_list COMMA var_name .)
+
+
+state 185
+
+    (25) random_int -> RAND_INT LPAREN NUMBER COMMA NUMBER . COMMA NUMBER RPAREN
+
+    COMMA           shift and go to state 193
+
+
+state 186
+
+    (26) random_double -> RAND_DOUBLE LPAREN NUMBER COMMA NUMBER . COMMA NUMBER COMMA NUMBER RPAREN
+
+    COMMA           shift and go to state 194
+
+
+state 187
+
+    (29) random_string -> RAND_STRING LPAREN NUMBER COMMA NUMBER . RPAREN
+
+    RPAREN          shift and go to state 195
+
+
+state 188
+
+    (30) sequence -> SEQUENCE LPAREN NUMBER COMMA NUMBER . RPAREN
+
+    RPAREN          shift and go to state 196
+
+
+state 189
+
+    (57) assertion -> EXPECT_EQUAL LPAREN expression COMMA expression RPAREN .
+
+    SEMICOLON       reduce using rule 57 (assertion -> EXPECT_EQUAL LPAREN expression COMMA expression RPAREN .)
+
+
+state 190
+
+    (80) query_with_into_stmt -> COLON STRING WITH var_list INTO var_list .
+    (78) var_list -> var_list . COMMA var_name
+
+  ! shift/reduce conflict for COMMA resolved as shift
+    SEMICOLON       reduce using rule 80 (query_with_into_stmt -> COLON STRING WITH var_list INTO var_list .)
+    RPAREN          reduce using rule 80 (query_with_into_stmt -> COLON STRING WITH var_list INTO var_list .)
+    COMMA           shift and go to state 171
+
+  ! COMMA           [ reduce using rule 80 (query_with_into_stmt -> COLON STRING WITH var_list INTO var_list .) ]
+
+
+state 191
+
+    (84) for_start2 -> FOR ID IN RANGE LPAREN ID . RPAREN LBRACE
+
+    RPAREN          shift and go to state 197
+
+
+state 192
+
+    (83) for_start1 -> FOR ID IN RANGE LPAREN NUMBER . COMMA NUMBER RPAREN LBRACE
+
+    COMMA           shift and go to state 198
+
+
+state 193
+
+    (25) random_int -> RAND_INT LPAREN NUMBER COMMA NUMBER COMMA . NUMBER RPAREN
+
+    NUMBER          shift and go to state 199
+
+
+state 194
+
+    (26) random_double -> RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA . NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 200
+
+
+state 195
+
+    (29) random_string -> RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN .
+
+    SEMICOLON       reduce using rule 29 (random_string -> RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN .)
+    RBRACE          reduce using rule 29 (random_string -> RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN .)
+    ID              reduce using rule 29 (random_string -> RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN .)
+    COMMA           reduce using rule 29 (random_string -> RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN .)
+    RPAREN          reduce using rule 29 (random_string -> RAND_STRING LPAREN NUMBER COMMA NUMBER RPAREN .)
+
+
+state 196
+
+    (30) sequence -> SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN .
+
+    SEMICOLON       reduce using rule 30 (sequence -> SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN .)
+    RBRACE          reduce using rule 30 (sequence -> SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN .)
+    ID              reduce using rule 30 (sequence -> SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN .)
+    COMMA           reduce using rule 30 (sequence -> SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN .)
+    RPAREN          reduce using rule 30 (sequence -> SEQUENCE LPAREN NUMBER COMMA NUMBER RPAREN .)
+
+
+state 197
+
+    (84) for_start2 -> FOR ID IN RANGE LPAREN ID RPAREN . LBRACE
+
+    LBRACE          shift and go to state 201
+
+
+state 198
+
+    (83) for_start1 -> FOR ID IN RANGE LPAREN NUMBER COMMA . NUMBER RPAREN LBRACE
+
+    NUMBER          shift and go to state 202
+
+
+state 199
+
+    (25) random_int -> RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER . RPAREN
+
+    RPAREN          shift and go to state 203
+
+
+state 200
+
+    (26) random_double -> RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER . COMMA NUMBER RPAREN
+
+    COMMA           shift and go to state 204
+
+
+state 201
+
+    (84) for_start2 -> FOR ID IN RANGE LPAREN ID RPAREN LBRACE .
+
+    NUMBER          reduce using rule 84 (for_start2 -> FOR ID IN RANGE LPAREN ID RPAREN LBRACE .)
+    ID              reduce using rule 84 (for_start2 -> FOR ID IN RANGE LPAREN ID RPAREN LBRACE .)
+    EXPECT_EQUAL    reduce using rule 84 (for_start2 -> FOR ID IN RANGE LPAREN ID RPAREN LBRACE .)
+    EMBED_PYTHON    reduce using rule 84 (for_start2 -> FOR ID IN RANGE LPAREN ID RPAREN LBRACE .)
+    COLON           reduce using rule 84 (for_start2 -> FOR ID IN RANGE LPAREN ID RPAREN LBRACE .)
+    SET             reduce using rule 84 (for_start2 -> FOR ID IN RANGE LPAREN ID RPAREN LBRACE .)
+    PYTHON_EXP      reduce using rule 84 (for_start2 -> FOR ID IN RANGE LPAREN ID RPAREN LBRACE .)
+    FOR             reduce using rule 84 (for_start2 -> FOR ID IN RANGE LPAREN ID RPAREN LBRACE .)
+    RAND_INT        reduce using rule 84 (for_start2 -> FOR ID IN RANGE LPAREN ID RPAREN LBRACE .)
+    RAND_DOUBLE     reduce using rule 84 (for_start2 -> FOR ID IN RANGE LPAREN ID RPAREN LBRACE .)
+    CURRENT_DATE    reduce using rule 84 (for_start2 -> FOR ID IN RANGE LPAREN ID RPAREN LBRACE .)
+    CURRENT_TIMESTAMP reduce using rule 84 (for_start2 -> FOR ID IN RANGE LPAREN ID RPAREN LBRACE .)
+    RAND_STRING     reduce using rule 84 (for_start2 -> FOR ID IN RANGE LPAREN ID RPAREN LBRACE .)
+    SEQUENCE        reduce using rule 84 (for_start2 -> FOR ID IN RANGE LPAREN ID RPAREN LBRACE .)
+
+
+state 202
+
+    (83) for_start1 -> FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER . RPAREN LBRACE
+
+    RPAREN          shift and go to state 205
+
+
+state 203
+
+    (25) random_int -> RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN .
+
+    SEMICOLON       reduce using rule 25 (random_int -> RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN .)
+    RBRACE          reduce using rule 25 (random_int -> RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN .)
+    ID              reduce using rule 25 (random_int -> RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN .)
+    COMMA           reduce using rule 25 (random_int -> RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN .)
+    RPAREN          reduce using rule 25 (random_int -> RAND_INT LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN .)
+
+
+state 204
+
+    (26) random_double -> RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA . NUMBER RPAREN
+
+    NUMBER          shift and go to state 206
+
+
+state 205
+
+    (83) for_start1 -> FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN . LBRACE
+
+    LBRACE          shift and go to state 207
+
+
+state 206
+
+    (26) random_double -> RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER . RPAREN
+
+    RPAREN          shift and go to state 208
+
+
+state 207
+
+    (83) for_start1 -> FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE .
+
+    NUMBER          reduce using rule 83 (for_start1 -> FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE .)
+    ID              reduce using rule 83 (for_start1 -> FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE .)
+    EXPECT_EQUAL    reduce using rule 83 (for_start1 -> FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE .)
+    EMBED_PYTHON    reduce using rule 83 (for_start1 -> FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE .)
+    COLON           reduce using rule 83 (for_start1 -> FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE .)
+    SET             reduce using rule 83 (for_start1 -> FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE .)
+    PYTHON_EXP      reduce using rule 83 (for_start1 -> FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE .)
+    FOR             reduce using rule 83 (for_start1 -> FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE .)
+    RAND_INT        reduce using rule 83 (for_start1 -> FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE .)
+    RAND_DOUBLE     reduce using rule 83 (for_start1 -> FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE .)
+    CURRENT_DATE    reduce using rule 83 (for_start1 -> FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE .)
+    CURRENT_TIMESTAMP reduce using rule 83 (for_start1 -> FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE .)
+    RAND_STRING     reduce using rule 83 (for_start1 -> FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE .)
+    SEQUENCE        reduce using rule 83 (for_start1 -> FOR ID IN RANGE LPAREN NUMBER COMMA NUMBER RPAREN LBRACE .)
+
+
+state 208
+
+    (26) random_double -> RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN .
+
+    SEMICOLON       reduce using rule 26 (random_double -> RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN .)
+    RBRACE          reduce using rule 26 (random_double -> RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN .)
+    ID              reduce using rule 26 (random_double -> RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN .)
+    COMMA           reduce using rule 26 (random_double -> RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN .)
+    RPAREN          reduce using rule 26 (random_double -> RAND_DOUBLE LPAREN NUMBER COMMA NUMBER COMMA NUMBER COMMA NUMBER RPAREN .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for COMMA in state 164 resolved as shift
+WARNING: shift/reduce conflict for COMMA in state 165 resolved as shift
+WARNING: shift/reduce conflict for COMMA in state 190 resolved as shift
